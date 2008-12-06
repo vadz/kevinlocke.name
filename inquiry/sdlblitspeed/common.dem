@@ -1,0 +1,19 @@
+#
+# Example of using histogram modes
+#
+reset
+set datafile missing "-"
+set autoscale
+set style data histogram
+set style histogram cluster gap 1
+set style fill solid border -1
+set grid ytics
+set ytic nomirror
+set boxwidth 0.9
+set xtic nomirror
+set key under width 9 title "Surface Flags" box 
+set bmargin 8
+set xlabel "Screen Flags"
+set ylabel "Render Speed (FPS)"
+
+set terminal svg size 800,600 dynamic fname 'FreeSans' fsize 12

@@ -1,0 +1,6 @@
+# Test data for the fbcon video driver (fps)
+# Unable to create hardware surfaces
+                              "Surface Flags"                                          "0"                            "SDL_SRCCOLORKEY"               "SDL_SRCCOLORKEY|SDL_RLEACCEL"                               "SDL_SRCALPHA"
+# Video mode "0" not supported (differing flags 80000020)
+                             "SDL_FULLSCREEN"                                       114.09                                       71.582                                      127.307                                      109.421
+# Video mode "SDL_HWSURFACE" not supported (differing flags 80000020)

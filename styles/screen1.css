@@ -1,0 +1,321 @@
+body {
+	background-color: #eeeeee;
+	color: #222222;
+	font-family: "Bitstream Vera Sans", "Lucidia Sans", "Arial", "Trebuchet", sans-serif;
+}
+
+a:link {
+	color: #2222ff;
+	text-decoration: underline;
+}
+
+a:visited {
+	color: #7d1a8b;
+	text-decoration: underline;
+}
+
+a:visited:hover {
+/*	color: #650a7b; */
+	text-decoration: none;
+}
+
+a:link:hover {
+/*	color: #0000ff; */
+	text-decoration: none;
+}
+
+h1,h2,h3,h4 {
+	line-height: 1em;
+	margin: 0px;
+	padding-bottom: 4px;
+}
+
+h1 {
+	text-align: center;
+}
+
+* + h1, * + h2, * + h3, * + h4 {
+	margin: 1em 0px 0px 0px;
+}
+
+h1 + h2, h2 + h3, h3 + h4 {
+	margin-top: 0px;
+}
+
+h2:first-child, h3:first-child, h4:first-child {
+	margin-top: 0px;
+}
+
+p + h1, p + h2, p + h3, p + h4,
+ul + h1, ul + h2, ul + h3, ul + h4,
+ol + h1, ol + h2, ol + h3, ol + h4 {
+	margin-top: 1em;
+}
+
+p {
+	margin: 0px;
+	text-indent: 1.5em;
+}
+
+ol,ul {
+	margin-top: 0px;
+	margin-bottom: 0px;
+}
+
+hr {
+	height: 1px;
+	color: #AAAAAA;
+	background-color: #AAAAAA;
+	border-style: none;
+	width: 90%;
+}
+
+img {
+	border: 0px;
+}
+
+object {
+	float: left;
+}
+
+.textual {
+	display: none;
+}
+
+.footnotes {
+	border-top: 1px solid #AAAAAA;
+	margin-top: 1em;
+	padding-top: 0.2em;
+	font-size: small;
+}
+
+#footer {
+	clear: both;
+	width: 90%;
+	margin: 10px 5% 0px 5%;
+	border-top: 1px solid #aaaaaa;
+	padding-top: 5px;
+	text-align: center;
+	font-size: small;
+	color: #555555;
+}
+
+#footer img {
+	margin: 0% 1% 0% 0%;
+}
+
+#container {
+	position: absolute; top: 5px; left: 5%;
+	width: 90%;
+	padding: 0px;
+	background-color: #ffffff;
+	border: 1px solid #dddddd;
+}
+
+#sidebar {
+	/*position: absolute;
+	top: 35px;*/
+	float: left;
+	clear: none;
+	/* width: 150px; */
+	width: 15ex;
+	margin: 5px;
+}
+
+#navbar {
+	border: 1px solid #dddddd;
+	background-color: #ffffff;
+	margin: 5px 0px 5px 0px;
+	width: 100%;
+}
+
+#navbar h2 {
+	font-size: large;
+	text-align: center;
+	background: #eeeeee;
+	padding: 2px 2px 4px 2px;
+	margin: 0px;
+}
+
+
+#navbar ul {
+	margin: 0px;
+	padding: 0px;
+	list-style: none;
+}
+
+#navbar li {
+/*	background: #eeeeee; */
+	margin: 0px;
+	padding: 1px;		/* Should be 0, but doesn't work in IE5+ */
+	font-weight: 700;
+}
+
+#navbar a {
+	color: #286ea0;
+	text-decoration: none;
+	line-height: 1.5em;
+	display: block;
+	padding-left: 10px;
+	margin: -1px;		/* Should be 0, but counteracts above 1 */
+/*	padding: 5px 5px 5px 10px; */
+	border: 1px solid #ffffff;
+}
+
+#navbar a:hover {
+	background: #ddddee;
+	border: 1px solid #c8c8d8;
+	text-decoration: none;
+}
+
+#navbar a:visited {
+	color: #7d1a8b;
+}
+
+#newsbar {
+	border: 1px solid #dddddd;
+	margin: 5px 0px 5px 0px;
+	background-color: #ffffff;
+}
+
+#newsbar h2 {
+	font-size: large;
+	text-align: center;
+	background: #eeeeee;
+	padding: 2px 2px 4px 2px;
+	margin: 0px 0px 2px 0px;
+}
+
+#newsbar h3 {
+	font-size: small;
+	margin-top: 1em;
+}
+
+#newsbar h2 + h3 {
+	margin-top: 0em;
+}
+
+#newsbar p {
+	font-size: x-small;
+}
+
+.license {
+	color: #000000;
+	background: #ffffff;
+	border: 2px dotted #aaaaaa;
+	padding: 10px;
+	margin: 10px;
+}
+
+.license p {
+	text-indent: 0px;
+	margin-top: 1em;
+}
+
+.license p:first-child {
+	margin-top: 0px;
+}
+
+.keybox {
+	overflow: auto;
+	width: 60ex;
+	border: 3px inset #000000;
+	background-color: #dddddd;
+	padding: 10px;
+	margin-left: 10%;
+}
+
+.warning {
+	background-color: #ffeeee;
+	border: 2px dashed #ff5555;
+	font-size: small;
+	font-weight: bold;
+	font-style: oblique;
+	margin: 1em 10% 1em 10%;
+	padding: 2px;
+	text-align: center;
+	width: 70%;
+}
+
+/* See http://positioniseverything.net/easyclearing.html */
+.enclosefloat:after {
+	content: ",";
+	display: block;
+	height: 0;
+	clear: both;
+	visibility: hidden;
+}
+
+#content {
+	/*
+	position: absolute;
+	left: 165px;
+	width: 85%;
+	float: left;
+	clear: none;
+	*/
+	/*margin: 5px 5px 5px 165px;*/
+	margin: 5px 5px 5px 17ex;
+/*	border: 1px solid #aaaaaa; */
+}
+
+#content img {
+	float: left;
+}
+
+.containclear {
+	float: left;
+}
+
+.containclear h1,
+.containclear h2,
+.containclear h3,
+.containclear h4 {
+	clear: both;
+}
+
+table.schedule {
+	border-collapse: collapse;
+	border: 1px solid #aaaaaa;
+	width: 100%;
+}
+
+table.schedule td,th {
+	border: 1px solid #aaaaaa;
+	padding-left: 5px; padding-right: 5px;
+	text-align: center;
+}
+
+table.schedule td.time {
+	text-align: left;
+	font-weight: bold;
+}
+
+table.schedule .lecture {
+	background-color: #cce5ff;
+}
+
+table.schedule .section {
+	background-color: #ffb2b2;
+}
+
+table.schedule .lab {
+	background-color: #ccffcc;
+}
+
+table.schedule tfoot td {
+	text-align: left;
+}
+
+table.contact {
+	padding: 5px;
+	margin: 5px;
+}
+
+/* Try to get desired reset semantics for ordered lists */
+ol.sectioned li {
+	display: block
+}
+ol.sectioned li:before {
+	content: counter(sectioneditem) ". "; counter-increment: sectioneditem
+}

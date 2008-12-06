@@ -1,0 +1,9 @@
+# Test data for the x11 video driver (fps)
+# Unable to create hardware surfaces
+                              "Surface Flags"                                          "0"                            "SDL_SRCCOLORKEY"               "SDL_SRCCOLORKEY|SDL_RLEACCEL"                               "SDL_SRCALPHA"
+                                          "0"                                      159.363                                      87.6732                                      183.016                                      148.898
+                             "SDL_FULLSCREEN"                                      162.048                                      88.5661                                      189.717                                      153.492
+# Video mode "SDL_HWSURFACE" not supported (differing flags 1)
+# Video mode "SDL_FULLSCREEN|SDL_HWSURFACE" not supported (differing flags 1)
+# Video mode "SDL_HWSURFACE|SDL_DOUBLEBUF" not supported (differing flags 40000001)
+# Video mode "SDL_FULLSCREEN|SDL_HWSURFACE|SDL_DOUBLEBUF" not supported (differing flags 40000001)

@@ -1,0 +1,422 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <html xmlns="http://www.w3.org/1999/xhtml">
+		<head>
+			<!-- template designed by Marco Von Ballmoos -->
+			<title>Docs For Class HTTP_Accept</title>
+			<link rel="stylesheet" href="../media/stylesheet.css" />
+			<meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1'/>
+		</head>
+		<body>
+			<div class="page-body">			
+<h2 class="class-name">Class HTTP_Accept</h2>
+
+<a name="sec-description"></a>
+<div class="info-box">
+	<div class="info-box-title">Description</div>
+	<div class="nav-bar">
+					<span class="disabled">Description</span> |
+															<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+						
+					</div>
+	<div class="info-box-body">
+        		<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">HTTP_Accept class for dealing with the HTTP 'Accept' header</p>
+<p class="description"><p>This class is intended to be used to parse the HTTP Accept header into  usable information and provide a simple API for dealing with that  information.</p><p>The parsing of this class is designed to follow RFC 2616 to the letter,  any deviations from that standard are bugs and should be reported to the  maintainer.</p><p>Often the class will be used very simply as  <div class="src-code"><ol><li><div class="src-line">&nbsp;<span class="src-php">&lt;?php</span></div></li>
+<li><div class="src-line">&nbsp;<span class="src-var">$accept&nbsp;</span>=&nbsp;<span class="src-key">new&nbsp;</span><a href="../HTTP_Accept/HTTP_Accept.html#methodHTTP_Accept">HTTP_Accept</a><span class="src-sym">(</span><span class="src-var">$_SERVER</span><span class="src-sym">[</span><span class="src-str">'HTTP_ACCEPT'</span><span class="src-sym">]</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line">&nbsp;<span class="src-key">if&nbsp;</span><span class="src-sym">(</span><span class="src-var">$accept</span><span class="src-sym">-&gt;</span><a href="../HTTP_Accept/HTTP_Accept.html#methodgetQuality">getQuality</a><span class="src-sym">(</span><span class="src-str">&quot;image/png&quot;</span><span class="src-sym">)&nbsp;</span>&gt;&nbsp;<span class="src-var">$accept</span><span class="src-sym">-&gt;</span><a href="../HTTP_Accept/HTTP_Accept.html#methodgetQuality">getQuality</a><span class="src-sym">(</span><span class="src-str">&quot;image/jpeg&quot;</span><span class="src-sym">))</span></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-comm">//&nbsp;Send&nbsp;PNG&nbsp;image</span></div></li>
+<li><div class="src-line">&nbsp;<span class="src-key">else</span></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-comm">//&nbsp;Send&nbsp;JPEG&nbsp;image</span></div></li>
+<li><div class="src-line">&nbsp;<span class="src-php">?&gt;</span></div></li>
+</ol></div></p><p>However, for browsers which do not accurately describe their preferences,  it may be necessary to check if a MIME Type is explicitly listed in their  Accept header, in addition to being preferred to another type</p><p><div class="src-code"><ol><li><div class="src-line">&nbsp;<span class="src-php">&lt;?php</span></div></li>
+<li><div class="src-line">&nbsp;&nbsp;<span class="src-key">if&nbsp;</span><span class="src-sym">(</span><span class="src-var">$accept</span><span class="src-sym">-&gt;</span><a href="../HTTP_Accept/HTTP_Accept.html#methodisMatchExact">isMatchExact</a><span class="src-sym">(</span><span class="src-str">&quot;application/xhtml+xml&quot;</span><span class="src-sym">))</span></div></li>
+<li><div class="src-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-comm">//&nbsp;Client&nbsp;specifically&nbsp;asked&nbsp;for&nbsp;this&nbsp;type&nbsp;at&nbsp;some&nbsp;quality&nbsp;level</span></div></li>
+<li><div class="src-line">&nbsp;<span class="src-php">?&gt;</span></div></li>
+</ol></div></p></p>
+	<ul class="tags">
+				<li><span class="field">link:</span> <a href="http://pear.php.net/package/HTTP_Accept">http://pear.php.net/package/HTTP_Accept</a></li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+		<p class="notes">
+			Located in <a class="field" href="_HTTP_Accept.php.html">/HTTP_Accept.php</a> (line <span class="field">60</span>)
+		</p>
+		
+				
+		<pre></pre>
+	
+			</div>
+</div>
+
+
+
+
+	<a name="sec-method-summary"></a>
+	<div class="info-box">
+		<div class="info-box-title">Method Summary</span></div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+												<span class="disabled">Methods</span> (<a href="#sec-methods">details</a>)
+		</div>
+		<div class="info-box-body">			
+			<div class="method-summary">
+																																																																												
+												<div class="method-definition">
+											<span class="method-result"><a href="../HTTP_Accept/HTTP_Accept.html">object HTTP_Accept</a></span>
+										<a href="#HTTP_Accept" title="details" class="method-name">HTTP_Accept</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$acceptstring</span>)
+									</div>
+																<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#addType" title="details" class="method-name">addType</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$mimetype</span>, [<span class="var-type">double</span>&nbsp;<span class="var-name">$quality</span> = <span class="var-default">1</span>], [<span class="var-type">array</span>&nbsp;<span class="var-name">$params</span> = <span class="var-default">array()</span>], [<span class="var-type">array</span>&nbsp;<span class="var-name">$extensions</span> = <span class="var-default">array()</span>])
+									</div>
+																<div class="method-definition">
+											<span class="method-result">array</span>
+										<a href="#getExtensionSets" title="details" class="method-name">getExtensionSets</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$mimetype</span>)
+									</div>
+																<div class="method-definition">
+											<span class="method-result">array</span>
+										<a href="#getParameterSets" title="details" class="method-name">getParameterSets</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$mimetype</span>)
+									</div>
+																<div class="method-definition">
+											<span class="method-result">double</span>
+										<a href="#getQuality" title="details" class="method-name">getQuality</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$mimetype</span>, [<span class="var-type">array</span>&nbsp;<span class="var-name">$params</span> = <span class="var-default">array()</span>], [<span class="var-type">array</span>&nbsp;<span class="var-name">$extensions</span> = <span class="var-default">array()</span>])
+									</div>
+																<div class="method-definition">
+											<span class="method-result">array</span>
+										<a href="#getTypes" title="details" class="method-name">getTypes</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result">boolean</span>
+										<a href="#isMatchExact" title="details" class="method-name">isMatchExact</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$mimetype</span>, [<span class="var-type">array</span>&nbsp;<span class="var-name">$params</span> = <span class="var-default">array()</span>], [<span class="var-type">array</span>&nbsp;<span class="var-name">$extensions</span> = <span class="var-default">array()</span>])
+									</div>
+																<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#removeType" title="details" class="method-name">removeType</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$mimetype</span>, [<span class="var-type">array</span>&nbsp;<span class="var-name">$params</span> = <span class="var-default">array()</span>], [<span class="var-type">array</span>&nbsp;<span class="var-name">$extensions</span> = <span class="var-default">array()</span>])
+									</div>
+																<div class="method-definition">
+											<span class="method-result">string</span>
+										<a href="#__toString" title="details" class="method-name">__toString</a>
+										()
+									</div>
+								</div>
+		</div>
+	</div>		
+
+	
+	<a name="sec-methods"></a>
+	<div class="info-box">
+		<div class="info-box-title">Methods</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+																<a href="#sec-method-summary">Methods</a> (<span class="disabled">details</span>)
+						
+		</div>
+		<div class="info-box-body">
+			<A NAME='method_detail'></A>
+
+<a name="methodHTTP_Accept" id="HTTP_Accept"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">Constructor HTTP_Accept</span> (line <span class="line-number">110</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Constructs a new HTTP_Accept object</p>
+<p class="description"><p>Initializes the HTTP_Accept class with a given accept string  or creates a new (empty) HTTP_Accept object if no string is given</p><p>Note:  The behavior is a little strange here to accomodate  missing headers (to be interpreted as accept all) as well as  new empty objects which should accept nothing.  This means that  HTTP_Accept(&quot;&quot;) will be different than HTTP_Accept()</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result"><a href="../HTTP_Accept/HTTP_Accept.html">object HTTP_Accept</a></span>
+		<span class="method-name">
+			HTTP_Accept
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$acceptstring</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$acceptstring</span><span class="var-description">: The value of an Accept: header                                 Will often be $_SERVER['HTTP_ACCEPT']                                 Note:  If get_magic_quotes_gpc is on,                                 run stripslashes() on the string first</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodaddType" id="addType"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">addType</span> (line <span class="line-number">465</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Adds a type to the set of accepted types</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			addType
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$mimetype</span>, [<span class="var-type">double</span>&nbsp;<span class="var-name">$quality</span> = <span class="var-default">1</span>], [<span class="var-type">array</span>&nbsp;<span class="var-name">$params</span> = <span class="var-default">array()</span>], [<span class="var-type">array</span>&nbsp;<span class="var-name">$extensions</span> = <span class="var-default">array()</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$mimetype</span><span class="var-description">: The MIME Type to add (e.g. &quot;text/html&quot;)</span>			</li>
+					<li>
+				<span class="var-type">double</span>
+				<span class="var-name">$quality</span><span class="var-description">: The quality value for the given MIME Type                               Quality values are in the range [0,1] where <ol><li>means &quot;not accepted&quot; and 1 is</li></ol>                              &quot;perfect quality&quot;.</span>			</li>
+					<li>
+				<span class="var-type">array</span>
+				<span class="var-name">$params</span><span class="var-description">: Parameters of the type to add (e.g. [level =&gt; 4])</span>			</li>
+					<li>
+				<span class="var-type">array</span>
+				<span class="var-name">$extensions</span><span class="var-description">: Extension parameters of the type to add</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodgetExtensionSets" id="getExtensionSets"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">getExtensionSets</span> (line <span class="line-number">428</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Gets the extension sets for a given mime type, sorted by quality.</p>
+<p class="description"><p>Only extension sets where the parameter set is empty will be returned.</p></p>
+	<ul class="tags">
+				<li><span class="field">return:</span> list of sets of name=&gt;value extension pairs                   in decreasing order of quality factor</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">array</span>
+		<span class="method-name">
+			getExtensionSets
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$mimetype</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$mimetype</span><span class="var-description">: The MIME Type to query (&quot;text/html&quot;)</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodgetParameterSets" id="getParameterSets"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">getParameterSets</span> (line <span class="line-number">394</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Gets the parameter sets for a given mime type, sorted by quality.</p>
+<p class="description"><p>Only parameter sets where the extensions set is empty will be returned.</p></p>
+	<ul class="tags">
+				<li><span class="field">return:</span> list of sets of name=&gt;value parameter pairs                   in decreasing order of quality factor</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">array</span>
+		<span class="method-name">
+			getParameterSets
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$mimetype</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$mimetype</span><span class="var-description">: The MIME Type to query (&quot;text/html&quot;)</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodgetQuality" id="getQuality"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">getQuality</span> (line <span class="line-number">276</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Gets the accepted quality factor for a given MIME Type</p>
+<p class="description"><p>Note:  If there are multiple best matches  (e.g. &quot;text/html;level=4;charset=utf-8&quot; matching both &quot;text/html;level=4&quot;  and &quot;text/html;charset=utf-8&quot;), it returns the lowest quality factor as  a conservative estimate.  Further, if the ambiguity is between parameters  and extensions (e.g. &quot;text/html;level=4;q=1;ext=foo&quot; matching both  &quot;text/html;level=4&quot; and &quot;text/html;q=1;ext=foo&quot;) the parameters take  precidence.</p><p>Usage Note:  If the quality factor for all supported media types is 0,  RFC 2616 specifies that applications SHOULD send an HTTP 406 (not  acceptable) response.</p></p>
+	<ul class="tags">
+				<li><span class="field">return:</span> the quality value for the given MIME Type                   Quality values are in the range [0,1] where 0 means                   &quot;not accepted&quot; and 1 is &quot;perfect quality&quot;.</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">double</span>
+		<span class="method-name">
+			getQuality
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$mimetype</span>, [<span class="var-type">array</span>&nbsp;<span class="var-name">$params</span> = <span class="var-default">array()</span>], [<span class="var-type">array</span>&nbsp;<span class="var-name">$extensions</span> = <span class="var-default">array()</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$mimetype</span><span class="var-description">: The MIME Type to query (&quot;text/html&quot;)</span>			</li>
+					<li>
+				<span class="var-type">array</span>
+				<span class="var-name">$params</span><span class="var-description">: Parameters of Type to query ([level =&gt; 4])</span>			</li>
+					<li>
+				<span class="var-type">array</span>
+				<span class="var-name">$extensions</span><span class="var-description">: Extension parameters to query</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodgetTypes" id="getTypes"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">getTypes</span> (line <span class="line-number">355</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Gets a list of all MIME Types explicitly accepted, sorted by quality</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> list of MIME Types explicitly accepted, sorted                   in decreasing order of quality factor</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">array</span>
+		<span class="method-name">
+			getTypes
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodisMatchExact" id="isMatchExact"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">isMatchExact</span> (line <span class="line-number">333</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Determines if there is an exact match for the specified MIME Type</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> true if there is an exact match to the given                   values, false otherwise.</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">boolean</span>
+		<span class="method-name">
+			isMatchExact
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$mimetype</span>, [<span class="var-type">array</span>&nbsp;<span class="var-name">$params</span> = <span class="var-default">array()</span>], [<span class="var-type">array</span>&nbsp;<span class="var-name">$extensions</span> = <span class="var-default">array()</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$mimetype</span><span class="var-description">: The MIME Type to query (e.g. &quot;text/html&quot;)</span>			</li>
+					<li>
+				<span class="var-type">array</span>
+				<span class="var-name">$params</span><span class="var-description">: Parameters of Type to query (e.g. [level =&gt; 4])</span>			</li>
+					<li>
+				<span class="var-type">array</span>
+				<span class="var-name">$extensions</span><span class="var-description">: Extension parameters to query</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodremoveType" id="removeType"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">removeType</span> (line <span class="line-number">502</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Removes a type from the set of accepted types</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			removeType
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$mimetype</span>, [<span class="var-type">array</span>&nbsp;<span class="var-name">$params</span> = <span class="var-default">array()</span>], [<span class="var-type">array</span>&nbsp;<span class="var-name">$extensions</span> = <span class="var-default">array()</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$mimetype</span><span class="var-description">: The MIME Type to remove (e.g. &quot;text/html&quot;)</span>			</li>
+					<li>
+				<span class="var-type">array</span>
+				<span class="var-name">$params</span><span class="var-description">: Parameters of the type to remove (e.g. [level =&gt; 4])</span>			</li>
+					<li>
+				<span class="var-type">array</span>
+				<span class="var-name">$extensions</span><span class="var-description">: Extension parameters of the type to remove</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="method__toString" id="__toString"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">__toString</span> (line <span class="line-number">530</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Gets a string representation suitable for use in an HTTP Accept header</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> a string representation of this object</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">string</span>
+		<span class="method-name">
+			__toString
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+						
+		</div>
+	</div>
+
+
+	<p class="notes" id="credit">
+		Documentation generated on Sat, 06 Oct 2007 15:07:01 -0400 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.0</a>
+	</p>
+	</div></body>
+</html>

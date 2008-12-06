@@ -1,0 +1,119 @@
+<?php
+  include $_SERVER['DOCUMENT_ROOT'].'/include/mimetype.php';
+  write_html_open();
+
+  include $_SERVER['DOCUMENT_ROOT'].'/include/head.php';
+  write_head_open();
+  write_head_metadata("PIV - Perl Image Viewer",
+		      "Webpage for Perl Image Viewer");
+  write_head_stylesheets();
+  write_head_close();
+?>
+<body>
+<div id="container">
+
+<?php
+include $_SERVER['DOCUMENT_ROOT'].'/include/title.html';
+?>
+
+<div id="sidebar">
+<?php
+include $_SERVER['DOCUMENT_ROOT'].'/include/sidenavbar.html';
+echo "\n";
+
+include $_SERVER['DOCUMENT_ROOT'].'/include/news.html';
+?>
+</div>
+
+<div id="content">
+
+<h2>PIV - Perl Image Viewer</h2>
+
+<h3>Description</h3>
+<p>PIV is a no-frills image viewer built using
+<a href="http://gtk2-perl.sourceforge.net/">GTK2-Perl</a>.&nbsp; It was designed
+as a replacement for <a href="http://www.klografx.net/qiv/">qiv</a>, after a
+great deal of personal frustration with qiv.&nbsp; It also happens to be the
+first program of any size that I have written in Perl - so it is a bit of
+a learning experiment.
+</p>
+
+<h3>Features</h3>
+<ul>
+<li>Fullscreen and windowed mode</li>
+<li>Slideshow mode with variable delay</li>
+<li>Zoom and mouse navigation</li>
+<li>Randomized and sorted modes</li>
+<li>Handles all image formats supported by
+<a href="http://developer.gnome.org/arch/imaging/gdkpixbuf.html">GdkPixbuf</a></li>
+</ul>
+
+<h3>Development Status</h3>
+<p>Still a work in progress.&nbsp; PIV is lacking several features and a good
+deal of polish.&nbsp; Although I am happy with where it is, there are a lot
+more details that need work and I am sporadically attempting to deal with
+them.&nbsp; As with all my projects, feature suggestions, patches, and all
+other contributions are welcome.&nbsp; If you are interested in contributing,
+just let me know what you are working on to prevent duplication.</p>
+
+<h3>License</h3>
+<p><a href="http://www.opensource.org/licenses/mit-license.php">MIT</a></p>
+
+<h3>Supported Systems</h3>
+<p>Should work on any system with Perl and the GTK2-Perl library.</p>
+
+<h3>Dependencies</h3>
+<ul>
+<li><a href="http://www.perl.org/get.html">Perl</a></li>
+<li><a href="http://gtk2-perl.sourceforge.net/">GTK2-Perl</a> 1.140 or
+higher</li>
+<li><a href="http://search.cpan.org/~chamas/Tie-Cache-0.17/">Tie::Cache</a> module</li>
+</ul>
+
+<h3>Installing</h3>
+<ol>
+<li>Download and install Tie::Cache from CPAN (<code>perl -MCPAN -e 'install
+       Tie::Cache'</code> or <code>apt-get install libtie-cache-perl</code> on
+       Debian or Debian-based distros)</li>
+<li><a href="piv">Download it</a></li>
+<li>Mark it executable (<code>chmod +x piv</code>)</li>
+<li>Run it.</li>
+</ol>
+
+<h3>Documentation</h3>
+<p>PIV has user documentation in the form of
+<a href="http://perldoc.perl.org/perlpod.html"><abbr title="Plain Old Documentation">POD</abbr></a>,
+which can be converted into a manual page using
+<a href="http://perldoc.perl.org/pod2man.html">pod2man</a>.&nbsp; To view the
+manual page simply run <code>pod2man piv | man -l -</code> (or, if your
+viewer does not like reading from stdin, <code>pod2man bin/piv > piv.1 ; man
+piv.1</code>).</p>
+
+<h3>Configuration</h3>
+<p>Configuration file support is on the TODO list, but none is currently
+supported.&nbsp; Key mappings can be changed by editing the hash at the top
+of piv (which is pretty intuitive even to those new to Perl).&nbsp; All other
+options can be changed at runtime using the control keys described in the
+manual page.</p>
+
+<h3>Known Bugs</h3>
+<ul>
+<li>The slide delay status message does not fade out at the correct time and
+instead fades out on the next redraw.</li>
+</ul>
+
+<h3>Planned Features</h3>
+<ul>
+<li>Configuration file support</li>
+<li>Support for running commands from inside the viewer, like qiv</li>
+<li>Better status displays (visually more appealing and more functional)</li>
+<li>More sorting and randomization options</li>
+</ul>
+
+</div>
+
+<?php include $_SERVER['DOCUMENT_ROOT'].'/include/footer.html'; ?>
+
+</div>
+</body>
+</html>

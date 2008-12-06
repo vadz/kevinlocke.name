@@ -1,0 +1,24 @@
+BEGIN:VCARD
+VERSION:3.0
+REV:2007-02-27
+CLASS:PUBLIC
+URL:http://kevinlocke.name/
+TITLE:Computer Science Undergraduate
+ROLE:Student
+BDAY:1984-09-17
+NOTE:School-year spent in Ithaca, Holidays in Bozeman.
+FN:Kevin Locke
+N:Locke;Kevin;;;
+ADR;TYPE=dom,home,postal,pref:;;2119 Sourdough Rd;Bozeman;MT;59715-5876;USA
+LABEL;TYPE=dom,home,postal,parcel,pref:2119 Sourdough Rd\nBozeman\, MT\n59715-5876\nUSA
+ADR;TYPE=dom,home,postal:;Apt. 1B;210 Sapsucker Woods Rd;Ithaca;NY;14850-1926;USA
+LABEL;TYPE=dom,home,postal,parcel:210 Sapsucker Woods Rd Apt 1B\nIthaca\, NY\n14850-1926\nUSA
+EMAIL;TYPE=internet:kwl7@cornell.edu
+TEL;TYPE=home,msg,voice:+1-406-586-3546
+TEL;TYPE=cell,msg,voice,pref:+1-406-570-1984
+TZ:VALUE=text:-05:00; EST; New York/North America
+GEO:42.471944;-76.450555
+X-AIM;kevinwlocke
+X-ICQ;199342213
+X-JABBER;TYPE=pref:kevinoid@jabber.org
+END:VCARD

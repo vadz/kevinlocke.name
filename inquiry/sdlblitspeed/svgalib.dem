@@ -1,0 +1,8 @@
+#
+# Example of using histogram modes
+#
+load "common.dem"
+set title "SVGAlib Framerate"
+set output "svgalib.svg"
+plot 'svgalib.dat' using 2:xtic(1) ti col, '' u 3 ti col, '' u 4 ti col, '' u 5 ti col
+

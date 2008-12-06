@@ -1,0 +1,12 @@
+#
+# Example of using histogram modes
+#
+load "common.dem"
+set title "FBCon Framerate"
+set output "fbcon.svg"
+plot 'fbcon.dat' using 2:xtic(1) ti col, '' u 3 ti col, '' u 4 ti col, '' u 5 ti col
+#plot newhistogram "With X Running", \
+#'fbcon.dat' using 2:xtic(1) ti col, '' u 3 ti col, '' u 4 ti col, '' u 5 ti col, \
+#newhistogram "Without X Running", \
+#'fbcon2.dat' u 2:xtic(1) ti col, '' u 3 ti col, '' u 4 ti col, '' u 5 ti col
+

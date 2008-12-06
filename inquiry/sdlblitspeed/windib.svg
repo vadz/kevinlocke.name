@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="utf-8"  standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" 
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg viewBox="0 0 800 600"
+ xmlns="http://www.w3.org/2000/svg"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+<desc>Produced by GNUPLOT 4.2 patchlevel 0 </desc>
+
+<defs>
+
+
+	<circle id='gpDot' r='1'/>
+	<path id='gpPt0' style='stroke-width:0.222' d='M-1,0 h2 M0,-1 v2'/>
+	<path id='gpPt1' style='stroke-width:0.222' d='M-1,-1 L1,1 M1,-1 L-1,1'/>
+	<path id='gpPt2' style='stroke-width:0.222' d='M-1,0 L1,0 M0,-1 L0,1 M-1,-1 L1,1 M-1,1 L1,-1'/>
+	<rect id='gpPt3' style='stroke-width:0.222' x='-1' y='-1' width='2' height='2'/>
+	<use xlink:href='#gpPt3' id='gpPt4' style='fill:currentColor; stroke:none'/>
+	<circle id='gpPt5' style='stroke-width:0.222' cx='0' cy='0' r='1'/>
+	<use xlink:href='#gpPt5' id='gpPt6' style='fill:currentColor; stroke:none'/>
+	<path id='gpPt7' style='stroke-width:0.222' d='M0,-1.33 L-1.33,0.67 L1.33,0.67 z'/>
+	<use xlink:href='#gpPt7' id='gpPt8' style='fill:currentColor; stroke:none'/>
+	<use xlink:href='#gpPt7' id='gpPt9' transform='rotate(180)'/>
+	<use xlink:href='#gpPt9' id='gpPt10' style='fill:currentColor; stroke:none'/>
+	<use xlink:href='#gpPt3' id='gpPt11' transform='rotate(45)'/>
+	<use xlink:href='#gpPt11' id='gpPt12' style='fill:currentColor; stroke:none'/>
+</defs>
+<g style="fill:none; color:white; stroke:currentColor; stroke-width:1.00; stroke-linecap:butt; stroke-linejoin:miter">
+</g>
+<g style="fill:none; color:black; stroke:currentColor; stroke-width:1.00; stroke-linecap:butt; stroke-linejoin:miter">
+</g>
+<g style="fill:none; color:gray; stroke:currentColor; stroke-width:1.00; stroke-linecap:butt; stroke-linejoin:miter">
+	<path d='M76.8,456.0 L774.4,456.0 '></path>
+</g>
+<g style="fill:none; color:black; stroke:currentColor; stroke-width:1.00; stroke-linecap:butt; stroke-linejoin:miter">
+	<path d='M76.8,456.0 L85.8,456.0 '></path>
+	<g transform="translate(68.5,460.5)" style="stroke:none; fill:black; font-family:FreeSans; font-size:12.00; text-anchor:end">
+		<text> 50</text>
+	</g>
+</g>
+<g style="fill:none; color:gray; stroke:currentColor; stroke-width:1.00; stroke-linecap:butt; stroke-linejoin:miter">
+	<path d='M76.8,375.6 L774.4,375.6 '></path>
+</g>
+<g style="fill:none; color:black; stroke:currentColor; stroke-width:1.00; stroke-linecap:butt; stroke-linejoin:miter">
+	<path d='M76.8,375.6 L85.8,375.6 '></path>
+	<g transform="translate(68.5,380.1)" style="stroke:none; fill:black; font-family:FreeSans; font-size:12.00; text-anchor:end">
+		<text> 100</text>
+	</g>
+</g>
+<g style="fill:none; color:gray; stroke:currentColor; stroke-width:1.00; stroke-linecap:butt; stroke-linejoin:miter">
+	<path d='M76.8,295.2 L774.4,295.2 '></path>
+</g>
+<g style="fill:none; color:black; stroke:currentColor; stroke-width:1.00; stroke-linecap:butt; stroke-linejoin:miter">
+	<path d='M76.8,295.2 L85.8,295.2 '></path>
+	<g transform="translate(68.5,299.7)" style="stroke:none; fill:black; font-family:FreeSans; font-size:12.00; text-anchor:end">
+		<text> 150</text>
+	</g>
+</g>
+<g style="fill:none; color:gray; stroke:currentColor; stroke-width:1.00; stroke-linecap:butt; stroke-linejoin:miter">
+	<path d='M76.8,214.8 L774.4,214.8 '></path>
+</g>
+<g style="fill:none; color:black; stroke:currentColor; stroke-width:1.00; stroke-linecap:butt; stroke-linejoin:miter">
+	<path d='M76.8,214.8 L85.8,214.8 '></path>
+	<g transform="translate(68.5,219.3)" style="stroke:none; fill:black; font-family:FreeSans; font-size:12.00; text-anchor:end">
+		<text> 200</text>
+	</g>
+</g>
+<g style="fill:none; color:gray; stroke:currentColor; stroke-width:1.00; stroke-linecap:butt; stroke-linejoin:miter">
+	<path d='M76.8,134.4 L774.4,134.4 '></path>
+</g>
+<g style="fill:none; color:black; stroke:currentColor; stroke-width:1.00; stroke-linecap:butt; stroke-linejoin:miter">
+	<path d='M76.8,134.4 L85.8,134.4 '></path>
+	<g transform="translate(68.5,138.9)" style="stroke:none; fill:black; font-family:FreeSans; font-size:12.00; text-anchor:end">
+		<text> 250</text>
+	</g>
+</g>
+<g style="fill:none; color:gray; stroke:currentColor; stroke-width:1.00; stroke-linecap:butt; stroke-linejoin:miter">
+	<path d='M76.8,54.0 L774.4,54.0 '></path>
+</g>
+<g style="fill:none; color:black; stroke:currentColor; stroke-width:1.00; stroke-linecap:butt; stroke-linejoin:miter">
+	<path d='M76.8,54.0 L85.8,54.0 '></path>
+	<g transform="translate(68.5,58.5)" style="stroke:none; fill:black; font-family:FreeSans; font-size:12.00; text-anchor:end">
+		<text> 300</text>
+	</g>
+	<path d='M309.3,456.0 L309.3,447.0 '></path>
+	<g transform="translate(309.3,478.5)" style="stroke:none; fill:black; font-family:FreeSans; font-size:12.00; text-anchor:middle">
+		<text>0</text>
+	</g>
+	<path d='M541.9,456.0 L541.9,447.0 '></path>
+	<g transform="translate(541.9,478.5)" style="stroke:none; fill:black; font-family:FreeSans; font-size:12.00; text-anchor:middle">
+		<text>SDL_FULLSCREEN</text>
+	</g>
+	<path d='M76.8,54.0 L76.8,456.0 L774.4,456.0 L774.4,54.0 L76.8,54.0 Z '></path>
+	<g transform="translate(22.5,255.0) rotate(-90)" style="stroke:none; fill:black; font-family:FreeSans; font-size:12.00; text-anchor:middle">
+		<text>Render Speed (FPS)</text>
+	</g>
+	<g transform="translate(425.6,505.5)" style="stroke:none; fill:black; font-family:FreeSans; font-size:12.00; text-anchor:middle">
+		<text>Screen Flags</text>
+	</g>
+	<g transform="translate(425.6,31.5)" style="stroke:none; fill:black; font-family:FreeSans; font-size:12.00; text-anchor:middle">
+		<text>WinDIB Framerate</text>
+	</g>
+	<g transform="translate(425.6,550.5)" style="stroke:none; fill:black; font-family:FreeSans; font-size:12.00; text-anchor:middle">
+		<text>Surface Flags</text>
+	</g>
+	<path d='M59.7,591.0 L59.7,537.0 L791.5,537.0 L791.5,591.0 L59.7,591.0 Z '></path>
+	<path d='M59.7,555.0 L791.5,555.0 '></path>
+</g>
+<g style="fill:none; color:red; stroke:currentColor; stroke-width:1.00; stroke-linecap:butt; stroke-linejoin:miter">
+</g>
+<g style="fill:none; color:black; stroke:currentColor; stroke-width:1.00; stroke-linecap:butt; stroke-linejoin:miter">
+	<g transform="translate(366.8,568.5)" style="stroke:none; fill:black; font-family:FreeSans; font-size:12.00; text-anchor:end">
+		<text>0</text>
+	</g>
+</g>
+<g style="fill:none; color:red; stroke:currentColor; stroke-width:1.00; stroke-linecap:butt; stroke-linejoin:miter">
+	<g style = 'stroke:none; shape-rendering:crispEdges'>
+		<polygon fill = 'currentColor' points = '375.1,568.5 417.3,568.5 417.3,559.5 375.1,559.5 '/>
+	</g>
+</g>
+<g style="fill:none; color:black; stroke:currentColor; stroke-width:1.00; stroke-linecap:butt; stroke-linejoin:miter">
+	<path d='M375.1,568.5 L417.3,568.5 L417.3,559.5 L375.1,559.5 L375.1,568.5 Z '></path>
+</g>
+<g style="fill:none; color:red; stroke:currentColor; stroke-width:1.00; stroke-linecap:butt; stroke-linejoin:miter">
+	<g style = 'stroke:none; shape-rendering:crispEdges'>
+		<polygon fill = 'currentColor' points = '218.6,456.0 260.6,456.0 260.6,94.9 218.6,94.9 '/>
+	</g>
+</g>
+<g style="fill:none; color:black; stroke:currentColor; stroke-width:1.00; stroke-linecap:butt; stroke-linejoin:miter">
+	<path d='M218.6,456.0 L218.6,95.0 L260.5,95.0 L260.5,456.0 L218.6,456.0 Z '></path>
+</g>
+<g style="fill:none; color:red; stroke:currentColor; stroke-width:1.00; stroke-linecap:butt; stroke-linejoin:miter">
+	<g style = 'stroke:none; shape-rendering:crispEdges'>
+		<polygon fill = 'currentColor' points = '451.2,456.0 493.1,456.0 493.1,95.8 451.2,95.8 '/>
+	</g>
+</g>
+<g style="fill:none; color:black; stroke:currentColor; stroke-width:1.00; stroke-linecap:butt; stroke-linejoin:miter">
+	<path d='M451.2,456.0 L451.2,95.9 L493.0,95.9 L493.0,456.0 L451.2,456.0 Z '></path>
+</g>
+<g style="fill:none; color:red; stroke:currentColor; stroke-width:1.00; stroke-linecap:butt; stroke-linejoin:miter">
+</g>
+<g style="fill:none; color:green; stroke:currentColor; stroke-width:1.00; stroke-linecap:butt; stroke-linejoin:miter">
+</g>
+<g style="fill:none; color:black; stroke:currentColor; stroke-width:1.00; stroke-linecap:butt; stroke-linejoin:miter">
+	<g transform="translate(366.8,586.5)" style="stroke:none; fill:black; font-family:FreeSans; font-size:12.00; text-anchor:end">
+		<text>SDL_SRCCOLORKEY</text>
+	</g>
+</g>
+<g style="fill:none; color:green; stroke:currentColor; stroke-width:1.00; stroke-linecap:butt; stroke-linejoin:miter">
+	<g style = 'stroke:none; shape-rendering:crispEdges'>
+		<polygon fill = 'currentColor' points = '375.1,586.5 417.3,586.5 417.3,577.5 375.1,577.5 '/>
+	</g>
+</g>
+<g style="fill:none; color:black; stroke:currentColor; stroke-width:1.00; stroke-linecap:butt; stroke-linejoin:miter">
+	<path d='M375.1,586.5 L417.3,586.5 L417.3,577.5 L375.1,577.5 L375.1,586.5 Z '></path>
+</g>
+<g style="fill:none; color:green; stroke:currentColor; stroke-width:1.00; stroke-linecap:butt; stroke-linejoin:miter">
+	<g style = 'stroke:none; shape-rendering:crispEdges'>
+		<polygon fill = 'currentColor' points = '265.2,456.0 307.1,456.0 307.1,394.6 265.2,394.6 '/>
+	</g>
+</g>
+<g style="fill:none; color:black; stroke:currentColor; stroke-width:1.00; stroke-linecap:butt; stroke-linejoin:miter">
+	<path d='M265.2,456.0 L265.2,394.7 L307.0,394.7 L307.0,456.0 L265.2,456.0 Z '></path>
+</g>
+<g style="fill:none; color:green; stroke:currentColor; stroke-width:1.00; stroke-linecap:butt; stroke-linejoin:miter">
+	<g style = 'stroke:none; shape-rendering:crispEdges'>
+		<polygon fill = 'currentColor' points = '497.7,456.0 539.6,456.0 539.6,400.2 497.7,400.2 '/>
+	</g>
+</g>
+<g style="fill:none; color:black; stroke:currentColor; stroke-width:1.00; stroke-linecap:butt; stroke-linejoin:miter">
+	<path d='M497.7,456.0 L497.7,400.3 L539.5,400.3 L539.5,456.0 L497.7,456.0 Z '></path>
+</g>
+<g style="fill:none; color:green; stroke:currentColor; stroke-width:1.00; stroke-linecap:butt; stroke-linejoin:miter">
+</g>
+<g style="fill:none; color:blue; stroke:currentColor; stroke-width:1.00; stroke-linecap:butt; stroke-linejoin:miter">
+</g>
+<g style="fill:none; color:black; stroke:currentColor; stroke-width:1.00; stroke-linecap:butt; stroke-linejoin:miter">
+	<g transform="translate(732.7,568.5)" style="stroke:none; fill:black; font-family:FreeSans; font-size:12.00; text-anchor:end">
+		<text>SDL_SRCCOLORKEY|SDL_RLEACCEL</text>
+	</g>
+</g>
+<g style="fill:none; color:blue; stroke:currentColor; stroke-width:1.00; stroke-linecap:butt; stroke-linejoin:miter">
+	<g style = 'stroke:none; shape-rendering:crispEdges'>
+		<polygon fill = 'currentColor' points = '741.0,568.5 783.2,568.5 783.2,559.5 741.0,559.5 '/>
+	</g>
+</g>
+<g style="fill:none; color:black; stroke:currentColor; stroke-width:1.00; stroke-linecap:butt; stroke-linejoin:miter">
+	<path d='M741.0,568.5 L783.2,568.5 L783.2,559.5 L741.0,559.5 L741.0,568.5 Z '></path>
+</g>
+<g style="fill:none; color:blue; stroke:currentColor; stroke-width:1.00; stroke-linecap:butt; stroke-linejoin:miter">
+	<g style = 'stroke:none; shape-rendering:crispEdges'>
+		<polygon fill = 'currentColor' points = '311.7,456.0 353.6,456.0 353.6,77.0 311.7,77.0 '/>
+	</g>
+</g>
+<g style="fill:none; color:black; stroke:currentColor; stroke-width:1.00; stroke-linecap:butt; stroke-linejoin:miter">
+	<path d='M311.7,456.0 L311.7,77.1 L353.5,77.1 L353.5,456.0 L311.7,456.0 Z '></path>
+</g>
+<g style="fill:none; color:blue; stroke:currentColor; stroke-width:1.00; stroke-linecap:butt; stroke-linejoin:miter">
+	<g style = 'stroke:none; shape-rendering:crispEdges'>
+		<polygon fill = 'currentColor' points = '544.2,456.0 586.1,456.0 586.1,77.1 544.2,77.1 '/>
+	</g>
+</g>
+<g style="fill:none; color:black; stroke:currentColor; stroke-width:1.00; stroke-linecap:butt; stroke-linejoin:miter">
+	<path d='M544.2,456.0 L544.2,77.2 L586.0,77.2 L586.0,456.0 L544.2,456.0 Z '></path>
+</g>
+<g style="fill:none; color:blue; stroke:currentColor; stroke-width:1.00; stroke-linecap:butt; stroke-linejoin:miter">
+</g>
+<g style="fill:none; color:cyan; stroke:currentColor; stroke-width:1.00; stroke-linecap:butt; stroke-linejoin:miter">
+</g>
+<g style="fill:none; color:black; stroke:currentColor; stroke-width:1.00; stroke-linecap:butt; stroke-linejoin:miter">
+	<g transform="translate(732.7,586.5)" style="stroke:none; fill:black; font-family:FreeSans; font-size:12.00; text-anchor:end">
+		<text>SDL_SRCALPHA</text>
+	</g>
+</g>
+<g style="fill:none; color:cyan; stroke:currentColor; stroke-width:1.00; stroke-linecap:butt; stroke-linejoin:miter">
+	<g style = 'stroke:none; shape-rendering:crispEdges'>
+		<polygon fill = 'currentColor' points = '741.0,586.5 783.2,586.5 783.2,577.5 741.0,577.5 '/>
+	</g>
+</g>
+<g style="fill:none; color:black; stroke:currentColor; stroke-width:1.00; stroke-linecap:butt; stroke-linejoin:miter">
+	<path d='M741.0,586.5 L783.2,586.5 L783.2,577.5 L741.0,577.5 L741.0,586.5 Z '></path>
+</g>
+<g style="fill:none; color:cyan; stroke:currentColor; stroke-width:1.00; stroke-linecap:butt; stroke-linejoin:miter">
+	<g style = 'stroke:none; shape-rendering:crispEdges'>
+		<polygon fill = 'currentColor' points = '358.2,456.0 400.1,456.0 400.1,282.2 358.2,282.2 '/>
+	</g>
+</g>
+<g style="fill:none; color:black; stroke:currentColor; stroke-width:1.00; stroke-linecap:butt; stroke-linejoin:miter">
+	<path d='M358.2,456.0 L358.2,282.3 L400.0,282.3 L400.0,456.0 L358.2,456.0 Z '></path>
+</g>
+<g style="fill:none; color:cyan; stroke:currentColor; stroke-width:1.00; stroke-linecap:butt; stroke-linejoin:miter">
+	<g style = 'stroke:none; shape-rendering:crispEdges'>
+		<polygon fill = 'currentColor' points = '590.7,456.0 632.7,456.0 632.7,282.2 590.7,282.2 '/>
+	</g>
+</g>
+<g style="fill:none; color:black; stroke:currentColor; stroke-width:1.00; stroke-linecap:butt; stroke-linejoin:miter">
+	<path d='M590.7,456.0 L590.7,282.3 L632.6,282.3 L632.6,456.0 L590.7,456.0 Z '></path>
+</g>
+<g style="fill:none; color:cyan; stroke:currentColor; stroke-width:1.00; stroke-linecap:butt; stroke-linejoin:miter">
+</g>
+<g style="fill:none; color:black; stroke:currentColor; stroke-width:1.00; stroke-linecap:butt; stroke-linejoin:miter">
+	<path d='M76.8,54.0 L76.8,456.0 L774.4,456.0 L774.4,54.0 L76.8,54.0 Z '></path>
+</g>
+</svg>
+

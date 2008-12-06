@@ -1,0 +1,14 @@
+#
+# Example of using histogram modes
+#
+load "common.dem"
+set xtic nomirror
+set terminal svg size 1200,600 dynamic fname 'FreeSans' fsize 10
+set xlabel offset 0,-1.5
+set bmargin 12
+set xrange [-0.5:5.5]
+set key width 17 spacing 2
+set output "glsdl.svg"
+set title "glSDL Framerate"
+plot 'glsdl.dat' using 2:xtic(1) ti col, '' u 3 ti col, '' u 4 ti col, '' u 5 ti col, '' u 6 ti col, '' u 7 ti col, '' u 8 ti col
+

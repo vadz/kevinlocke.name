@@ -1,0 +1,16 @@
+.textual {
+	display: inline;
+}
+
+.phonenum {
+	speak: spell-out;
+}
+
+.keybox {
+	display: none;
+	speak: none;
+}
+
+a[href="mailto:kwl7@cornell.edu"] {
+	speak: spell-out;
+}
