@@ -40,15 +40,17 @@ suggestion/change to the layout that would make the site better
 <h2>Which Kevin Locke is this?</h2>
 <p>As unusual as this may sound, there are more than one of me.&nbsp; Or, at
 least, there is more than one person with the name Kevin Locke.&nbsp; So, 
-to differentiate myself from the other Kevin Lockes of the world
+to differentiate myself from the other Kevin Lockes of the world,
 I'll provide a quick description of who I am and some information for a few
 other Kevin Lockes that I have come across.&nbsp; Also, soon, I should have
 some pictures posted so that you can see if I am me...</p>
 <p>Who am I?&nbsp; I am the son of
 <a href="http://www.homepage.montana.edu/~ueswl/">William Locke</a> and Charlene
 Locke, and the brother of Brian Locke.&nbsp; I 
-grew up in Bozeman, MT (in the United States) and I am currently an
-undergraduate at Cornell University in Ithaca, NY.&nbsp; I am involved in
+grew up in Bozeman, MT (in the United States), attended and graduated from
+Cornell University in Ithaca, NY with a degree in Computer Science, and I am
+currently an employee of <a href="http://ctboz.com">Computer Troubleshooters -
+Bozeman</a>.&nbsp; I am involved in
 open-source software and the community surrounding it (and a proud
 <a href="http://www.debian.org">Debian</a> user).&nbsp; If you are still unsure
 if I am the Kevin Locke you are looking for, see if one of my
