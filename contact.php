@@ -36,7 +36,7 @@ include $_SERVER['DOCUMENT_ROOT'].'/include/news.html';
 <?php
 
 if(!isset($_SERVER["HTTP_REFERER"]) ||
-   !preg_match("/^http:\/\/(www\.)?kevinlocke.name/i",$_SERVER["HTTP_REFERER"])) {
+   !preg_match("/^http:\/\/(.+\.)*kevinlocke.name/i",$_SERVER["HTTP_REFERER"])) {
 	print <<<WARNINGNOTICE
 <div class="warning">
 <p>Please make sure that this is the Kevin Locke that
