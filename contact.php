@@ -51,7 +51,7 @@ WARNINGNOTICE;
 <table border="0" class="contact">
 <tr>
 <td><b>E-Mail:</b></td>
-<td><a class="email" href="mailto:kwl7@cornell.edu">kwl7@cornell.edu</a></td>
+<td><a class="email" href="mailto:kevin@kevinlocke.name">kevin@kevinlocke.name</a></td>
 </tr>
 <tr class="tel">
 <td><b>Phone (Cell):</b></td>
@@ -59,8 +59,8 @@ WARNINGNOTICE;
 </tr>
 <tr>
 <td style="vertical-align: top"><b>Mail:</b></td>
-<td><address>210 Sapsucker Woods Rd Apt 1B<br />
-Ithaca, NY &nbsp;14850-1926</address>
+<td><address>2119 Sourdough Rd<br />
+Bozeman, MT  59715-5876</address>
 </td>
 </tr>
 </table>

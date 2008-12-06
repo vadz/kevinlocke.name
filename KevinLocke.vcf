@@ -1,24 +1,26 @@
 BEGIN:VCARD
 VERSION:3.0
-REV:2007-02-27
+REV:2008-12-06
 CLASS:PUBLIC
 URL:http://kevinlocke.name/
-TITLE:Computer Science Undergraduate
-ROLE:Student
-BDAY:1984-09-17
-NOTE:School-year spent in Ithaca, Holidays in Bozeman.
+TITLE:Computer Programmer/Technician
 FN:Kevin Locke
 N:Locke;Kevin;;;
+ORG:Computer Troubleshooters - Bozeman;;
+LABEL;TYPE=WORK:2018 Stadium Dr\nSuite B\nBozeman\, MT\n59715-0706\nUSA
+ADR;TYPE=WORK:;Suite B;2018 Stadium Dr;Bozeman;MT;59715-0706;USA
 ADR;TYPE=dom,home,postal,pref:;;2119 Sourdough Rd;Bozeman;MT;59715-5876;USA
-LABEL;TYPE=dom,home,postal,parcel,pref:2119 Sourdough Rd\nBozeman\, MT\n59715-5876\nUSA
-ADR;TYPE=dom,home,postal:;Apt. 1B;210 Sapsucker Woods Rd;Ithaca;NY;14850-1926;USA
-LABEL;TYPE=dom,home,postal,parcel:210 Sapsucker Woods Rd Apt 1B\nIthaca\, NY\n14850-1926\nUSA
-EMAIL;TYPE=internet:kwl7@cornell.edu
-TEL;TYPE=home,msg,voice:+1-406-586-3546
-TEL;TYPE=cell,msg,voice,pref:+1-406-570-1984
-TZ:VALUE=text:-05:00; EST; New York/North America
-GEO:42.471944;-76.450555
-X-AIM;kevinwlocke
-X-ICQ;199342213
-X-JABBER;TYPE=pref:kevinoid@jabber.org
+LABEL;TYPE=dom,home,postal,parcel,pref:2119 Sourdough Rd\nBozeman\, MT\n597
+ 15-5876\nUSA
+EMAIL;PREF;TYPE=HOME:kevin@kevinlocke.name
+EMAIL;TYPE=WORK:klocke@ctboz.com
+X-MOZILLA-HTML:FALSE
+TEL;TYPE=CELL,MSG,VOICE,PREF:+1-406-570-1984
+TEL;TYPE=HOME,MSG,VOICE:+1-406-586-3546
+TZ:VALUE=text:-07:00; MST; Denver/North America
+GEO:45.657619;-111.027358
+X-AIM;TYPE=HOME:kevinwlocke
+X-ICQ;TYPE=HOME:199342213
+X-JABBER;TYPE=HOME:kevinoid@jabber.org
+X-MSN;TYPE=HOME:kwl7@cornell.edu
 END:VCARD
