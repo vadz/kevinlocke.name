@@ -125,7 +125,7 @@ function write_html_open($htmlflavor = "strict", $encoding = "utf-8",
     "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">'."\n";
     */
     if ($mime == "text/html")
-	print '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+	print '<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
     "http://www.w3.org/TR/html4/strict.dtd">'."\n";
     else
 	print '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" 
