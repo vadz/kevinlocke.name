@@ -117,8 +117,8 @@ function write_html_open($htmlflavor = "strict", $encoding = "utf-8",
 
     if ($mime == "text/html")
 	ob_start("translate_xhtml_to_html");
-
-    print "<?xml version=\"1.0\" encoding=\"$charset\" ?>\n";
+    else
+       	print "<?xml version=\"1.0\" encoding=\"$charset\" ?>\n";
 
     /*
     print '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
