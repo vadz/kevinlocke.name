@@ -27,12 +27,11 @@ $charset = "utf-8";
 
 function translate_xhtml_to_html($buffer)
 {
-    /* Quick and dirty method
     // This could cause problems if '>' is not entity encoded or if
     // XML data is supposed to be embedded...
     return preg_replace("/\s*\/>/i", ">", $buffer);
-    */
 
+    // New host doesn't have XSLT processing...
     // Real solution is to use XSLT, but is a lot more expensive
     // Note:  Have to turn off magic quotes during XML loading
     $magicquotes = get_magic_quotes_runtime();
