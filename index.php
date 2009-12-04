@@ -49,10 +49,9 @@ some pictures posted so that you can see if I am me...</p>
 Locke, and the brother of Brian Locke.&nbsp; I 
 grew up in Bozeman, MT (in the United States), attended and graduated from
 Cornell University in Ithaca, NY with a degree in Computer Science, and I am
-currently an employee of <a href="http://ctboz.com">Computer Troubleshooters -
-Bozeman</a>.&nbsp; I am involved in
-open-source software and the community surrounding it (and a proud
-<a href="http://www.debian.org">Debian</a> user).&nbsp; If you are still unsure
+a founder and president of <a href="http://digitalenginesoftware.com">Digital
+Engine Software</a>.&nbsp; I am involved in
+open-source software and the community surrounding it.&nbsp; If you are still unsure
 if I am the Kevin Locke you are looking for, see if one of my
 <a href="contact.php">contact points</a> looks familiar, or feel free to ask me.
 </p>
