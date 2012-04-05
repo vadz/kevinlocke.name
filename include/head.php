@@ -59,7 +59,6 @@ function write_head_stylesheets()
     print <<<STYLESHEETS
   <link rel="stylesheet" media="screen" type="text/css" href="/styles/screen1.css" />
   <link rel="stylesheet" media="print" type="text/css" href="/styles/print1.css" />
-  <link rel="stylesheet" media="aural" type="text/css" href="/styles/aural1.css" />
 
 STYLESHEETS;
 }
