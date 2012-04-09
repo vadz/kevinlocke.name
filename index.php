@@ -42,8 +42,7 @@ suggestion/change to the layout that would make the site better
 least, there is more than one person with the name Kevin Locke.&nbsp; So, 
 to differentiate myself from the other Kevin Lockes of the world,
 I'll provide a quick description of who I am and some information for a few
-other Kevin Lockes that I have come across.&nbsp; Also, soon, I should have
-some pictures posted so that you can see if I am me...</p>
+other Kevin Lockes that I have come across.</p>
 <p>Who am I?&nbsp; I am the son of
 <a href="http://www.homepage.montana.edu/~ueswl/">William Locke</a> and Charlene
 Locke, and the brother of Brian Locke.&nbsp; I 
@@ -61,6 +60,8 @@ if I am the Kevin Locke you are looking for, see if one of my
 <li>The Native American flutist and hoop dancer named Kevin Locke's website is 
 at <a href="http://www.kevinlocke.com">kevinlocke.com</a> (He is also described in the Wikipedia entry for
 <a href="http://en.wikipedia.org/wiki/Kevin_Locke">Kevin Locke</a>).</li>
+<li>The software developer Kevin D. Locke, who lives in Washington State
+maintains a blog at <a href="http://www.kevindlocke.com/">http://www.kevindlocke.com/</a>.</li>
 <li>The photographer Kevin R. Locke, who lives in Washington DC, has a
 website at <a href="http://kevinlocke.net">kevinlocke.net</a>.</li>
 <li>A Texan named Kevin Locke of the Locke Family Association, is listed at
