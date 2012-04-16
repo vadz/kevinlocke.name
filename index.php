@@ -61,7 +61,7 @@ if I am the Kevin Locke you are looking for, see if one of my
 at <a href="http://www.kevinlocke.com">kevinlocke.com</a> (He is also described in the Wikipedia entry for
 <a href="http://en.wikipedia.org/wiki/Kevin_Locke">Kevin Locke</a>).</li>
 <li>The software developer Kevin D. Locke, who lives in Washington State
-maintains a blog at <a href="http://www.kevindlocke.com/">http://www.kevindlocke.com/</a>.</li>
+maintains a blog at <a href="http://www.kevindlocke.com/">kevindlocke.com</a>.</li>
 <li>The photographer Kevin R. Locke, who lives in Washington DC, has a
 website at <a href="http://kevinlocke.net">kevinlocke.net</a>.</li>
 <li>A Texan named Kevin Locke of the Locke Family Association, is listed at
