@@ -4,19 +4,19 @@ title: RotateBG
 description: "A shell script to change the GNOME desktop background from a \
 list of images."
 ---
-<h2>RotateBG: &nbsp;A script to rotate the desktop wallpaper (background)</h2>
+<h2>RotateBG:  A script to rotate the desktop wallpaper (background)</h2>
 
 <h3>Description</h3>
 <p>RotateBG is a shell script which builds a list of files
 from the files and directories (searched recursively) listed on the
-command-line (or from stdin if none are listed).&nbsp; It then sorts this
+command-line (or from stdin if none are listed).  It then sorts this
 list and changes the current background to the next in the list, or
 changes to the first in the list if the current background is not in
 the list, or to a random file if the -r switch is specified.</p>
 <p>RotateBG is based on <a href="http://users.skynet.be/bk221183/">grotbckgd</a>
-created by Damien Merenne.&nbsp; Unfortunately, when I last contacted Mr.
+created by Damien Merenne.  Unfortunately, when I last contacted Mr.
 Merenne he did not have access to that website any longer and therefore could
-not post patches to the program.&nbsp; Since then I have made several changes
+not post patches to the program.  Since then I have made several changes
 to the program to the point that the similarity to the original program is 
 somewhat vague and I would feel bad sending a patch this large, which means
 that it is time to post it here.</p>
@@ -33,8 +33,8 @@ progression.</li>
 </ol>
 
 <h3>Development Status</h3>
-<p>Stable.&nbsp; I don't have any other features planned and I haven't come
-across any bugs for a while.&nbsp; Bugs and proposed improvements would be
+<p>Stable.  I don't have any other features planned and I haven't come
+across any bugs for a while.  Bugs and proposed improvements would be
 considered.</p>
 
 <h3>License</h3>
@@ -53,7 +53,7 @@ remain intact, no additional conditions have been added.</p>
 <li>Make it executable (e.g. <code>chmod +x rotatebg.sh</code>)</li>
 <li>Run the script to change your background (use <code>./rotatebg.sh -h</code>
 to see the usage information).</li>
-<li>Optionally, schedule it to run periodically.&nbsp; This can be accomplished
+<li>Optionally, schedule it to run periodically.  This can be accomplished
 by adding it to your crontab by typing <code>crontab -e</code> and adding a line
 like the following to your crontab:<br />
 <code>*/5 * * * * $HOME/bin/rotatebg.sh -r $HOME/wallpapers</code><br />
@@ -77,11 +77,11 @@ option were not specified -r would be assumed).</li>
 
 <h3>Configuration</h3>
 <p>It is possible to change the default values by editing the script, however
-this should be unnecessary.&nbsp; Determining the proper command-line arguments
+this should be unnecessary.  Determining the proper command-line arguments
 should be all of the configuration that is required.</p>
 
 <h3>Known Bugs</h3>
 <p>The script should have improved default behavior, such as testing for more
 alternatives to set the desktop wallpaper than gconftool if none is specified
-on the command-line.&nbsp; Suggestions for appropriate commands would be 
+on the command-line.  Suggestions for appropriate commands would be 
 appreciated.</p>

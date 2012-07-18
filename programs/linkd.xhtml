@@ -15,7 +15,7 @@ is equivalent to pressing the "Restart Cable Modem" button in its
 web-interface.  This will cause the modem to restart and (for me) is sufficient
 to get traffic flowing over the link again.</p>
 <p>For the less pedantic and more practical, contacting your cable company and
-replacing your cable modem are probably better solutions. &nbsp;My efforts in
+replacing your cable modem are probably better solutions.  My efforts in
 this respect were somewhat less useful and rather than spending the money out
 of my own pocket to buy a new cable modem, I wrote this program.</p>
 
@@ -25,8 +25,8 @@ of my own pocket to buy a new cable modem, I wrote this program.</p>
 </ul>
 
 <h3>Development Status</h3>
-<p>Works for me. &nbsp;I am planning to add a few more command-switches to ease
-use of the program and add a startup script to the package. &nbsp;If this 
+<p>Works for me.  I am planning to add a few more command-switches to ease
+use of the program and add a startup script to the package.  If this 
 program finds an audience, more features could be added...</p>
 
 <h3>License</h3>
@@ -44,11 +44,11 @@ continually monitor your network link</li>
 
 <h3>Configuration</h3>
 <p>Almost all of the linkd configuration is done by changing defined macros
-in the C source file to appropriate values. &nbsp;The purpose of each definition
-is commented in the source file. &nbsp;Definitions of particular interest are
-MODEM_IP, PING_ARGS, and possibly NET_RATE_THRESH. &nbsp;At a very minimum, 
+in the C source file to appropriate values.  The purpose of each definition
+is commented in the source file.  Definitions of particular interest are
+MODEM_IP, PING_ARGS, and possibly NET_RATE_THRESH.  At a very minimum, 
 please change the IP in PING_ARGS so that all users of this program won't be
-pinging the same address to check connectivity. &nbsp;Note that the network
+pinging the same address to check connectivity.  Note that the network
 rate threshold is non-zero because (at least for my setup) there is a
 significant number of ARP packets which are delivered when the modem is
 down.</p>

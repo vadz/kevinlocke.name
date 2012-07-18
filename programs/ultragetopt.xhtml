@@ -9,7 +9,7 @@ processing."
 <h3>Description</h3>
 <p>UltraGetopt is a versatile and customizable implementation of getopt() with
 support for many common extensions, MS-DOS formatted option strings, and much
-more.&nbsp; It can function as a drop-in replacement for getopt() on systems
+more.  It can function as a drop-in replacement for getopt() on systems
 with or without existing vendor-provided implementations and also as a separate
 co-existing function.</p>
 
@@ -26,9 +26,9 @@ as appropriate</li>
 </ol>
 
 <h3>Development Status</h3>
-<p>Actively being developed.&nbsp; UltraGetopt supports nearly all of the
+<p>Actively being developed.  UltraGetopt supports nearly all of the
 functionality that I am looking for in a getopt implementation, so development
-is mostly minor bug fixes, tweaks, and minor additions.&nbsp; If you have
+is mostly minor bug fixes, tweaks, and minor additions.  If you have
 suggestions for a feature (or the desire to implement it), don't hesitate to
 let me know about it.</p>
 
@@ -36,15 +36,15 @@ let me know about it.</p>
 <p><a href="http://www.opensource.org/licenses/mit-license.php">MIT</a></p>
 
 <h3>Supported Systems</h3>
-<p>Known to work on Linux, {Net,Free}BSD, and Windows.&nbsp;  Should work on
+<p>Known to work on Linux, {Net,Free}BSD, and Windows.   Should work on
 any system (bug reports welcome).</p>
 
 <h3>Dependencies</h3>
 <ul>
 <li>Depends on the <code>strcasecmp</code> and <code>strncasecmp</code>
-functions.&nbsp; For systems which provide <code>_strnicmp</code> define
+functions.  For systems which provide <code>_strnicmp</code> define
 <code>HAVE__STRICMP</code> and <code>HAVE__STRNICMP</code> and these functions
-will be used as replacements.&nbsp; Otherwise, replacements will need to be
+will be used as replacements.  Otherwise, replacements will need to be
 included into the build system for projects UltraGetopt being targeted at
 systems lacking them.</li>
 </ul>
@@ -78,7 +78,7 @@ getopt*() functions.</li>
 <h3>Configuration</h3>
 <p>Configuration of UltraGetopt is accomplished by both compiletime defines
 when building <span class="filename">ultragetopt.c</span> and by runtime
-options passed to the <code>ultragetopt_tunable()</code> function.&nbsp; These
+options passed to the <code>ultragetopt_tunable()</code> function.  These
 options are documented below.</p>
 
 <h4>Meta-options</h4>
@@ -113,11 +113,11 @@ corresponding runtime flag (although they may be affected by other
 arguments).</p>
 <dl class="defineslist">
 <dt>ULTRAGETOPT_ASSIGNSPACE</dt>
-<dd>Parse "-o value" as "value" rather than " value"<br />Note:&nbsp; Only
+<dd>Parse "-o value" as "value" rather than " value"<br />Note:  Only
 applicable when argv[x] == "-o value", not for argv[x] == "-o" [x+1] ==
 "value"</dd>
 <dt>ULTRAGETOPT_NO_OPTIONALARG</dt>
-<dd>Do not support GNU "::" optional argument.<br />Note:&nbsp; Always
+<dd>Do not support GNU "::" optional argument.<br />Note:  Always
 supported in *_long*() functions.</dd>
 <dt>ULTRAGETOPT_NO_OPTIONASSIGN</dt>
 <dd>Do not support --option=value syntax</dd>
@@ -126,7 +126,7 @@ supported in *_long*() functions.</dd>
 <h4>Runtime-selectable Options</h4>
 <p>These options can all be selected by passing their value as a flag to the
 ultragetopt_tunable() function, where ULTRAGETOPT_ is replaced by UGO_ for
-compactness of the source.&nbsp; Defining these values sets the default state of
+compactness of the source.  Defining these values sets the default state of
 the flag when invoked from ultragetopt{_long,_dos}().</p>
 <dl class="defineslist">
 <dt>ULTRAGETOPT_DEFAULTOPTOPT</dt>
@@ -138,13 +138,13 @@ missing argument</dd>
 <dd>Accept adjacent arguments to long options (e.g. --optionarg) based on first
 longest-match</dd>
 <dt>ULTRAGETOPT_OPTIONPERMUTE</dt>
-<dd>Permute options, do not stop at first non-option.&nbsp; A leading '+' in
+<dd>Permute options, do not stop at first non-option.  A leading '+' in
 shortopts or when the $POSIXLY_CORRECT environmental variable are set,
 permuting will be stopped @ runtime</dd>
 <dt>ULTRAGETOPT_SHORTOPTASSIGN</dt>
 <dd>Support -o=file syntax for short options</dd>
 <dt>ULTRAGETOPT_SEPARATEDOPTIONAL</dt>
-<dd>Accept separated optional arguments.&nbsp; Parse -o file as -o with
+<dd>Accept separated optional arguments.  Parse -o file as -o with
 argument file rather than -o without an argument and non-option argument
 "file"</dd>
 <dt>ULTRAGETOPT_DOS_DASH</dt>
@@ -158,8 +158,8 @@ SUS/POSIX (results in "--" being one of the non-option arguments)</dd>
 <ul>
 <li>The option permuting done by UltraGetopt differs from other getopt
 implementations that permute arguments on the next call after they were
-returned.&nbsp; UltraGetopt currently moves an option forward and then returns
-it.&nbsp; Therefore, its values of <code>optind</code> will necessarily differ
+returned.  UltraGetopt currently moves an option forward and then returns
+it.  Therefore, its values of <code>optind</code> will necessarily differ
 from other implementations, although <code>argv[optind]</code> will be the
 same.</li>
 </ul>
