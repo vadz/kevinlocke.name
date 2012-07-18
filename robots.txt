@@ -1,2 +1,4 @@
+Sitemap: http://kevinlocke.name/sitemap.xml
+
 User-agent: *
 Disallow: /testing/
