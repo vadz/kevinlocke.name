@@ -1,0 +1,36 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-US" lang="en-US">
+<head>
+  <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+  <meta name="author" content="Kevin Locke &lt;kevin@kevinlocke.name&gt;" />
+  <meta name="generator" content="Vi IMproved" />
+  <meta name="license" content="Most content under CC BY 3.0 - see /license" />
+  <meta name="copyright" content="&#0169; 2005-2012 Kevin Locke &lt;kevin@kevinlocke.name&gt;" />{% if page.description %}
+  <meta name="description" content="{{ page.description }}" />{% endif %}
+  <link rel="copyright" href="/license" type="text/html" />{% for alternate in page.alternates %}
+  <link rel="alternate" type="{{ alternate.type }}" href="{{ alternate.href }}"{% if alternate.title %}
+    title="{{ alternate.title }}"{% endif %} />{% endfor %}
+  <title>{% if page.title %}{{ page.title }} - {% endif %}Kevin Locke's Homepage</title>
+  <link rel="stylesheet" media="screen" type="text/css" href="/styles/screen1.css" />
+  <link rel="stylesheet" media="print" type="text/css" href="/styles/print1.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="titlebar">
+      <h1>Kevin Locke's Homepage</h1>
+    </div>
+
+    <div id="sidebar">
+      {% include sidenavbar.xhtml %}
+      {% include news.xhtml %}
+    </div>
+
+    <div id="content">
+      {{ content }}
+    </div>
+
+    {% include footer.xhtml %}
+  </div>
+</body>
+</html>

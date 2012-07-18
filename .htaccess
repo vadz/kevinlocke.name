@@ -1,8 +1,25 @@
-ErrorDocument 400 /error.php
-ErrorDocument 401 /error.php
-ErrorDocument 403 /error.php
-ErrorDocument 404 /error.php
-ErrorDocument 500 /error.php
+# Enable content negotiation
+Options +MultiViews
+
+DirectoryIndex	index
+
+ErrorDocument 400 /400
+ErrorDocument 401 /401
+ErrorDocument 403 /403
+ErrorDocument 404 /404
+ErrorDocument 500 /500
 
 RewriteEngine On
+
+RewriteRule "^inquiry/sdlblitspeed/sdlblitspeed\.php$" "/bits/2007/08/01/sdl-blit-speed-comparison/" [R=permanent,L]
+RewriteRule "^inquiry/sdlblitspeed/(.*)$" "/bits/2007/08/01/sdl-blit-speed-comparison/$1" [R=permanent,L]
+RewriteRule "^inquiry(/.*)?$" "/bits$1" [R=permanent]
+
+# Prevent access to .git directories
 RewriteRule "^(.*/)?\.git/" - [F,L]
+
+# Redirect the old (nearly empty) inquiry section to the blog
+# Rewrite requests for php files to extensionless files, where absent
+RewriteCond "$REQUEST_FILENAME" !-f
+RewriteRule "^(.*)\.php$" "/$1" [R]
+
