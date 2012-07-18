@@ -23,3 +23,5 @@ RewriteRule "^(.*/)?\.git/" - [F,L]
 RewriteCond "$REQUEST_FILENAME" !-f
 RewriteRule "^(.*)\.php$" "/$1" [R]
 
+# Use URL with trailing slash as canonical URL for index pages
+RewriteRule "^(.*/)index$" "/$1" [R]
