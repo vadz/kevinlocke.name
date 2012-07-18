@@ -1,0 +1,42 @@
+---
+---
+<?xml version="1.0"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en-US">
+ 
+  <title>Eureka! - A blog of minor discoveries and useful tidbits from Kevin
+    Locke.</title>
+  <link rel="alternate" type="text/html" href="http://kevinlocke.name/bits/"/>
+  <link rel="self" type="application/atom+xml" href="http://kevinlocke.name/bits/atom.xml"/>
+  <updated>{{ site.time | date_to_xmlschema }}</updated>
+  <id>http://kevinlocke.name/bits/</id>
+  <author>
+    <name>Kevin Locke</name>
+    <email>kevin@kevinlocke.name</email>
+    <uri>http://kevinlocke.name/</uri>
+  </author>
+  <rights>Licensed for use under the terms of the Creative Commons Attribution
+    3.0 Unported License &lt;http://creativecommons.org/licenses/by/3.0/&gt;.
+    Additionally licensed for use under the terms of the MIT License
+    &lt;http://www.opensource.org/licenses/mit-license.php&gt;.
+
+    Copyright &#0169; 2005-2012 Kevin Locke &lt;kevin@kevinlocke.name&gt;</rights>
+
+  {% for post in site.posts %}
+  <entry>
+    <id>http://kevinlocke.name/bits{{ post.id }}</id>
+    <link rel="alternate" type="text/html" href="http://kevinlocke.name/bits{{ post.url }}"/>
+    <title>{{ post.title | xml_escape }}</title>
+    <published>{{ post.date | date_to_xmlschema }}</published>
+    <updated>{{ post.mtime | date_to_xmlschema }}</updated>
+    <author>
+      <name>Kevin Locke</name>
+      <email>kevin@kevinlocke.name</email>
+      <uri>http://kevinlocke.name/</uri>
+    </author>
+    <content type="xhtml"><div xmlns="http://www.w3.org/1999/xhtml">
+      {{ post.content }}
+    </div></content>
+  </entry>
+  {% endfor %}
+ 
+</feed>
