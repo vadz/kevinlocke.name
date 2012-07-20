@@ -45,3 +45,16 @@ RewriteRule "^(.*)\.html$" "/$1.xhtml" [QSA,ENV=NOW_XHTML]
 # So we change it manually after the internal redirect
 # Note:  "REDIRECT_" prefix, see http://stackoverflow.com/questions/3050444
 Header always edit "Content-Location" "\.html$" ".xhtml" env=REDIRECT_NOW_XHTML
+
+# Note:  Can't use / in FilterProvider regex in Apache < 2.2.21 use \x2F
+# See https://issues.apache.org/bugzilla/show_bug.cgi?id=51434
+# Gzip content which may benefit from the compression
+FilterDeclare COMPRESS CONTENT_SET
+# Compress any text content
+FilterProvider COMPRESS DEFLATE resp=Content-Type /^text\x2F/
+# Compress JavaScript
+FilterProvider COMPRESS DEFLATE resp=Content-Type /^application\x2F(x-)?javascript/
+# Compress any XML content
+FilterProvider COMPRESS DEFLATE resp=Content-Type /(\x2F|\+)xml$/
+FilterChain COMPRESS
+FilterProtocol COMPRESS DEFLATE change=yes,byteranges=no
