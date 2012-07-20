@@ -11,17 +11,37 @@ ErrorDocument 500 /500
 
 RewriteEngine On
 
-RewriteRule "^inquiry/sdlblitspeed/sdlblitspeed\.php$" "/bits/2007/08/01/sdl-blit-speed-comparison/" [R=permanent,L]
-RewriteRule "^inquiry/sdlblitspeed/(.*)$" "/bits/2007/08/01/sdl-blit-speed-comparison/$1" [R=permanent,L]
-RewriteRule "^inquiry(/.*)?$" "/bits$1" [R=permanent]
+RewriteRule "^inquiry/sdlblitspeed/sdlblitspeed\.php$" "/bits/2007/08/01/sdl-blit-speed-comparison/" [R=permanent,L,QSA]
+RewriteRule "^inquiry/sdlblitspeed/(.*)$" "/bits/2007/08/01/sdl-blit-speed-comparison/%1" [R=permanent,L]
+RewriteRule "^inquiry(/.*)?$" "/bits%1" [R=permanent,QSA]
 
 # Prevent access to .git directories
 RewriteRule "^(.*/)?\.git/" - [F,L]
 
 # Redirect the old (nearly empty) inquiry section to the blog
 # Rewrite requests for php files to extensionless files, where absent
-RewriteCond "$REQUEST_FILENAME" !-f
-RewriteRule "^(.*)\.php$" "/$1" [R]
+RewriteCond "%{REQUEST_FILENAME}" !-f
+RewriteRule "^(.*)\.php$" "/%1" [R]
 
 # Use URL with trailing slash as canonical URL for index pages
-RewriteRule "^(.*/)index$" "/$1" [R]
+RewriteRule "^(.*/)index$" "/%1" [R,QSA]
+
+# Prioritize XHTML slightly above HTML
+# Recommended mechanism for MultiViews is to add a qs parameter to the type.
+# However, qs values are sent to client in violation of RFCs
+#AddType text/html;qs=0.999 .html
+#AddType application/xhtml+xml;qs=1 .xhtml
+
+# Instead, we let MultiViews choose a type and if it is HTML we check whether
+# XHTML is equally acceptable and send it instead
+# Note: IS_SUBREQ is true when MultiViews has redirected
+# FIXME: Is there a way to compare with the original URL here?
+RewriteCond "%{IS_SUBREQ}" "=true"
+RewriteCond "%{REQUEST_FILENAME}" "\.html$"
+RewriteCond "%{HTTP:Accept}" "application/xhtml\+xml\s*(?:,|$)"
+RewriteRule "^(.*)\.html$" "/$1.xhtml" [QSA,ENV=NOW_XHTML]
+
+# RewriteRule above does not change the Content-Location set by MultiViews
+# So we change it manually after the internal redirect
+# Note:  "REDIRECT_" prefix, see http://stackoverflow.com/questions/3050444
+Header always edit "Content-Location" "\.html$" ".xhtml" env=REDIRECT_NOW_XHTML
