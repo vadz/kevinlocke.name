@@ -16,13 +16,13 @@ browser in current versions of Thunderbird.
 
 <!--more-->
 
-# How Thunderbird Chooses a Browser
+### How Thunderbird Chooses a Browser
 
 Thunderbird has a variety of methods available for determining which browser to
 use.  The methods are attempted one at a time until a browser is found.  The
 methods that Thunderbird attempts are (in order):
 
-## XDG MIME action (Thunderbird > ~4)
+#### XDG MIME action (Thunderbird > ~4)
 
 The default browser is chosen based on the information in the [XDG MIME
 database](http://www.freedesktop.org/wiki/Specifications/shared-mime-info-spec),
@@ -48,7 +48,7 @@ follows:
     [Default Applications]
     x-scheme-handler/http=firefox.desktop
 
-## Gconf (Thunderbird > ~3 with GNOME)
+#### Gconf (Thunderbird > ~3 with GNOME)
 
 When running in a GNOME environment (if the GNOME libraries are present),
 Thunderbird attempts to determine the default browser based on the preferences
@@ -74,7 +74,7 @@ The information may be modified and queried using gconftool-2 on the command-lin
 The information can also be queried and modified using a graphical program
 such as `gconf-editor`.
 
-## prefs.js (Thunderbird - All Versions)
+#### prefs.js (Thunderbird - All Versions)
 
 In all versions of Thunderbird, the default browser may be determined based on
 the settings in the Thunderbird preferences.  Preferences can be edited by
@@ -101,7 +101,7 @@ permanent by editing the [user.js file](http://kb.mozillazine.org/User.js_file).
 This is not recommended for normal situations but is mentioned here for
 completeness.
 
-## mimeTypes.rdf (Thunderbird - All Versions?)
+#### mimeTypes.rdf (Thunderbird - All Versions?)
 
 Various sources across the web mention changing the default browser in the
 [mimeTypes.rdf file](http://kb.mozillazine.org/MimeTypes.rdf).  This file is
@@ -112,7 +112,7 @@ named differently) and determines the "Helper Applications" which are used to
 open external content based on the MIME type.  I have not personally seen any
 of the URL pseudo-MIME types appear in this file, but it may be worth checking.
 
-# Proper Documentation
+### Proper Documentation
 
 The process of changing the default browser is documented on the
 [mozillaZine Wiki](http://kb.mozillazine.org/Default_browser#Setting_the_browser_that_opens_in_Thunderbird_-_Linux).
