@@ -12,7 +12,7 @@ done
 
 # Generate .html versions of .xhtml pages
 for FILE in $(find _site -name '*.xhtml') ; do
-    xsltproc --nodtdattr -o "${FILE%.xhtml}.html" _bin/xhtmltohtml.xsl "$FILE"
+    xsltproc --nodtdattr -o "${FILE%.xhtml}.html" _build/xhtmltohtml.xsl "$FILE"
 done
 
 # Check other XML for well-formedness
