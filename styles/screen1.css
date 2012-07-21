@@ -24,7 +24,7 @@ a:link:hover {
 	text-decoration: none;
 }
 
-h1,h2,h3,h4 {
+h1, h2, h3, h4, h5, h6 {
 	line-height: 1em;
 	margin: 0px;
 	padding-bottom: 4px;
@@ -34,21 +34,21 @@ h1 {
 	text-align: center;
 }
 
-* + h1, * + h2, * + h3, * + h4 {
+* + h1, * + h2, * + h3, * + h4, * + h5, * + h6 {
 	margin: 1em 0px 0px 0px;
 }
 
-h1 + h2, h2 + h3, h3 + h4 {
+h1 + h2, h2 + h3, h3 + h4, h4 + h5, h5 + h6 {
 	margin-top: 0px;
 }
 
-h2:first-child, h3:first-child, h4:first-child {
+h2:first-child, h3:first-child, h4:first-child, h5:first-child, h6:first-child {
 	margin-top: 0px;
 }
 
-p + h1, p + h2, p + h3, p + h4,
-ul + h1, ul + h2, ul + h3, ul + h4,
-ol + h1, ol + h2, ol + h3, ol + h4 {
+p + h1, p + h2, p + h3, p + h4, p + h5, p + h6,
+ul + h1, ul + h2, ul + h3, ul + h4, ul + h5, ul + h6
+ol + h1, ol + h2, ol + h3, ol + h4, ol + h5, ol + h6 {
 	margin-top: 1em;
 }
 
