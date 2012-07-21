@@ -15,5 +15,8 @@ for FILE in $(find _site -name '*.xhtml') ; do
     xsltproc --nodtdattr -o "${FILE%.xhtml}.html" _bin/xhtmltohtml.xsl "$FILE"
 done
 
+# Check other XML for well-formedness
+xmllint --nonet --noout $(find _site -iname '*.atom' -o -iname '*.xml')
+
 # Remove .xhtml extension from URLs in the sitemap
 sed -i 's/\.xhtml<\/loc>/<\/loc>/' _site/sitemap.xml
