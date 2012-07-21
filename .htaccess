@@ -31,6 +31,9 @@ RewriteRule "^(.*/)index$" "/%1" [R,QSA]
 # However, qs values are sent to client in violation of RFCs
 #AddType text/html;qs=0.999 .html
 #AddType application/xhtml+xml;qs=1 .xhtml
+AddCharset utf-8 .html
+AddCharset utf-8 .xhtml
+AddCharset utf-8 .atom
 
 # Instead, we let MultiViews choose a type and if it is HTML we check whether
 # XHTML is equally acceptable and send it instead
