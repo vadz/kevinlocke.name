@@ -3,8 +3,8 @@ layout: default
 ---
 <h2>{{ page.title | xml_escape }}</h2>
 <span class="postdate">Posted {{ page.date | date: "%B %d, %Y at %H:%M %p %Z" }}</span>
-by <span class="postauthor">Kevin Locke</span>{% capture datestr %}{{ page.date | date: "%x%H" }}{% endcapture %}{% capture mtimestr %}{{ page.mtime | date: "%x%H" }}{% endcapture %}{% if datestr != mtimestr %}<br />
-<span class="postdate">Updated {{ page.mtime | date: "%B %d, %Y at %H:%M %p %Z" }}</span>{% endif %}
+by <span class="postauthor">Kevin Locke</span>{% if page.updated %}<br />
+<span class="postdate">Updated {{ page.updated | date: "%B %d, %Y at %H:%M %p %Z" }}</span>{% endif %}
 <div class="postcontent">
   {{ content }}
 </div>
