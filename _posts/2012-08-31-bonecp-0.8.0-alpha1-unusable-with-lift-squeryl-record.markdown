@@ -1,0 +1,65 @@
+---
+layout: post
+date: 2012-08-31 15:25:58-06:00
+title: BoneCP 0.8.0-alpha1 unusable with Lift Squeryl-Record
+description: "Discussion of the symptoms observed when using \
+BoneCP 0.8.0-alpha1 with Squeryl-Record in Lift."
+tags: [ lift ]
+---
+In tracking down some persistent errors relating to using
+[Squeryl](http://squeryl.org) with [Lift](http://liftweb.net/), I've found that
+the latest version of [BoneCP](http://jolbox.com/) does not appear to be safe
+for use in this scenario.  This article is a quick discussion of the symptoms
+that I am seeing and how to avoid them.
+
+<!--more-->
+
+### The Setup
+
+The setup that I am using is quite generic and based on the example
+configurations on the [Squeryl-Record wiki
+page](https://www.assembla.com/wiki/show/liftweb/Squeryl).  Basically, I'm
+using the following code in my Lift Boot class:
+
+    Props.get("db.driver") map { Class.forName(_) }
+
+    val config = new BoneCPConfig()
+    config.setCloseConnectionWatch(true)
+    Props.get("db.jdbcUrl") map { config.setJdbcUrl(_) }
+    Props.get("db.username") map { config.setUsername(_) }
+    Props.get("db.password") map { config.setPassword(_) }
+
+    val connPool = new BoneCP(config)
+    val adapterName = Props.get("db.squerylAdapter").open_!
+    var adapterClass = Class.forName(adapterName).asInstanceOf[Class[DatabaseAdapter]]
+    // Note:  Passed by name, called repeatedly
+    net.liftweb.squerylrecord.SquerylRecord.initWithSquerylSession(
+        Session.create(connPool.getConnection, adapterClass.newInstance)
+    )
+
+    S.addAround(new LoanWrapper {
+      override def apply[T](f: => T): T = inTransaction { f }
+    })
+
+### The Symptoms
+
+With the above code in place (and some pages which make read queries), I would
+see the following log messages:
+
+    [com.google.common.base.internal.Finalizer] WARN  c.jolbox.bonecp.ConnectionPartition - BoneCP detected an unclosed connection and will now attempt to close it for you. You should be closing this connection in your application - enable connectionWatch for additional debugging assistance.
+
+Which would be followed (on the next page access) by:
+
+    \[qtp3266018-33 - /path\] ERROR net.liftweb.http.LiftRules - Exception being returned to browser when processing /path: Message: org.postgresql.util.PSQLException: This connection has been closed.
+
+So, as suggested in the warning message, I tried enabling connectionWatch,
+which had no effect.  It appears that this [is only helpful if a thread holding
+an open connection dies](http://forum.jolbox.com/viewtopic.php?f=3&t=213#p874).
+
+Next I created a proxy for Connection to observe creation/close and it appears
+that all connections (technically, connection handles, since BoneCP manages the
+real connections) are being closed.
+
+At this point I started to suspect an issue in BoneCP, so I tried downgrading
+to 0.7.1.RELEASE and all of the problems vanished.  Hopefully this solution
+will work for others in the same situation as well as it did for me.
