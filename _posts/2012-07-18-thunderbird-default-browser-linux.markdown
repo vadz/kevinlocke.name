@@ -1,6 +1,7 @@
 ---
 layout: post
 date: 2012-07-18 17:34:12-06:00
+updated: 2012-09-01 23:07:30-06:00
 title: Changing the Default Browser in Thunderbird on Linux
 description: "A discussion of the process that Thunderbird uses to determine \
 the default browser on Linux and how to change it."
@@ -19,8 +20,75 @@ browser in current versions of Thunderbird.
 ### How Thunderbird Chooses a Browser
 
 Thunderbird has a variety of methods available for determining which browser to
-use.  The methods are attempted one at a time until a browser is found.  The
-methods that Thunderbird attempts are (in order):
+use.  The methods are attempted one at a time until a browser is found.
+
+**Update:** [Raman Gupta](http://vivosys.com) pointed out that my original
+determination of the order in which the methods are attempted was incorrect
+and after further testing it appears that mimeTypes.rdf is consulted before
+XDG MIME action (at least on Thunderbird 10 and later, probably on previous
+versions as well).
+
+This realization also prompted me to dig into the Thunderbird sources to get a
+better idea of how the process works.  The specific order in which the methods
+are tried, and which methods are available, is based on the platform and the
+compilation options used for the running version of Thunderbird.  Interested
+developers can look at GetProtocolHandler in
+[nsExternalHelperAppService](http://mxr.mozilla.org/comm-central/ident?i=nsExternalHelperAppService)
+for the starting point, GetProtocolHandlerInfoFromOS in subclasses of
+[nsExternalHelperAppService](http://mxr.mozilla.org/comm-central/ident?i=nsExternalHelperAppService)
+for the platform-specific bits and the
+[HandlerService](http://mxr.mozilla.org/comm-central/ident?i=HandlerService)
+implementation for the platform-agnostic bits.  On Unix, the OS-specific
+methods are mostly handled by
+[GIO](http://developer.gnome.org/gio/stable/GAppInfo.html#g-app-info-get-default-for-uri-scheme)
+(if available) or
+[GnomeVFS](http://developer.gnome.org/gnome-vfs/stable/gnome-vfs-2.0-gnome-vfs-mime-database.html#gnome-vfs-mime-application-launch)
+or
+[QDesktopServices](http://doc.trolltech.com/4.6/qdesktopservices.html#openUrl)
+(if compiled with QT).  Although it appears to me that the platform-specific
+methods are attempted first, the behavior that I have observed indicates that
+the platform-agnostic methods are attempted first.  The behavior that I have
+observed is that each of the following methods are attempted, one at a time,
+until one of them is successful.  The methods that Thunderbird attempts are
+(in order):
+
+#### mimeTypes.rdf (Thunderbird - All Versions?)
+
+The [mimeTypes.rdf file](http://kb.mozillazine.org/MimeTypes.rdf) contains
+information for the "Helper Applications" which are used to open external
+content.  Existing entries can be adjusted in on the Incoming tab of the
+Attachments pane of the Preferences window (`Edit -> Preferences ->
+Attachments -> Incoming`), or simply on the Attachments pane in earlier
+versions.  Unfortunately, [there is no way to add new file-type
+associations](https://bugzilla.mozilla.org/show_bug.cgi?id=503303) in the
+preferences window.
+
+To add an entry for a scheme that does not appear in the list (e.g. "http" or "https"), use the following process:
+
+1. Open the configuration editor (`about:config`) which can be accessed
+   through `Edit -> Preferences -> Advanced -> Config Editor...`.
+2. Change `network.protocol-handler.warn-external.<protocol>` to `true` for
+   each of the protocols that you wish to configure by double-clicking on
+   the preference.  (e.g. change `network.protocol-handler.warn-external.http`
+   to `true` to configure the program for http URLs).
+3. Click on a URL in an email in Thunderbird. Thunderbird will prompt
+   for the application to use to open the link.  Select the desired program
+   and check the option to remember the selection.
+
+**Note:** Raman Gupta made a great suggestion that choosing
+`/usr/bin/xdg-open` as the preferred application will force Thunderbird to use
+the XDG MIME action (the desktop manager's default) if it wouldn't otherwise
+do so.
+
+Advanced users can also view/edit the mimeTypes.rdf file directly, although
+this is not recommended.  The mimeTypes.rdf file is stored in the [profile
+directory](https://support.mozillamessaging.com/en-US/kb/profiles) which can
+be found through `Help -> Troubleshooting Information`.  It is usually located
+at `~/.mozilla/thunderbird/XXXXXXXX.default/mimeTypes.rdf` where Xs are
+replaced by random characters and `default` may be replaced by another profile
+name, if named differently.  The program association will be stored as an RDF
+Description for `urn:scheme:externalApplication:<protocol>` with an NC:path
+containing the application to run.
 
 #### XDG MIME action (Thunderbird > ~4)
 
@@ -74,7 +142,7 @@ The information may be modified and queried using gconftool-2 on the command-lin
 The information can also be queried and modified using a graphical program
 such as `gconf-editor`.
 
-#### prefs.js (Thunderbird - All Versions)
+#### Thunderbird Preferences System (e.g. prefs.js) (Thunderbird - Old Versions?)
 
 In all versions of Thunderbird, the default browser may be determined based on
 the settings in the Thunderbird preferences.  Preferences can be edited by
@@ -101,16 +169,11 @@ permanent by editing the [user.js file](http://kb.mozillazine.org/User.js_file).
 This is not recommended for normal situations but is mentioned here for
 completeness.
 
-#### mimeTypes.rdf (Thunderbird - All Versions?)
-
-Various sources across the web mention changing the default browser in the
-[mimeTypes.rdf file](http://kb.mozillazine.org/MimeTypes.rdf).  This file is
-stored in the profile directory (usually
-`~/.mozilla/thunderbird/XXXXXXXX.default/mimeTypes.rdf` where Xs are replaced
-by random characters and `default` may be replaced by another profile name, if
-named differently) and determines the "Helper Applications" which are used to
-open external content based on the MIME type.  I have not personally seen any
-of the URL pseudo-MIME types appear in this file, but it may be worth checking.
+**Update:** After examining the Thunderbird sources, I am doubtful about
+whether this method is still attempted in recent versions of Thunderbird.
+There are no [references to `network.protocol-handler.app` in the Thunderbird
+sources](http://mxr.mozilla.org/comm-central/search?string=network.protocol-handler.app)
+and I didn't find any code which looks like it accesses these preferences.
 
 ### Proper Documentation
 
@@ -124,3 +187,14 @@ Alternatively, this information should probably be posted on the Thunderbird
 Messaging KB or Mozilla Wiki.  I have not yet had the time to rework this post
 into a suitable format for posting in either location.  If someone would like
 to make the changes, I'd be happy to assist.
+
+### Article Changes
+
+#### 2012-09-01
+
+* Added and clarified lots of information about mimeTypes.rdf and corrected
+  the order in which mimeTypes.rdf is consulted based on input from Raman
+  Gupta.
+* Added a brief discussion of how handlers are determined programmatically
+  with references to the Thunderbird sources.
+* Added a note that the prefs.js method may not be used anymore.
