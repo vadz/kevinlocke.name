@@ -1,6 +1,7 @@
 ---
 layout: post
 date: 2012-09-03 12:53:40-06:00
+updated:  2012-09-07 20:45:23-06:00
 title: Squeryl Transactions Not Committing in Lift
 description: "A quick tip for making sure Squeryl transactions commit when \
 Lift throws flow control exceptions."
@@ -56,15 +57,15 @@ fragment with:
       override def apply[T](f: => T): T = {
         val resultOrExcept = inTransaction {
           try {
-            Left(f)
+            Right(f)
           } catch {
-            case e: LiftFlowOfControlException => Right(e)
+            case e: LiftFlowOfControlException => Left(e)
           }
         }
 
         resultOrExcept match {
-          case Left(result) => result
-          case Right(except) => throw except
+          case Right(result) => result
+          case Left(except) => throw except
         }
       }
     })
@@ -77,3 +78,11 @@ up to the Lift internals.
 
 With this in place, transactions should commit and Lift's control flow
 exceptions should continue to work as expected.  At least, I hope so...
+
+### Article Changes
+
+#### 2012-09-07
+
+* Fixed the code using `Either` to follow the standard convention that `Left`
+  is failure and `Right` is success (as documented in the [scala.Either
+  scaladoc](http://www.scala-lang.org/api/current/index.html#scala.Either)).
