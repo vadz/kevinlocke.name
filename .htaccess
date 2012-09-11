@@ -40,7 +40,8 @@ AddCharset utf-8 .atom
 # Note: IS_SUBREQ is true when MultiViews has redirected
 # FIXME: Is there a way to compare with the original URL here?
 RewriteCond "%{IS_SUBREQ}" "=true"
-RewriteCond "%{REQUEST_FILENAME}" "\.html$"
+RewriteCond "%{REQUEST_FILENAME}" "^(.*)\.html$"
+RewriteCond "%1.xhtml" "-f"
 RewriteCond "%{HTTP:Accept}" "application/xhtml\+xml\s*(?:,|$)"
 RewriteRule "^(.*)\.html$" "/$1.xhtml" [QSA,ENV=NOW_XHTML]
 
