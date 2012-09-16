@@ -1,0 +1,13 @@
+/** Print-only styling applied to all pages.
+ */
+body {
+	padding: 0;
+}
+
+.footer {
+	display: none;
+}
+
+.nav {
+	display: none;
+}
