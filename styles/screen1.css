@@ -176,33 +176,6 @@ object {
 	color: #7d1a8b;
 }
 
-#newsbar {
-	border: 1px solid #dddddd;
-	margin: 5px 0px 5px 0px;
-	background-color: #ffffff;
-}
-
-#newsbar h1 {
-	font-size: large;
-	text-align: center;
-	background: #eeeeee;
-	padding: 2px 2px 4px 2px;
-	margin: 0px 0px 2px 0px;
-}
-
-#newsbar h2 {
-	font-size: small;
-	margin-top: 1em;
-}
-
-#newsbar h1 + h2 {
-	margin-top: 0em;
-}
-
-#newsbar p {
-	font-size: x-small;
-}
-
 .license {
 	color: #000000;
 	background: #ffffff;
