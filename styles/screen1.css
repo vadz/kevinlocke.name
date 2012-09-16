@@ -30,10 +30,6 @@ h1, h2, h3, h4, h5, h6 {
 	padding-bottom: 4px;
 }
 
-h1 {
-	text-align: center;
-}
-
 * + h1, * + h2, * + h3, * + h4, * + h5, * + h6 {
 	margin: 1em 0px 0px 0px;
 }
@@ -42,7 +38,7 @@ h1 + h2, h2 + h3, h3 + h4, h4 + h5, h5 + h6 {
 	margin-top: 0px;
 }
 
-h2:first-child, h3:first-child, h4:first-child, h5:first-child, h6:first-child {
+h1:first-child, h2:first-child, h3:first-child, h4:first-child, h5:first-child, h6:first-child {
 	margin-top: 0px;
 }
 
@@ -76,6 +72,14 @@ img {
 
 object {
 	float: left;
+}
+
+.sitename {
+	display: block;
+	font-family: sans-serif;
+	font-size: xx-large;
+	font-weight: bold;
+	text-align: center;
 }
 
 .textual {
@@ -129,7 +133,7 @@ object {
 	width: 100%;
 }
 
-#navbar h2 {
+#navbar h1 {
 	font-size: large;
 	text-align: center;
 	background: #eeeeee;
@@ -178,7 +182,7 @@ object {
 	background-color: #ffffff;
 }
 
-#newsbar h2 {
+#newsbar h1 {
 	font-size: large;
 	text-align: center;
 	background: #eeeeee;
@@ -186,12 +190,12 @@ object {
 	margin: 0px 0px 2px 0px;
 }
 
-#newsbar h3 {
+#newsbar h2 {
 	font-size: small;
 	margin-top: 1em;
 }
 
-#newsbar h2 + h3 {
+#newsbar h1 + h2 {
 	margin-top: 0em;
 }
 

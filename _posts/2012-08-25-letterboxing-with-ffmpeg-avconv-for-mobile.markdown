@@ -17,7 +17,7 @@ details, this post will develop a command for doing boxing with ffmpeg/avconv.
 
 <!--more-->
 
-### A Quick Note on Terminology
+## A Quick Note on Terminology
 
 For the unfamiliar, ffmpeg is both a command and the name of the project (more
 properly written FFmpeg) which developed the ffmpeg command as well as a
@@ -33,7 +33,7 @@ letterboxing, adding horizontal bars to an image, or pillarboxing, adding
 vertical bars to an image.  From this point forward, either process will
 simply be referred to as "boxing".
 
-### Objective
+## Objective
 
 Why would someone want to box video?  My particular motivation is to convert
 video for use on mobile devices, which often require video to have particular
@@ -43,7 +43,7 @@ it's necessary to either box or stretch the video.  So, I'm boxing it.  More
 generally, any time the aspect of the source video does not match the aspect
 of the desired output, boxing may be necessary.
 
-### Filtering the Video
+## Filtering the Video
 
 Ffmpeg/avconv supports a number of different filters for performing video
 manipulation along with a formula evaluation syntax for configuring them.
@@ -81,7 +81,7 @@ the output and the input in each dimension, as follows:
 Again, `$MAX_WIDTH` and `$MAX_HEIGHT` should be replaced with the desired
 output width and height, or set as variables in a shell script.
 
-### Dealing with Anamorphic Video (Advanced)
+## Dealing with Anamorphic Video (Advanced)
 
 It's possible that the input video is intended to be displayed at a resolution
 which has a different aspect ratio than the source file, called an [anamorphic
@@ -95,7 +95,7 @@ calculation:
 
     scale=iw*sar*min($MAX_WIDTH/(iw*sar)\,$MAX_HEIGHT/ih):ih*min($MAX_WIDTH/(iw*sar)\,$MAX_HEIGHT/ih)
 
-### Putting it Together
+## Putting it Together
 
 With the filters defined above, all that is required is to put them together
 into a complete command.  It is possible to produce H.264 video with AAC audio

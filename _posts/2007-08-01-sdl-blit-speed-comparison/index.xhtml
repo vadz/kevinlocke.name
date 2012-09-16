@@ -18,10 +18,10 @@ a variety of these display methods.</p>
 
 <!--more-->
 
-<h3>Background</h3>
+<h2>Background</h2>
 <!-- What is SDL, what is a blit, what are the meanings of each of the flags 
 -->
-<h4>Motivation</h4>
+<h3>Motivation</h3>
 <p><a href="http://www.libsdl.org/">Simple Directmedia Layer (SDL)</a> is a
 cross-platform multimedia library which has been used in the creation of 
 several games, emulators, and other graphically driven applications.  SDL 
@@ -35,7 +35,7 @@ characteristics of video backends under some of the different sets of
 configuration options available, allowing program authors to make better
 informed decisions about which settings to use in their applications.</p>
 
-<h4>Flags</h4>
+<h3>Flags</h3>
 <p>When a surface is created, the program author may specify a set of flags
 which change the behavior of the surface created.  The image flags tested
 were:</p>
@@ -101,7 +101,7 @@ it does seem to have some effect on the performance (I am not exactly sure why
 and would rather avoid guessing...).</dd>
 </dl>
 
-<h3>Test Setup</h3>
+<h2>Test Setup</h2>
 <p>The test program takes an image and converts to the display format using
 the specified surface flags.  For surfaces with
 <code>SDL_SRCCOLORKEY</code> set, it converts completely transparent pixels
@@ -129,7 +129,7 @@ because it is similar to typical sprites found in 2D games
 (gradients with few colors, alpha around the edge of the images, rounded edges)
 and because it is just a really cute image.</p>
 
-<h4>Test Machine</h4>
+<h3>Test Machine</h3>
 <ul>
   <li>Lenovo/IBM ThinkPad T60p</li>
   <li>Intel Centrino Duo (T2500) @ 2GHz</li>
@@ -143,9 +143,9 @@ and because it is just a really cute image.</p>
   <li>Microsoft DirectX 9.0c</li>
 </ul>
 
-<h3>Results</h3>
+<h2>Results</h2>
 
-<h4>DirectFB</h4>
+<h3>DirectFB</h3>
 <a href="directfb.svg"><object type="image/svg+xml" data="directfb.svg" width="600" height="300"><img src="directfb.png" alt="Graph displaying blit speed for the DirectFB video backend" width="600" height="300" /></object></a>
 <p>The DirectFB video backend is used to display graphics on a Linux
 framebuffer device (the console) using <a href="http://www.directfb.org/">Direct
@@ -175,7 +175,7 @@ surfaces.  DirectFB complained loudly before I added the line to the boot
 configuration.  See the DirectFB documentation for details.</p>
 <br class="enclosefloat" />
 
-<h4>DirectX</h4>
+<h3>DirectX</h3>
 <a href="directx.svg"><object type="image/svg+xml" data="directx.svg" 
 width="600" height="300"><img src="directx.png" alt="Graph displaying blit 
 speed for the DirectX video backend" width="600" height="300" /></object></a>
@@ -196,7 +196,7 @@ other caveat to note is that it is not possible to allocate a hardware surface
 unless the display surface is fullscreen (and a hardware surface, of
 course).</p>
 
-<h4>FBCon</h4>
+<h3>FBCon</h3>
 <a href="fbcon.svg"><object type="image/svg+xml" data="fbcon.svg" width="400" height="300"><img src="fbcon.png" alt="Graph displaying blit speed for the FBCon video backend" width="400" height="300" /></object></a>
 <p>The FBCon video backend provides graphics support for consoles using the
 <a href="http://linux-fbdev.sourceforge.net/">Linux Framebuffer</a>. 
@@ -206,7 +206,7 @@ lock and prevented gathering any test data for these surfaces.  (Note that
 this may be worth checking against before allocating a hardware display surface
 to prevent hard locking a client's machine).</p>
 
-<h4>glSDL</h4>
+<h3>glSDL</h3>
 <a href="glsdl.svg"><object type="image/svg+xml" data="glsdl.svg" width="600" height="300"><img src="glsdl.png" alt="Graph displaying blit speed for the glSDL video backend" width="400" height="300" /></object></a>
 <p>The glSDL video backend stands out in comparison to many of the other
 backends in that it works in concert with another backend to
@@ -235,7 +235,7 @@ appears to be the result of incorrect RGBA ordering in the
 function is used).  Hopefully, I will have the time to fix this in the
 near future...</p>
 
-<h4>SVGAlib</h4>
+<h3>SVGAlib</h3>
 <a href="svgalib.svg"><object type="image/svg+xml" data="svgalib.svg" width="400" height="300"><img src="svgalib.png" alt="Graph displaying blit speed for the SVGAlib video backend" width="400" height="300" /></object></a>
 <p>The SVGAlib video backend provides graphics support for Linux using
 <a href="http://www.svgalib.org/">SVGAlib</a>.   This video backend is not
@@ -246,7 +246,7 @@ for potential end-users of a program using the SVGAlib backend and in addition
 it may affect the scheduling of the test program by the operating system and
 skew the test results (although I am unsure of this).</p>
 
-<h4>WinDIB</h4>
+<h3>WinDIB</h3>
 <a href="windib.svg"><object type="image/svg+xml" data="windib.svg" width="400" height="300"><img src="windib.png" alt="Graph displaying blit speed for the WinDIB video backend" width="400" height="300" /></object></a>
 <p>The WinDIB video backend provides graphics support for Microsoft Windows&#0174;
 platforms using
@@ -255,19 +255,19 @@ platforms using
 not support hardware surfaces and therefore those results are omitted from
 the graph.</p>
 
-<h4>X11</h4>
+<h3>X11</h3>
 <a href="x11.svg"><object type="image/svg+xml" data="x11.svg" width="400" height="300"><img src="x11.png" alt="Graph displaying blit speed for the X11 video backend" width="400" height="300" /></object></a>
 <p>The X11 video backend provides graphics support for the
 <a href="http://x.org">X Window System</a>.  This video backend does not
 support hardware surfaces and therefore those results have been omitted from
 the graph.</p>
 
-<h4>Notable Missing Backends</h4>
+<h3>Notable Missing Backends</h3>
 <p>Unfortunately, the test box does not support the
 <abbr title="Direct Graphics Architecture">DGA</abbr> extension, which prevents
 testing of the DGA video backend.</p>
 
-<h3>Conclusions</h3>
+<h2>Conclusions</h2>
 <p>Across all of the graphics backends the use of RLE acceleration showed a
 significant speed increase for color keyed images.  Interestingly, the use
 of color keys alone shows a highly dramatic decrease in framerate as compared
@@ -291,7 +291,7 @@ and see what works best with your program.  As always, take it all with
 a grain of salt and go with practical experience.  Best of luck!</p>
 
 <hr />
-<h3>References/More Information</h3>
+<h2>References/More Information</h2>
 <ol style="footnotes">
 <li><a href="http://www.libsdl.org/cgi/docwiki.cgi/SDL_5fSurface">SDL API
 Documentation for <code>SDL_Surface</code></a></li>

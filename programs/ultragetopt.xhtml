@@ -4,9 +4,9 @@ title: UltraGetopt
 description: "A flexible, cross-platform, library for command-line argument \
 processing."
 ---
-<h2>UltraGetopt</h2>
+<h1>UltraGetopt</h1>
 
-<h3>Description</h3>
+<h2>Description</h2>
 <p>UltraGetopt is a versatile and customizable implementation of getopt() with
 support for many common extensions, MS-DOS formatted option strings, and much
 more.  It can function as a drop-in replacement for getopt() on systems
@@ -14,7 +14,7 @@ with or without existing vendor-provided implementations and also as a separate
 co-existing function.</p>
 
 <!-- Screenshot, if appropriate -->
-<h3>Features</h3>
+<h2>Features</h2>
 <ol>
 <li>Supports MS-DOS formatted option strings (e.g. <code>/option:arg</code>)
 </li>
@@ -25,21 +25,21 @@ as appropriate</li>
 <li>Supports many runtime-configurable behaviors (described below)</li>
 </ol>
 
-<h3>Development Status</h3>
+<h2>Development Status</h2>
 <p>Actively being developed.  UltraGetopt supports nearly all of the
 functionality that I am looking for in a getopt implementation, so development
 is mostly minor bug fixes, tweaks, and minor additions.  If you have
 suggestions for a feature (or the desire to implement it), don't hesitate to
 let me know about it.</p>
 
-<h3>License</h3>
+<h2>License</h2>
 <p><a href="http://www.opensource.org/licenses/mit-license.php">MIT</a></p>
 
-<h3>Supported Systems</h3>
+<h2>Supported Systems</h2>
 <p>Known to work on Linux, {Net,Free}BSD, and Windows.   Should work on
 any system (bug reports welcome).</p>
 
-<h3>Dependencies</h3>
+<h2>Dependencies</h2>
 <ul>
 <li>Depends on the <code>strcasecmp</code> and <code>strncasecmp</code>
 functions.  For systems which provide <code>_strnicmp</code> define
@@ -49,11 +49,11 @@ included into the build system for projects UltraGetopt being targeted at
 systems lacking them.</li>
 </ul>
 
-<h3>Installing</h3>
+<h2>Installing</h2>
 <ol class="sectioned" style="counter-reset: sectioneditem">
 <li><a href="ultragetopt-0.6.0.tar.gz">Download it</a></li>
 </ol>
-<h4>To build into an existing project</h4>
+<h3>To build into an existing project</h3>
 <ol class="sectioned">
 <li>Include <span class="filename">ultragetopt.c</span> in the build system for
 your project</li>
@@ -62,26 +62,26 @@ vendor-provided getopt headers and define <code>ULTRAGETOPT_REPLACE_GETOPT</code
 if you would like the ultragetopt*() functions to replace vendor-provided
 getopt*() functions.</li>
 </ol>
-<h4>To create a library for UltraGetopt with *nix build tools</h4>
+<h3>To create a library for UltraGetopt with *nix build tools</h3>
 <ol class="sectioned" style="counter-reset: sectioneditem 1">
 <li>Run <code>./configure</code></li>
 <li>Run <code>make</code></li>
 <li>Run <code>make install</code> with appropriate privelages</li>
 </ol>
-<h4>To create a library for UltraGetopt with Visual Studio</h4>
+<h3>To create a library for UltraGetopt with Visual Studio</h3>
 <ol class="sectioned" style="counter-reset: sectioneditem 1">
 <li>Open <span class="filename">ultragetopt.sln</span> in Visual Studio</li>
 <li>Set the type to Release Static or Release Shared as appropriate</li>
 <li>Run Build Solution</li>
 </ol>
 
-<h3>Configuration</h3>
+<h2>Configuration</h2>
 <p>Configuration of UltraGetopt is accomplished by both compiletime defines
 when building <span class="filename">ultragetopt.c</span> and by runtime
 options passed to the <code>ultragetopt_tunable()</code> function.  These
 options are documented below.</p>
 
-<h4>Meta-options</h4>
+<h3>Meta-options</h3>
 <p>These options will define the options below to appropriate values to mimic
 the functionality of other existing getopt suites.</p>
 <dl class="defineslist">
@@ -95,7 +95,7 @@ the functionality of other existing getopt suites.</p>
 <dd>Behave like POSIX definition of getopt()</dd>
 </dl>
 
-<h4>Error Message Options</h4>
+<h3>Error Message Options</h3>
 <p>These options change the formatting of the error messages produced by
 ultragetopt.</p>
 <dl class="defineslist">
@@ -107,7 +107,7 @@ ultragetopt.</p>
 <dd>Print error messages matching GNU getopt</dd>
 </dl>
 
-<h4>Compiletime-only Behavior Options</h4>
+<h3>Compiletime-only Behavior Options</h3>
 <p>These options change the default behavior of getopt() and do not have a
 corresponding runtime flag (although they may be affected by other
 arguments).</p>
@@ -123,7 +123,7 @@ supported in *_long*() functions.</dd>
 <dd>Do not support --option=value syntax</dd>
 </dl>
 
-<h4>Runtime-selectable Options</h4>
+<h3>Runtime-selectable Options</h3>
 <p>These options can all be selected by passing their value as a flag to the
 ultragetopt_tunable() function, where ULTRAGETOPT_ is replaced by UGO_ for
 compactness of the source.  Defining these values sets the default state of
@@ -154,7 +154,7 @@ argument file rather than -o without an argument and non-option argument
 SUS/POSIX (results in "--" being one of the non-option arguments)</dd>
 </dl>
 
-<h3>Known Bugs</h3>
+<h2>Known Bugs</h2>
 <ul>
 <li>The option permuting done by UltraGetopt differs from other getopt
 implementations that permute arguments on the next call after they were
@@ -164,7 +164,7 @@ from other implementations, although <code>argv[optind]</code> will be the
 same.</li>
 </ul>
 
-<h3>Planned Features</h3>
+<h2>Planned Features</h2>
 <ul>
 <li>More testing for incompatibilities with existing getopt implementations</li>
 <li>More features, as they are thought up</li>

@@ -3,9 +3,9 @@ layout: page
 title: PIV - Perl Image Viewer
 description: "A no-frills image viewer originally written in Perl."
 ---
-<h2>PIV - Perl Image Viewer</h2>
+<h1>PIV - Perl Image Viewer</h1>
 
-<h3>Description</h3>
+<h2>Description</h2>
 <p>PIV is a no-frills image viewer built using
 <a href="http://gtk2-perl.sourceforge.net/">GTK2-Perl</a>.  It was designed
 as a replacement for <a href="http://www.klografx.net/qiv/">qiv</a>, after a
@@ -14,7 +14,7 @@ first program of any size that I have written in Perl - so it is a bit of
 a learning experiment.
 </p>
 
-<h3>Features</h3>
+<h2>Features</h2>
 <ul>
 <li>Fullscreen and windowed mode</li>
 <li>Slideshow mode with variable delay</li>
@@ -24,7 +24,7 @@ a learning experiment.
 <a href="http://developer.gnome.org/arch/imaging/gdkpixbuf.html">GdkPixbuf</a></li>
 </ul>
 
-<h3>Development Status</h3>
+<h2>Development Status</h2>
 <p>Still a work in progress.  PIV is lacking several features and a good
 deal of polish.  Although I am happy with where it is, there are a lot
 more details that need work and I am sporadically attempting to deal with
@@ -32,13 +32,13 @@ them.  As with all my projects, feature suggestions, patches, and all
 other contributions are welcome.  If you are interested in contributing,
 just let me know what you are working on to prevent duplication.</p>
 
-<h3>License</h3>
+<h2>License</h2>
 <p><a href="http://www.opensource.org/licenses/mit-license.php">MIT</a></p>
 
-<h3>Supported Systems</h3>
+<h2>Supported Systems</h2>
 <p>Should work on any system with Perl and the GTK2-Perl library.</p>
 
-<h3>Dependencies</h3>
+<h2>Dependencies</h2>
 <ul>
 <li><a href="http://www.perl.org/get.html">Perl</a></li>
 <li><a href="http://gtk2-perl.sourceforge.net/">GTK2-Perl</a> 1.140 or
@@ -46,7 +46,7 @@ higher</li>
 <li><a href="http://search.cpan.org/~chamas/Tie-Cache-0.17/">Tie::Cache</a> module</li>
 </ul>
 
-<h3>Installing</h3>
+<h2>Installing</h2>
 <ol>
 <li>Download and install Tie::Cache from CPAN (<code>perl -MCPAN -e 'install
        Tie::Cache'</code> or <code>apt-get install libtie-cache-perl</code> on
@@ -56,7 +56,7 @@ higher</li>
 <li>Run it.</li>
 </ol>
 
-<h3>Documentation</h3>
+<h2>Documentation</h2>
 <p>PIV has user documentation in the form of
 <a href="http://perldoc.perl.org/perlpod.html"><abbr title="Plain Old Documentation">POD</abbr></a>,
 which can be converted into a manual page using
@@ -65,20 +65,20 @@ manual page simply run <code>pod2man piv | man -l -</code> (or, if your
 viewer does not like reading from stdin, <code>pod2man bin/piv > piv.1 ; man
 piv.1</code>).</p>
 
-<h3>Configuration</h3>
+<h2>Configuration</h2>
 <p>Configuration file support is on the TODO list, but none is currently
 supported.  Key mappings can be changed by editing the hash at the top
 of piv (which is pretty intuitive even to those new to Perl).  All other
 options can be changed at runtime using the control keys described in the
 manual page.</p>
 
-<h3>Known Bugs</h3>
+<h2>Known Bugs</h2>
 <ul>
 <li>The slide delay status message does not fade out at the correct time and
 instead fades out on the next redraw.</li>
 </ul>
 
-<h3>Planned Features</h3>
+<h2>Planned Features</h2>
 <ul>
 <li>Configuration file support</li>
 <li>Support for running commands from inside the viewer, like qiv</li>

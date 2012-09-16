@@ -14,7 +14,7 @@ encountering the same error, here are the details:
 
 <!--more-->
 
-### Background
+## Background
 
 After reading the
 [Squeryl-Record](https://www.assembla.com/wiki/show/liftweb/Squeryl)
@@ -46,7 +46,7 @@ following exception and stack trace (excerpted):
 Why the OptionalStringField class (which is part of record) is missing a
 constructor expected by Squeryl was beyond me.  Something odd was going on.
 
-### Finding the Source
+## Finding the Source
 
 First, I tried copying my code into the (working) examples and running it.
 Everything worked without issue.  The model code was not the issue.
@@ -58,7 +58,7 @@ transaction setup (in my application's Lift Boot class) were not being
 called because Lift *continues after Boot throws an exception*, which was
 occurring before the initialization code was reached.  Ugh!
 
-### Conclusion
+## Conclusion
 
 Takeaways:
 

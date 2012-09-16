@@ -8,12 +8,12 @@ alternates:
     href: feeds/all
     title: Feed of all posts to Eureka!
 ---
-<h2>Eureka!</h2>
+<h1>Eureka!</h1>
 <span class="subtitle">A blog of minor discoveries and useful tips from Kevin 
 Locke.</span>
 
 {% for post in site.posts %}
-<h3><a href="{{ post.url }}">{{ post.title | xml_escape }}</a></h3>
+<h2><a href="{{ post.url }}">{{ post.title | xml_escape }}</a></h2>
 <span class="postdate">Posted {{ post.date | date: "%B %d, %Y at %H:%M %p %Z" }}</span>
 by <span class="postauthor">Kevin Locke</span>{% capture datestr %}{{ post.date | date: "%x%H" }}{% endcapture %}{% capture mtimestr %}{{ post.mtime | date: "%x%H" }}{% endcapture %}{% if datestr != mtimestr %}<br />
 <span class="postdate">Updated {{ post.mtime | date: "%B %d, %Y at %H:%M %p %Z" }}</span>{% endif %}

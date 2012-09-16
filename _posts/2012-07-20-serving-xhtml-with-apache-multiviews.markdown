@@ -14,7 +14,7 @@ of how this server is configured to serve HTML and XHTML content.
 
 <!--more-->
 
-### When to use MultiViews
+## When to use MultiViews
 
 The [MultiViews](http://httpd.apache.org/docs/current/mod/mod_negotiation.html#multiviews)
 option, and the Apache
@@ -36,7 +36,7 @@ to match on `%{HTTP:Accept}` followed by a
 with the `T` flag to set the returned type.  Neither of these techniques will
 be discussed further in this article.
 
-### Setup Static Content
+## Setup Static Content
 
 For each page that can be served as both HTML and XHTML, simply use the same
 filename for each type with a differing file extension (`.html` for text/html
@@ -45,7 +45,7 @@ versions are intended to be identical, it may be possible to generate the HTML
 version from the XHTML version using XSLT (as is done for this website using
 [this XSLT](https://github.com/kevinoid/kevinlocke.name/blob/master/_build/xhtmltohtml.xsl)).
 
-### Configure MultiViews
+## Configure MultiViews
 
 With the content in place, simply enable the MultiViews option in the Apache
 configuration (e.g. a `.htaccess` file at the site root).  Also, in order to
@@ -71,7 +71,7 @@ documentation (this will be important later).
 Great!  At this point, everything should be working as intended.  Mission
 accomplished.
 
-### Serving XHTML in Preference to HTML
+## Serving XHTML in Preference to HTML
 
 But wait!  You may have noticed that HTML is being served to browsers which
 support XHTML.  What's going on?
@@ -85,7 +85,7 @@ algorithm will return whichever variant has the smallest content length
 structurally identical, this will be HTML (because of the namespace declaration
 and extra closing tags).  So what do we do?
 
-#### Using Server Quality Values
+### Using Server Quality Values
 
 The recommended solution is to set the quality-of-source factor (used in step 1
 of the content negotiation algorithm), which indicates the relative quality of
@@ -113,7 +113,7 @@ mailing lists, but it is still not fixed.  I am not aware of any browsers which
 have problems when the `qs` parameter is present, which makes this
 implementation at least tolerable.
 
-#### Using Rewrite Rules
+### Using Rewrite Rules
 
 Personally, if I am going to the trouble of serving XHTML as
 application/xhtml+xml, the last thing I want to do is violate the HTTP spec to
@@ -174,7 +174,7 @@ follows:
 
     Header always edit "Content-Location" "\.html$" ".xhtml" env=REDIRECT_NOW_XHTML
 
-### Final Thoughts
+## Final Thoughts
 
 With the above configuration fragments it is possible to serve a variety of
 content using MultiViews for content negotiation and serving XHTML in

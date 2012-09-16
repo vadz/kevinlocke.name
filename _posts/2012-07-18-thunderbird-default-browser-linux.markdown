@@ -17,7 +17,7 @@ browser in current versions of Thunderbird.
 
 <!--more-->
 
-### How Thunderbird Chooses a Browser
+## How Thunderbird Chooses a Browser
 
 Thunderbird has a variety of methods available for determining which browser to
 use.  The methods are attempted one at a time until a browser is found.
@@ -52,7 +52,7 @@ observed is that each of the following methods are attempted, one at a time,
 until one of them is successful.  The methods that Thunderbird attempts are
 (in order):
 
-#### mimeTypes.rdf (Thunderbird - All Versions?)
+### mimeTypes.rdf (Thunderbird - All Versions?)
 
 The [mimeTypes.rdf file](http://kb.mozillazine.org/MimeTypes.rdf) contains
 information for the "Helper Applications" which are used to open external
@@ -90,7 +90,7 @@ name, if named differently.  The program association will be stored as an RDF
 Description for `urn:scheme:externalApplication:<protocol>` with an NC:path
 containing the application to run.
 
-#### XDG MIME action (Thunderbird > ~4)
+### XDG MIME action (Thunderbird > ~4)
 
 The default browser is chosen based on the information in the [XDG MIME
 database](http://www.freedesktop.org/wiki/Specifications/shared-mime-info-spec),
@@ -116,7 +116,7 @@ follows:
     [Default Applications]
     x-scheme-handler/http=firefox.desktop
 
-#### Gconf (Thunderbird > ~3 with GNOME)
+### Gconf (Thunderbird > ~3 with GNOME)
 
 When running in a GNOME environment (if the GNOME libraries are present),
 Thunderbird attempts to determine the default browser based on the preferences
@@ -142,7 +142,7 @@ The information may be modified and queried using gconftool-2 on the command-lin
 The information can also be queried and modified using a graphical program
 such as `gconf-editor`.
 
-#### Thunderbird Preferences System (e.g. prefs.js) (Thunderbird - Old Versions?)
+### Thunderbird Preferences System (e.g. prefs.js) (Thunderbird - Old Versions?)
 
 In all versions of Thunderbird, the default browser may be determined based on
 the settings in the Thunderbird preferences.  Preferences can be edited by
@@ -175,7 +175,7 @@ There are no [references to `network.protocol-handler.app` in the Thunderbird
 sources](http://mxr.mozilla.org/comm-central/search?string=network.protocol-handler.app)
 and I didn't find any code which looks like it accesses these preferences.
 
-### Proper Documentation
+## Proper Documentation
 
 The process of changing the default browser is documented on the
 [mozillaZine Wiki](http://kb.mozillazine.org/Default_browser#Setting_the_browser_that_opens_in_Thunderbird_-_Linux).
@@ -188,9 +188,9 @@ Messaging KB or Mozilla Wiki.  I have not yet had the time to rework this post
 into a suitable format for posting in either location.  If someone would like
 to make the changes, I'd be happy to assist.
 
-### Article Changes
+## Article Changes
 
-#### 2012-09-01
+### 2012-09-01
 
 * Added and clarified lots of information about mimeTypes.rdf and corrected
   the order in which mimeTypes.rdf is consulted based on input from Raman

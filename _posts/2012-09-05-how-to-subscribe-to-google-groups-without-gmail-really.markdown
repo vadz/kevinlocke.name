@@ -17,7 +17,7 @@ address rather than the address with which you subscribed.
 
 <!--more-->
 
-### The Story
+## The Story
 
 Recently I have been tinkering around with the [Lift](http://liftweb.net/) web
 framework and decided to subscribe to their [mailing
@@ -48,7 +48,7 @@ set as the backup/alternate email address for GMail, in case of the need to do
 a password reset.  I checked, and indeed it was.  That explains how Google
 associated the two accounts.
 
-### The Workaround
+## The Workaround
 
 The easiest method that I could find to prevent Google Groups from sending
 emails to a GMail account is to make sure that the email address which is used

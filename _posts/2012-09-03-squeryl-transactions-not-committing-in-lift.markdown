@@ -15,7 +15,7 @@ on how to avoid the issue.
 
 <!--more-->
 
-### The Setup
+## The Setup
 
 [As noted
 before](/bits/2012/08/31/bonecp-0.8.0-alpha1-unusable-with-lift-squeryl-record),
@@ -32,7 +32,7 @@ I'm using a simple transaction-per-request strategy, implemented as follows:
 Although this code fragment appears in most of the examples on the web, it has
 at least one significant flaw.
 
-### The Symptoms
+## The Symptoms
 
 The flaw with the above code fragment is that it does not handle Lift's flow
 control exceptions properly.  In retrospect, the behavior is very clear and
@@ -48,7 +48,7 @@ short-circuited responses (e.g. redirects) by throwing a
 `LiftFlowOfControlException`.  Therefore, whenever a response is redirected
 after database changes are made, those changes will be rolled back.
 
-### The Solution
+## The Solution
 
 The solution that I am using is reasonably simple.  Replace the above code
 fragment with:
@@ -79,9 +79,9 @@ up to the Lift internals.
 With this in place, transactions should commit and Lift's control flow
 exceptions should continue to work as expected.  At least, I hope so...
 
-### Article Changes
+## Article Changes
 
-#### 2012-09-07
+### 2012-09-07
 
 * Fixed the code using `Either` to follow the standard convention that `Left`
   is failure and `Right` is success (as documented in the [scala.Either

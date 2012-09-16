@@ -4,9 +4,9 @@ title: DuelTracker WoW AddOn
 description: "A World of Warcraft AddOn for tracking the results of duels, \
 both on the user's character and others."
 ---
-<h2>DuelTracker</h2>
+<h1>DuelTracker</h1>
 
-<h3>Description</h3>
+<h2>Description</h2>
 <p>DuelTracker is a <a href="http://www.worldofwarcraft.com/">World of 
 Warcraft</a> AddOn which collects information about duels that the user 
 observes.  Specifically, it collects information about the names, 
@@ -18,7 +18,7 @@ also export statistics and records in
 <a href="http://en.wikipedia.org/wiki/Comma-separated_values">CSV</a> format
 for use by other programs.</p>
 
-<h3>Features</h3>
+<h2>Features</h2>
 <ol>
 <li>Unobtrusive operation (unnoticeable under most circumstances, configurable)</li>
 <li>Supports multiple mechanisms of gathering information (from who queries
@@ -27,27 +27,27 @@ and optionally targeting)</li>
 <li>Supports export to CSV formats (requires Lua interpreter)</li>
 </ol>
 
-<h3>Development Status</h3>
+<h2>Development Status</h2>
 <p>Usable, but lacking features.  I have not been playing WoW much lately,
 and for that reason, I haven't put much effort into DuelTracker for a while. 
 Therefore, I encourage anyone interested in developing it further to go for it
 and feel free to send me any development questions.</p>
 
-<h3>License</h3>
+<h2>License</h2>
 <p><a href="http://www.opensource.org/licenses/mit-license.php">MIT/Expat</a></p>
 
-<h3>Supported Systems</h3>
+<h2>Supported Systems</h2>
 <ul>
 <li>Any system running World of Warcraft.</li>
 </ul>
 
-<h3>Dependencies</h3>
+<h2>Dependencies</h2>
 <ul>
 <li>A <a href="http://luabinaries.luaforge.net/">Lua interpreter</a> required 
 for exporting to CSV.</li>
 </ul>
 
-<h3>Installing</h3>
+<h2>Installing</h2>
 <ol>
 <li><a href="dueltracker-004.zip">Download it</a></li>
 <li>Unzip it into the World of Warcraft Interface AddOns directory
@@ -56,7 +56,7 @@ for exporting to CSV.</li>
 on the AddOns button from the Character Selection Screen</li>
 </ol>
 
-<h3>Example Usage</h3>
+<h2>Example Usage</h2>
 <ul>
 <li>Type <code>/dueltracker help</code> in the chat window for a list of 
 possible commands.</li>
@@ -70,14 +70,14 @@ which is configured to respond to whispers for information, to get the
 statistics for the player named Gandalf from that player's records.</li>
 </ul>
 
-<h3>Configuration</h3>
+<h2>Configuration</h2>
 <p>DuelTracker can be configured by typing <code>/dueltracker config [option 
 value]</code> into the chat window.  This will set <em>option</em> to
 <em>value</em>.  For a list of available configuration options, type 
 <code>/dueltracker config</code>.  A complete explanation of the options
 is provided in the README.txt file.</p>
 
-<h3>Known Bugs</h3>
+<h2>Known Bugs</h2>
 <p>If the user sends a who request at the same time that DuelTracker does
 the user will not see any results from their query.  This is currently 
 minimized as much as possible by using a player information cache and by 
@@ -85,7 +85,7 @@ limiting the time that the event is disconnected as much as possible.
 The user may also configure DuelTracker to use targeting for gathering 
 information which will further reduce the appearance of this bug.</p>
 
-<h3>Planned Features</h3>
+<h2>Planned Features</h2>
 <ul>
 <li>Synchronization between players (timestamping already in place)</li>
 <li>Improve resolution of timestamping using system clock and OnUpdate</li>
