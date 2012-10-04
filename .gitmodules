@@ -1,0 +1,6 @@
+[submodule "_plugins/jekyll-highlight-file"]
+	path = _plugins/jekyll-highlight-file
+	url = git://github.com/kevinoid/jekyll-highlight-file.git
+[submodule "_plugins/content-with-post"]
+	path = _plugins/content-with-post
+	url = git://gist.github.com/3131752.git
