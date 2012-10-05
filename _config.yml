@@ -1,4 +1,6 @@
+markdown: kramdown
 permalink: /bits/:year/:month/:day/:title/
+pygments: true
 url:  http://kevinlocke.name
 
 # vi: set sts=2 sw=2 et :
