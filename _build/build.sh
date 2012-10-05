@@ -16,6 +16,9 @@ for FILE in $(find _site/bits -name '*.html') ; do
     mv "$FILE" "${FILE%.html}.xhtml"
 done
 
+# Check that XHTML files are DTD valid
+find _site -name '*.xhtml' | xargs xmllint --nonet --noout --valid
+
 # Generate .html versions of .xhtml pages
 for FILE in $(find _site -name '*.xhtml') ; do
     xsltproc --nodtdattr -o "${FILE%.xhtml}.html" _build/xhtmltohtml.xsl "$FILE"
