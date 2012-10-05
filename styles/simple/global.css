@@ -105,6 +105,22 @@ object {
 	margin: 0% 1% 0% 0%;
 }
 
+.highlight {
+	border: thin solid gray;
+	max-height: 15em;
+	overflow: auto;
+}
+
+.highlight-git-host-footer {
+	border: thin solid gray;
+	border-top-style: none;
+	padding: 0.5ex;
+}
+
+.highlight-git-file-raw {
+	float: right;
+}
+
 .nav {
 	text-align: center;
 }
