@@ -33,7 +33,7 @@
       <email>kevin@kevinlocke.name</email>
       <uri>http://kevinlocke.name/</uri>
     </author>
-    <content type="xhtml"><div xmlns="http://www.w3.org/1999/xhtml">
+    <content type="xhtml"><div xmlns="http://www.w3.org/1999/xhtml" xml:base="http://kevinlocke.name{{ post.url }}">
       {{ post.content }}
     </div></content>
   </entry>
