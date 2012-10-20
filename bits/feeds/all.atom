@@ -23,8 +23,8 @@
 
   {% for post in site.posts %}
   <entry>
-    <id>http://kevinlocke.name/bits{{ post.id }}</id>
-    <link rel="alternate" type="text/html" href="http://kevinlocke.name/bits{{ post.url }}"/>
+    <id>http://kevinlocke.name{{ post.id }}</id>
+    <link rel="alternate" type="text/html" href="http://kevinlocke.name{{ post.url }}"/>
     <title>{{ post.title | xml_escape }}</title>
     <published>{{ post.date | date_to_xmlschema }}</published>
     <updated>{% if post.updated %}{{ post.updated | date_to_xmlschema }}{% else %}{{ post.date | date_to_xmlschema }}{% endif%}</updated>
