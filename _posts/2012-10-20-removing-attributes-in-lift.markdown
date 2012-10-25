@@ -1,6 +1,7 @@
 ---
 layout: post
 date: 2012-10-20 15:05:22-06:00
+updated: 2012-10-24 20:59:54-06:00
 title: Removing Attributes with Lift CSS Selector Transforms
 description: "A brief discussion of how to, and how not to, remove attributes \
 from HTML elements using Lift's CSS Selector Transforms."
@@ -125,3 +126,46 @@ chained rather than combined they behave as expected.  So the previous
 {% endhighlight %}
 
 Which does behave as expected.
+
+## Disabling Attribute Merging
+
+In Lift 2.5-M1 and later there is an addition to the CSS Selector Transform
+syntax which [disables attribute
+merging](https://groups.google.com/d/msg/liftweb/sCNCVcjOZwo/kH9pNurlRKsJ).
+Appending `"!!"` to the outermost selector will disable attribute merging,
+which allows our original example (or any other nested selectors) to modify
+attributes at will:
+
+{% highlight scala %}
+// WARNING:  Won't compile in 2.5-M1 or later
+("#notice1 !!" #> { n => n } & "#notice1 [class!]" #> "important")(html)
+{% endhighlight %}
+
+Whoops!  That doesn't work, for 2 reasons.  First, `n` needs a declared type.
+Second, the design of the new CSS Type Classes in 2.5 mean that the `html`
+parameter is interpreted as the implicit `ComputeTransformRules` parameter of
+the `#>` method of `ToCssBindPromoter` rather than the parameter of the
+`apply` method of `CssSel`.  These problems can be fixed as follows:
+
+{% highlight scala %}
+// Works in 2.5-M1 and later
+("#notice1 !!" #> { n: NodeSeq => n } & "#notice1 [class!]" #> "important").apply(html)
+{% endhighlight %}
+
+However, this syntax does not appear to affect function transforms, so the
+following code still does not work in 2.5-M1:
+
+{% highlight scala %}
+// WARNING:  Still doesn't work in 2.5-M1
+("#notice1 !!" #> { n: NodeSeq =>
+  val e = n.asInstanceOf[Elem];
+  e.copy(attributes = e.attributes.remove("class"))
+}).apply(html)
+{% endhighlight %}
+
+## Article Changes
+
+### 2012-10-24
+
+* Added "Disabling Attribute Merging" section with information about Lift
+  2.5-M1 and later.
