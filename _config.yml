@@ -1,3 +1,4 @@
+future: false
 markdown: kramdown
 permalink: /bits/:year/:month/:day/:title/
 pygments: true
