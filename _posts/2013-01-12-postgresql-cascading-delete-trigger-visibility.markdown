@@ -8,10 +8,11 @@ tags: [ postgresql sql ]
 ---
 If a delete trigger is fired on a table due to an `ON DELETE CASCADE` action,
 will the trigger see the rows in the parent table which triggered the cascade?
-Does it matter if the trigger is a "before" or an "after" trigger?  The answer
-to these questions was not immediately obvious to me, and my half-minute of
-searching didn't find a clear answer, so I have written this post to remind
-myself and others what happens in PostgreSQL 9.1.
+Will a trigger on the originating table see rows in the child tables?  Does it
+matter if the trigger is a "before" or an "after" trigger?  The answer to these
+questions was not immediately obvious to me, and my half-minute of searching
+didn't find a clear answer, so I have written this post to remind myself and
+others what happens in PostgreSQL 9.1.
 
 <!--more-->
 
@@ -22,7 +23,7 @@ creates a parent table, child table, results table, and a trigger which
 fires on both the parent and child to record whether the parent row being
 deleted is present in the parent table.
 
-{% highlight scala %}
+{% highlight sql %}
 CREATE TABLE parents (
     parent_id INTEGER NOT NULL PRIMARY KEY
 );
@@ -38,13 +39,19 @@ CREATE TABLE results (
     result_id SERIAL PRIMARY KEY,
     table_name VARCHAR(10) NOT NULL,
     trigger_when VARCHAR(10) NOT NULL,
-    parent_present BOOLEAN NOT NULL
+    parent_present BOOLEAN NOT NULL,
+    children_present INTEGER NOT NULL
 );
 
 CREATE OR REPLACE FUNCTION report_parent_id() RETURNS TRIGGER AS $$
 BEGIN
-    INSERT INTO results (table_name, trigger_when, parent_present)
-    VALUES (TG_TABLE_NAME, TG_WHEN, EXISTS (SELECT 1 FROM parents WHERE parent_id = OLD.parent_id));
+    INSERT INTO results (table_name, trigger_when, parent_present, children_present)
+    VALUES (
+	TG_TABLE_NAME,
+	TG_WHEN,
+	EXISTS (SELECT 1 FROM parents WHERE parent_id = OLD.parent_id),
+	(SELECT COUNT(*) FROM children WHERE parent_id = OLD.parent_id)
+    );
 
     RETURN OLD;
 END; $$ LANGUAGE plpgsql;
@@ -64,6 +71,7 @@ FOR EACH ROW EXECUTE PROCEDURE report_parent_id();
 
 INSERT INTO parents (parent_id) VALUES (1);
 INSERT INTO children (child_id, parent_id) VALUES (1, 1);
+INSERT INTO children (child_id, parent_id) VALUES (2, 1);
 DELETE FROM parents;
 
 SELECT * FROM results;
@@ -73,6 +81,8 @@ SELECT * FROM results;
 
 Ok, here's the answer:  The parent row is not visible from either before or
 after triggers on the child table.  It is visible in the before trigger on the
-parent table but not the after trigger (as expected/documented).  Which changes
-are visible during cascading updates is left as an exercise for the interested
-reader.
+parent table but not the after trigger (as expected/documented).  The child
+rows are visible in all before triggers (showing decreasing numbers in the
+child trigger as child rows are deleted, as expected/documented) and no after
+triggers  Which changes are visible during cascading updates is left as an
+exercise for the interested reader.
