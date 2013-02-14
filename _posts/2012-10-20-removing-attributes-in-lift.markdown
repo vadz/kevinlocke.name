@@ -1,7 +1,7 @@
 ---
 layout: post
 date: 2012-10-20 15:05:22-06:00
-updated: 2012-10-24 20:59:54-06:00
+updated: 2012-12-13 00:19:34-07:00
 title: Removing Attributes with Lift CSS Selector Transforms
 description: "A brief discussion of how to, and how not to, remove attributes \
 from HTML elements using Lift's CSS Selector Transforms."
@@ -152,11 +152,13 @@ the `#>` method of `ToCssBindPromoter` rather than the parameter of the
 ("#notice1 !!" #> { n: NodeSeq => n } & "#notice1 [class!]" #> "important").apply(html)
 {% endhighlight %}
 
-However, this syntax does not appear to affect function transforms, so the
-following code still does not work in 2.5-M1:
+However, this syntax does not work if all of the classes are removed:
 
 {% highlight scala %}
-// WARNING:  Still doesn't work in 2.5-M1
+// WARNING:  Doesn't work in 2.5-M1 (won't remove either class)
+("#notice1 !!" #> { n: NodeSeq => n } & "#notice1 [class!]" #> List("admonition", "important")).apply(html)
+
+// WARNING:  Also doesn't work (for the same reason)
 ("#notice1 !!" #> { n: NodeSeq =>
   val e = n.asInstanceOf[Elem];
   e.copy(attributes = e.attributes.remove("class"))
@@ -169,3 +171,7 @@ following code still does not work in 2.5-M1:
 
 * Added "Disabling Attribute Merging" section with information about Lift
   2.5-M1 and later.
+
+### 2012-12-13
+
+* Added note that removing all classes does not work with the `"!!"` syntax.
