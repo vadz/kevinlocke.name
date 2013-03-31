@@ -4,6 +4,16 @@ body {
 	padding: 0;
 }
 
+#container {
+	max-width: none;
+	-moz-column-width: 40ex;
+	-webkit-column-width: 40ex;
+	column-width: 40ex;
+	-moz-column-gap: 4em;
+	-webkit-column-gap: 4em;
+	column-gap: 4em;
+}
+
 .footer {
 	display: none;
 }

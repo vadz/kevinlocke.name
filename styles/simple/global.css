@@ -90,6 +90,11 @@ object {
 	font-size: small;
 }
 
+#container {
+	max-width: 80ex;
+	margin: 0 auto;
+}
+
 #footer {
 	clear: both;
 	width: 90%;
