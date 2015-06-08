@@ -106,6 +106,10 @@ xdg-mime command-line tool as follows:
     # Set default program for HTTP URLs to Firefox
     xdg-mime default firefox.desktop x-scheme-handler/http
 
+To find the .desktop file for your desired browser, look in
+`/usr/share/applications` (for system-wide applications) or
+`~/.local/share/applications` (for user applications).
+
 If xdg-mime is not available, the defaults can be changed by editing
 `~/.local/share/applications/mimeapps.list` as described in the
 [XDG MIME actions spec](http://www.freedesktop.org/wiki/Specifications/mime-actions-spec#User-specified_application_ordering)
