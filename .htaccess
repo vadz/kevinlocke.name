@@ -9,6 +9,10 @@ ErrorDocument 403 /403
 ErrorDocument 404 /404
 ErrorDocument 500 /500
 
+# mod_auto_index options
+HeaderName README-files.txt
+IndexOptions +XHTML
+
 RewriteEngine On
 
 RewriteRule "^inquiry/sdlblitspeed/sdlblitspeed\.php$" "/bits/2007/08/01/sdl-blit-speed-comparison/" [R=permanent,L,QSA]
