@@ -20,6 +20,13 @@ Header set X-UA-Compatible: "IE=Edge"
 
 RewriteEngine On
 
+# Rewrite www.kevinlocke.name to kevinlocke.name (and HTTPS)
+# This is for canonicalization, SEO, and SSL (since SAN doesn't include www)
+# Note:  Other subdomains not included, since some should not be canonicalized
+#        (e.g. ipv6.kevinlocke.name and ipv4.kevinlocke.name)
+RewriteCond %{HTTP_HOST} =www.kevinlocke.name [NC]
+RewriteRule ^/?(.*) "https://kevinlocke.name/$1" [R=permanent,QSA]
+
 # Rewrite old blog post URLs to their new locations
 RewriteRule "^inquiry/sdlblitspeed/sdlblitspeed\.php$" "/bits/2007/08/01/sdl-blit-speed-comparison/" [R=permanent,L,QSA]
 RewriteRule "^inquiry/sdlblitspeed/(.*)$" "/bits/2007/08/01/sdl-blit-speed-comparison/$1" [R=permanent,L]
