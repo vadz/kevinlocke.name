@@ -20,6 +20,7 @@ Header set X-UA-Compatible: "IE=Edge"
 
 RewriteEngine On
 
+# Rewrite old blog post URLs to their new locations
 RewriteRule "^inquiry/sdlblitspeed/sdlblitspeed\.php$" "/bits/2007/08/01/sdl-blit-speed-comparison/" [R=permanent,L,QSA]
 RewriteRule "^inquiry/sdlblitspeed/(.*)$" "/bits/2007/08/01/sdl-blit-speed-comparison/%1" [R=permanent,L]
 RewriteRule "^inquiry(/.*)?$" "/bits%1" [R=permanent,QSA]
@@ -27,7 +28,6 @@ RewriteRule "^inquiry(/.*)?$" "/bits%1" [R=permanent,QSA]
 # Prevent access to .git directories
 RewriteRule "^(.*/)?\.git/" - [F,L]
 
-# Redirect the old (nearly empty) inquiry section to the blog
 # Rewrite requests for php files to extensionless files, where absent
 RewriteCond "%{REQUEST_FILENAME}" !-f
 RewriteRule "^(.*)\.php$" "/%1" [R]
