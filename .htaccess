@@ -53,6 +53,9 @@ RewriteRule "^(.*/)index$" "/$1" [R,QSA]
 # FIXME:  Should set Expires, but can't find a way to conditionally set it
 Header always set Cache-Control "max-age=86400" "expr=%{REQUEST_STATUS} == 301"
 
+# Set STS header to require HTTPS for the next 6 months on kevinlocke.name
+Header always set Strict-Transport-Security "max-age=15768000" "expr=tolower(%{HTTP_HOST}) == 'kevinlocke.name'"
+
 # Prioritize XHTML slightly above HTML
 # Recommended mechanism for MultiViews is to add a qs parameter to the type.
 # However, qs values are sent to client in violation of RFCs
