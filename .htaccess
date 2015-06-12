@@ -48,6 +48,11 @@ RewriteRule "^(.*)\.php$" "/$1" [R]
 # Use URL with trailing slash as canonical URL for index pages
 RewriteRule "^(.*/)index$" "/$1" [R,QSA]
 
+# Set a cache expiration on 301 responses to prevent indefinite caching.
+# (Since if we screw up a redirect, there would be no way to fix it.)
+# FIXME:  Should set Expires, but can't find a way to conditionally set it
+Header always set Cache-Control "max-age=86400" "expr=%{REQUEST_STATUS} == 301"
+
 # Prioritize XHTML slightly above HTML
 # Recommended mechanism for MultiViews is to add a qs parameter to the type.
 # However, qs values are sent to client in violation of RFCs
