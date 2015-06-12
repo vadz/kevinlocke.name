@@ -13,6 +13,7 @@ ErrorDocument 500 /500
 HeaderName README-files.txt
 IndexOptions +XHTML
 
+# Set common security/compatibility headers
 Header set X-Content-Type-Options: "nosniff"
 Header set X-XSS-Protection: "1; mode=block"
 Header set X-Frame-Options: "sameorigin"
