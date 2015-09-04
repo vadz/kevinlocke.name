@@ -9,11 +9,16 @@ alternates:
 ---
 <h1>Contact Information</h1>
 
-<!-- TODO:  Only show the following warning when referrer != kevinlocke.name -->
-<div class="warning">
+<!-- Warning shown for direct entry visitors to reduce misidentification. -->
+<div class="warning" id="contact-warning">
 <p>Please make sure that this is the Kevin Locke that
 you are looking for before contacting me.  Thanks.</p>
 </div>
+<script type="text/javascript">
+if (/^https?:\/\/([^\/]*\.)?kevinlocke.name\//.test(document.referrer)) {
+    document.getElementById("contact-warning").style.display = "none";
+}
+</script>
 
 <h2>Addresses</h2>
 <table class="contact">
