@@ -1,26 +1,16 @@
 BEGIN:VCARD
-VERSION:3.0
-REV:2008-12-06
-CLASS:PUBLIC
-URL:http://kevinlocke.name/
-TITLE:Computer Programmer/Technician
+VERSION:4.0
+SOURCE:https://kevinlocke.name/KevinLocke.vcf
+REV:20150903T200000Z
+URL:https://kevinlocke.name/
 FN:Kevin Locke
 N:Locke;Kevin;;;
-ORG:Computer Troubleshooters - Bozeman;;
-LABEL;TYPE=WORK:2018 Stadium Dr\nSuite B\nBozeman\, MT\n59715-0706\nUSA
-ADR;TYPE=WORK:;Suite B;2018 Stadium Dr;Bozeman;MT;59715-0706;USA
-ADR;TYPE=dom,home,postal,pref:;;2119 Sourdough Rd;Bozeman;MT;59715-5876;USA
-LABEL;TYPE=dom,home,postal,parcel,pref:2119 Sourdough Rd\nBozeman\, MT\n597
- 15-5876\nUSA
-EMAIL;PREF;TYPE=HOME:kevin@kevinlocke.name
-EMAIL;TYPE=WORK:klocke@ctboz.com
+EMAIL;TYPE=HOME:kevin@kevinlocke.name
 X-MOZILLA-HTML:FALSE
-TEL;TYPE=CELL,MSG,VOICE,PREF:+1-406-570-1984
-TEL;TYPE=HOME,MSG,VOICE:+1-406-586-3546
-TZ:VALUE=text:-07:00; MST; Denver/North America
-GEO:45.657619;-111.027358
-X-AIM;TYPE=HOME:kevinwlocke
-X-ICQ;TYPE=HOME:199342213
-X-JABBER;TYPE=HOME:kevinoid@jabber.org
-X-MSN;TYPE=HOME:kwl7@cornell.edu
+IMPP;TYPE=HOME:xmpp:kevin@kevinlocke.name
+X-JABBER;TYPE=HOME:kevin@kevinlocke.name
+IMPP;TYPE=HOME:irc://irc.freenode.net/kevinoid,isnick
+X-IRC;TYPE=HOME:irc://irc.freenode.net/kevinoid,isnick
+LANG:en
+TZ:America/Denver
 END:VCARD

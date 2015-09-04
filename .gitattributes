@@ -1,0 +1,3 @@
+# vCard always has CRLF line endings (RFC 6350 Section 3.2)
+*.vcf	eol=crlf
+*.vcard	eol=crlf
