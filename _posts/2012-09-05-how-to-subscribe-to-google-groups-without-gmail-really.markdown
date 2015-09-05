@@ -9,7 +9,7 @@ tags: [ google ]
 ---
 Although it does not appear to be officially documented, it is possible to
 subscribe to a Google Group without a Google Account.  There are [several ways
-to subscribe](http://webapps.stackexchange.com/q/13508) but, as I recently
+to subscribe](https://webapps.stackexchange.com/q/13508) but, as I recently
 found out, Google Groups tries really hard to use a GMail account, if you have
 one.  This post explains how to subscribe to a Google Group via email and how
 to avoid one pitfall that may result in messages being sent to your GMail
@@ -21,10 +21,10 @@ address rather than the address with which you subscribed.
 
 Recently I have been tinkering around with the [Lift](http://liftweb.net/) web
 framework and decided to subscribe to their [mailing
-list](http://groups.google.com/group/liftweb), which happens to be hosted on
+list](https://groups.google.com/group/liftweb), which happens to be hosted on
 Google Groups.  After a quick search I found several sets of instructions for
 [subscribing to a Google Group without a Google
-Account](http://webapps.stackexchange.com/a/15593).  Interestingly, many of the
+Account](https://webapps.stackexchange.com/a/15593).  Interestingly, many of the
 suggestions I found link to articles on Google Groups Help, none of which
 actually contain the by-email instructions.  It is possible this was officially
 supported in the past and is now deprecated, but it continues to work

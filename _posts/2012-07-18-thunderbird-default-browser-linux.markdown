@@ -33,18 +33,18 @@ better idea of how the process works.  The specific order in which the methods
 are tried, and which methods are available, is based on the platform and the
 compilation options used for the running version of Thunderbird.  Interested
 developers can look at GetProtocolHandler in
-[nsExternalHelperAppService](http://mxr.mozilla.org/comm-central/ident?i=nsExternalHelperAppService)
+[nsExternalHelperAppService](https://mxr.mozilla.org/comm-central/ident?i=nsExternalHelperAppService)
 for the starting point, GetProtocolHandlerInfoFromOS in subclasses of
-[nsExternalHelperAppService](http://mxr.mozilla.org/comm-central/ident?i=nsExternalHelperAppService)
+[nsExternalHelperAppService](https://mxr.mozilla.org/comm-central/ident?i=nsExternalHelperAppService)
 for the platform-specific bits and the
-[HandlerService](http://mxr.mozilla.org/comm-central/ident?i=HandlerService)
+[HandlerService](https://mxr.mozilla.org/comm-central/ident?i=HandlerService)
 implementation for the platform-agnostic bits.  On Unix, the OS-specific
 methods are mostly handled by
-[GIO](http://developer.gnome.org/gio/stable/GAppInfo.html#g-app-info-get-default-for-uri-scheme)
+[GIO](https://developer.gnome.org/gio/stable/GAppInfo.html#g-app-info-get-default-for-uri-scheme)
 (if available) or
-[GnomeVFS](http://developer.gnome.org/gnome-vfs/stable/gnome-vfs-2.0-gnome-vfs-mime-database.html#gnome-vfs-mime-application-launch)
+[GnomeVFS](https://developer.gnome.org/gnome-vfs/stable/gnome-vfs-2.0-gnome-vfs-mime-database.html#gnome-vfs-mime-application-launch)
 or
-[QDesktopServices](http://doc.trolltech.com/4.6/qdesktopservices.html#openUrl)
+[QDesktopServices](https://doc.qt.io/qt-4.8/qdesktopservices.html#openUrl)
 (if compiled with QT).  Although it appears to me that the platform-specific
 methods are attempted first, the behavior that I have observed indicates that
 the platform-agnostic methods are attempted first.  The behavior that I have
@@ -93,9 +93,10 @@ containing the application to run.
 ### XDG MIME action (Thunderbird > ~4)
 
 The default browser is chosen based on the information in the [XDG MIME
-database](http://www.freedesktop.org/wiki/Specifications/shared-mime-info-spec),
+database](https://wiki.freedesktop.org/www/Specifications/shared-mime-info-spec/),
 as specified in the
-[XDG MIME actions spec](http://www.freedesktop.org/wiki/Specifications/mime-actions-spec).
+[XDG MIME Applications Associations
+spec](https://wiki.freedesktop.org/www/Specifications/mime-apps-spec/).
 Thunderbird looks up the program associated with the URL pseudo-MIME type (e.g.
 x-scheme-handler/http for HTTP URLs) or the attachment MIME type (e.g.
 text/html).  The XDG MIME database can be queried and modified using the
@@ -112,7 +113,8 @@ To find the .desktop file for your desired browser, look in
 
 If xdg-mime is not available, the defaults can be changed by editing
 `~/.local/share/applications/mimeapps.list` as described in the
-[XDG MIME actions spec](http://www.freedesktop.org/wiki/Specifications/mime-actions-spec#User-specified_application_ordering)
+[XDG MIME Applications Associations
+spec](http://standards.freedesktop.org/mime-apps-spec/mime-apps-spec-1.0.1.html#associations)
 and using information from `/usr/share/applications/mimeinfo.cache` for
 reference.  For example, the default program for HTTP URLs can be set as
 follows:
@@ -124,7 +126,7 @@ follows:
 
 When running in a GNOME environment (if the GNOME libraries are present),
 Thunderbird attempts to determine the default browser based on the preferences
-stored in [Gconf](http://projects.gnome.org/gconf/).  Thunderbird uses the
+stored in [Gconf](https://projects.gnome.org/gconf/).  Thunderbird uses the
 following preferences for URLs of various types:
 
     /desktop/gnome/url-handlers/http/command
@@ -176,7 +178,7 @@ completeness.
 **Update:** After examining the Thunderbird sources, I am doubtful about
 whether this method is still attempted in recent versions of Thunderbird.
 There are no [references to `network.protocol-handler.app` in the Thunderbird
-sources](http://mxr.mozilla.org/comm-central/search?string=network.protocol-handler.app)
+sources](https://mxr.mozilla.org/comm-central/search?string=network.protocol-handler.app)
 and I didn't find any code which looks like it accesses these preferences.
 
 ## Proper Documentation

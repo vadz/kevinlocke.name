@@ -37,7 +37,7 @@ after this point is useless.
 
 When using lift-webkit, configuration files ending with either `.logback.xml`
 (when using [Logback](http://logback.qos.ch/)) or `.log4j.xml` or
-`.log4j.props` (when using [Log4J](http://logging.apache.org/log4j/)) are
+`.log4j.props` (when using [Log4J](https://logging.apache.org/log4j/1.2/)) are
 found in the same way as Lift configuration properties files.  For
 example, the file `src/main/resources/props/production.default.logback.xml`
 would be used in production mode on any server, if it existed.
@@ -49,7 +49,7 @@ of `LiftRules.configureLogging`.
 ## The Problem When Testing
 
 Unfortunately, when testing (using
-[Specs2](http://etorreborre.github.com/specs2/) or
+[Specs2](https://etorreborre.github.com/specs2/) or
 [ScalaTest](http://www.scalatest.org/) with [SBT](http://www.scala-sbt.org/)),
 the Automatic Configuration method is unlikely to work.  The problem is that
 if an instance of `LiftRules` is not created before the first `Logger` is
@@ -113,7 +113,7 @@ configurations, will search for configuration files on the classpath.  Logback
 will use [`logback-test.xml` or
 `logback.xml`](http://logback.qos.ch/manual/configuration.html) and Log4J will
 use [`log4j.properties` or the value of the `log4j.configuration` system
-property](http://logging.apache.org/log4j/1.2/manual.html#defaultInit).  Using
+property](https://logging.apache.org/log4j/1.2/manual.html#defaultInit).  Using
 this fact, it is possible to configure Logback by creating
 `src/test/resources/logback.xml` (and similar for Log4J).  This is by far the
 easiest solution, if you don't mind the asymmetry of the configuration file

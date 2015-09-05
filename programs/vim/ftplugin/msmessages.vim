@@ -2,7 +2,7 @@
 " Language:	MS Message files (*.mc)
 " Maintainer:	Kevin Locke <kwl7@cornell.edu>
 " Last Change:	2008 April 09
-" Location:	http://kevinlocke.name/programs/vim/syntax/msmessages.vim
+" Location:	https://kevinlocke.name/programs/vim/syntax/msmessages.vim
 
 " Based on c.vim
 

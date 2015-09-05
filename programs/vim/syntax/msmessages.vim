@@ -2,9 +2,9 @@
 " Language:	MS Message Text files (*.mc)
 " Maintainer:	Kevin Locke <kwl7@cornell.edu>
 " Last Change:	2008 April 09
-" Location:	http://kevinlocke.name/programs/vim/syntax/msmessages.vim
+" Location:	https://kevinlocke.name/programs/vim/syntax/msmessages.vim
 
-" See format description at <http://msdn2.microsoft.com/en-us/library/aa385646.aspx>
+" See format description at <https://msdn.microsoft.com/en-us/library/aa385646.aspx>
 " This file is based on the rc.vim and c.vim
 
 " For version 5.x: Clear all syntax items

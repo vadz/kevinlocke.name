@@ -8,7 +8,7 @@ tags: [ debian, linux ]
 ---
 
 I recently configured an additional encrypted partition mounted at boot using
-[cryptsetup](http://code.google.com/p/cryptsetup) with LUKS.  Doing so
+[cryptsetup](https://gitlab.com/cryptsetup/cryptsetup) with LUKS.  Doing so
 increased my boot time by about 5 seconds.  In tracking down this minor
 annoyance, I learned two things about cryptsetup which may be helpful to
 others in a similar situation:

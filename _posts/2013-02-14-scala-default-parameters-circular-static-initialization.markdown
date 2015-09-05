@@ -61,7 +61,7 @@ as methods on the object for the containing class.  So the default value of
 in the `Hobbit$` class (and a static method of the same name on the `Hobbit`
 class).  When we combine this with the [Initialization Procedure defined in
 the Java Language
-Spec.](http://docs.oracle.com/javase/specs/jls/se7/html/jls-12.html#jls-12.4.1)
+Spec.](https://docs.oracle.com/javase/specs/jls/se7/html/jls-12.html#jls-12.4.1)
 what happens is as follows (simplified):
 
 1. `Hobbit.Sam$.MODULE$.name` is accessed which starts static initialization

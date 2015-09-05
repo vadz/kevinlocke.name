@@ -9,7 +9,7 @@ tags: [ google-web-fonts, python, utility ]
 ---
 
 Just a quick note:  I wanted to work with fonts from [Google Web
-Fonts](http://www.google.com/webfonts) offline.  Unfortunately, the source code
+Fonts](https://www.google.com/fonts/) offline.  Unfortunately, the source code
 only contains TTF files and I was unable to find either a trusted converter
 utility for all formats or a way to download non-TTF formats.  So, I wrote a
 [simple utility to download the fonts](https://gist.github.com/4029594).

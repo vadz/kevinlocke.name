@@ -16,9 +16,9 @@ of how this server is configured to serve HTML and XHTML content.
 
 ## When to use MultiViews
 
-The [MultiViews](http://httpd.apache.org/docs/current/mod/mod_negotiation.html#multiviews)
+The [MultiViews](https://httpd.apache.org/docs/current/mod/mod_negotiation.html#multiviews)
 option, and the Apache
-[content negotiation](http://httpd.apache.org/docs/current/content-negotiation.html)
+[content negotiation](https://httpd.apache.org/docs/current/content-negotiation.html)
 process in general, are well suited for serving resources represented by
 multiple static files with differing file extensions for each representation.
 File extensions may indicate language and encoding in addition to media type,
@@ -30,9 +30,9 @@ particular, dynamic content is typically handled by varying the Content-Type
 header returned from the content generator while static files with a single
 representation which may be served under different media types (e.g. XHTML
 being served as text/html) more easily by using a
-[RewriteCond](http://httpd.apache.org/docs/current/mod/mod_rewrite.html#rewritecond)
+[RewriteCond](https://httpd.apache.org/docs/current/mod/mod_rewrite.html#rewritecond)
 to match on `%{HTTP:Accept}` followed by a
-[RewriteRule](http://httpd.apache.org/docs/current/mod/mod_rewrite.html#rewriterule)
+[RewriteRule](https://httpd.apache.org/docs/current/mod/mod_rewrite.html#rewriterule)
 with the `T` flag to set the returned type.  Neither of these techniques will
 be discussed further in this article.
 
@@ -65,7 +65,7 @@ the requested name is returned.  When accessed without a file extension, Apache
 uses the values from the HTTP Accept headers to determine which of the
 available files best satisfies the request and returns that file to the client.
 The exact algorithm is described in the [content
-negotiation](http://httpd.apache.org/docs/current/content-negotiation.html#algorithm)
+negotiation](https://httpd.apache.org/docs/current/content-negotiation.html#algorithm)
 documentation (this will be important later).
 
 Great!  At this point, everything should be working as intended.  Mission
@@ -79,7 +79,7 @@ support XHTML.  What's going on?
 All major browsers currently request HTML (text/html) and XHTML
 (application/xhtml+xml) with equal preference (a `q` value of `1`).  With that
 in mind, the [content negotiation
-algorithm](http://httpd.apache.org/docs/current/content-negotiation.html#algorithm)
+algorithm](https://httpd.apache.org/docs/current/content-negotiation.html#algorithm)
 algorithm will return whichever variant has the smallest content length
 (assuming they have the same language and character set).  If the documents are
 structurally identical, this will be HTML (because of the namespace declaration
@@ -91,7 +91,7 @@ The recommended solution is to set the quality-of-source factor (used in step 1
 of the content negotiation algorithm), which indicates the relative quality of
 a given type from the server's perspective.  This can be done on a per-file
 basis using a [type
-map](http://httpd.apache.org/docs/current/mod/mod_negotiation.html#typemaps),
+map](https://httpd.apache.org/docs/current/mod/mod_negotiation.html#typemaps),
 or by redefining the type for the file extension to include a `qs` parameter
 in the Apache configuration as follows:
 
@@ -106,9 +106,9 @@ them as equal quality XHTML will be preferentially chosen.
 notable drawback.  The `qs` media type parameters are also sent to the client
 in the `Content-Type` header in violation of RFC 2616.  This bug has been
 reported as early as 2002 on
-the [http-user](http://mail-archives.apache.org/mod_mbox/httpd-users/200202.mbox/%3CELEDJONBOPPAEGANDEEIKEEKCBAA.joshua@slive.ca%3E),
-[http-dev](http://mail-archives.apache.org/mod_mbox/httpd-dev/200202.mbox/%3C0adf01c1b994$645169c0$94c0b0d0@v505%3E),
-and [ietf-http-wg](http://lists.w3.org/Archives/Public/ietf-http-wg/2002AprJun/0032.html)
+the [http-user](https://mail-archives.apache.org/mod_mbox/httpd-users/200202.mbox/%3CELEDJONBOPPAEGANDEEIKEEKCBAA.joshua@slive.ca%3E),
+[http-dev](https://mail-archives.apache.org/mod_mbox/httpd-dev/200202.mbox/%3C0adf01c1b994$645169c0$94c0b0d0@v505%3E),
+and [ietf-http-wg](https://lists.w3.org/Archives/Public/ietf-http-wg/2002AprJun/0032.html)
 mailing lists, but it is still not fixed.  I am not aware of any browsers which
 have problems when the `qs` parameter is present, which makes this
 implementation at least tolerable.
@@ -163,7 +163,7 @@ RewriteRule does not change this Content-Location.  This can be done by
 setting an environment variable to remember that a change was made, then
 editing the Content-Location header in the same way.  This is further
 complicated by some [undocumented behavior of environment variables in
-RewriteRules](http://stackoverflow.com/questions/3050444/when-setting-environment-variables-in-apache-rewriterule-directives-what-causes).
+RewriteRules](https://stackoverflow.com/questions/3050444/when-setting-environment-variables-in-apache-rewriterule-directives-what-causes).
 With this behavior in mind, the above configuration can be extended as
 follows:
 

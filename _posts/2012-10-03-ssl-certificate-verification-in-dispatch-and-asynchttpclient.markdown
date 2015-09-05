@@ -27,7 +27,7 @@ topic.
 
 For background on how SSL is implemented on the Java platform, see the [Java
 Secure Socket Extension (JSSE) Reference
-Guide](http://docs.oracle.com/javase/1.5.0/docs/guide/security/jsse/JSSERefGuide.html).
+Guide](https://docs.oracle.com/javase/1.5.0/docs/guide/security/jsse/JSSERefGuide.html).
 Readers who are not concerned with the implementation details may feel free to
 skip to the end of this article for "recipes" for SSL certificate
 verification.
@@ -35,7 +35,7 @@ verification.
 ## Default SSLContext
 
 The
-[`SSLContext`](http://docs.oracle.com/javase/6/docs/api/javax/net/ssl/SSLContext.html)
+[`SSLContext`](https://docs.oracle.com/javase/6/docs/api/javax/net/ssl/SSLContext.html)
 class is central to the SSL implementation in Java in general and in
 AsyncHttpClient in particular.  The default `SSLContext` for AsyncHttpClient
 is dependent on whether the `javax.net.ssl.keyStore` system property is set.
@@ -63,14 +63,14 @@ preferred `SSLContext` for each connection.
 Even if the `SSLContext` can verify that a certificate is signed by a trusted
 Certificate Authority, there is still room for problems.  What happens if the
 connection hostname doesn't match the certificate hostname?  Java provides the
-[`HostnameVerifier`](http://docs.oracle.com/javase/6/docs/api/javax/net/ssl/HostnameVerifier.html)
+[`HostnameVerifier`](https://docs.oracle.com/javase/6/docs/api/javax/net/ssl/HostnameVerifier.html)
 interface to give client code the option of providing a policy for handling
 this situations.  AsyncHttpClient adopts this interface for this purpose as
 well.  However, unlike the JDK, the default policy provided by AsyncHttpClient
 is to allow all connections regardless of hostname.
 
 Unlike `SSLContext`, using the Java default
-([`HttpsURLConnection.getDefaultHostnameVerifier`](http://docs.oracle.com/javase/6/docs/api/javax/net/ssl/HttpsURLConnection.html#getDefaultHostnameVerifier%28%29))
+([`HttpsURLConnection.getDefaultHostnameVerifier`](https://docs.oracle.com/javase/6/docs/api/javax/net/ssl/HttpsURLConnection.html#getDefaultHostnameVerifier%28%29))
 is not a viable option because the default `HostnameVerifier` expects to only
 be called in the case that there is a mismatch (and therefore always returns
 `false`) while some of the AsyncHttpClient providers (e.g. Netty, the default)
@@ -78,7 +78,7 @@ be called in the case that there is a mismatch (and therefore always returns
 connections](https://github.com/sonatype/async-http-client/issues/146).  To
 make matters worse, the check is not trivial (consider <abbr title="Subject
 Alt. Name">SAN</abbr> and wildcard matching) and is implemented in
-[`sun.security.util.HostnameChecker`](http://hg.openjdk.java.net/jdk7/jdk7-gate/jdk/file/tip/src/share/classes/sun/security/util/HostnameChecker.java)
+[`sun.security.util.HostnameChecker`](http://hg.openjdk.java.net/jdk7/modules/jdk/file/tip/src/share/classes/sun/security/util/HostnameChecker.java)
 (a Sun internal proprietary API).  This leaves the developer in the position
 of either depending on an internal API or finding/copying/creating another
 implementation of this functionality.  For the examples in this article, I
@@ -117,7 +117,7 @@ may not be guaranteed to use/trust the operating system certificate store on
 all platforms.
 
 In my testing I found that if the invalid certificate is returned by a process
-on the local machine (e.g. using [mitmproxy](http://mitmproxy.org/))
+on the local machine (e.g. using [mitmproxy](https://mitmproxy.org/))
 AsyncHttpClient will throw a `java.io.IOException: Remotely Closed` rather
 than `java.net.ConnectException: General SSLEngine problem`.  This is probably
 a [bug](https://github.com/sonatype/async-http-client/issues/145).  In either

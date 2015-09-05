@@ -7,8 +7,8 @@ using ffmpeg or avconv."
 tags: [ howto ]
 ---
 
-Although the [ffmpeg](http://ffmpeg.org/ffmpeg.html) (and
-[avconv](http://libav.org/avconv.html)) program has a relatively intuitive
+Although the [ffmpeg](https://ffmpeg.org/ffmpeg.html) (and
+[avconv](https://libav.org/avconv.html)) program has a relatively intuitive
 command-line interface, given the diversity and complexity of the
 functionality that it exposes, there are still many operations which can be
 difficult to express.  I found letterboxing (and pillarboxing) to be one of
@@ -24,7 +24,7 @@ properly written FFmpeg) which developed the ffmpeg command as well as a
 significant amount of other multimedia software.  The avconv program is a
 fork of ffmpeg by the Libav project.  The relationship between the two
 projects is a bit complex (see [this StackOverflow
-question](http://stackoverflow.com/questions/9477115/who-can-tell-me-the-difference-and-relation-between-ffmpeg-libav-and-avconv)
+question](https://stackoverflow.com/questions/9477115/who-can-tell-me-the-difference-and-relation-between-ffmpeg-libav-and-avconv)
 and linked pages for some details), but all commands in this post should work
 with either ffmpeg or avconv.  Feel free to use whichever you prefer.
 
@@ -85,7 +85,7 @@ output width and height, or set as variables in a shell script.
 
 It's possible that the input video is intended to be displayed at a resolution
 which has a different aspect ratio than the source file, called an [anamorphic
-format](http://en.wikipedia.org/wiki/Anamorphic_format).  I have not had
+format](https://en.wikipedia.org/wiki/Anamorphic_format).  I have not had
 success playing anamorphic video on mobile devices (probably in part because I
 don't really understand it and in part because it is rather esoteric and
 poorly supported), so since the video is being scaled anyway this is a great

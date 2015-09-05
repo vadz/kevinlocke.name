@@ -29,7 +29,7 @@ First, a quick note that the [limitations on the Squeryl
 website](http://squeryl.org/limitations.html) are not mentioned here.  Lack of
 database-specific features is also not mentioned (and not generally expected).
 Also, any example queries are written using the [SchoolDb
-schema](http://github.com/max-l/Squeryl/blob/master/src/test/scala/org/squeryl/test/schooldb/SchoolDb.scala).
+schema](https://github.com/max-l/Squeryl/blob/master/src/test/scala/org/squeryl/test/schooldb/SchoolDb.scala).
 Now, with that out of the way, on to the limitations:
 
 ### Syntax and usage errors are often inscrutable

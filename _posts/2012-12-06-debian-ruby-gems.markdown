@@ -8,7 +8,7 @@ tags: [ debian, ruby, ruby-gems ]
 ---
 Ruby software is commonly distributed as "gems", packages containing Ruby
 applications and/or libraries, which can be installed using the
-[RubyGems](http://rubygems.org/) package manager, typically run as a command
+[RubyGems](https://rubygems.org/) package manager, typically run as a command
 named `gem`.  On Debian systems, some gems are also available as Debian
 packages through the Debian package repositories.  For Ruby developers on
 Debian, it is almost inevitable that some gems will be installed through
@@ -48,10 +48,10 @@ any serious problems, since the installation locations are different, it may
 result in duplicate copies of gems being installed, causing confusion and
 wasting space and bandwidth.  The solution to this problem is very simple,
 ensure that RubyGems is installed from a Debian package (either the
-[rubygems](http://packages.debian.org/wheezy/rubygems) package for Ruby 1.8 or
+[rubygems](https://packages.debian.org/wheezy/rubygems) package for Ruby 1.8 or
 by using the Debian package for Ruby 1.9, which includes RubyGems), then
 install the
-[rubygems-integration](http://packages.debian.org/wheezy/rubygems-integration)
+[rubygems-integration](https://packages.debian.org/wheezy/rubygems-integration)
 package through a Debian package manager (e.g. `apt-get install
 rubygems-integration`).
 
@@ -70,7 +70,7 @@ eye on (to maintain, update, clean, remove, and provide security support) and
 those which I can defer to their Debian maintainers.  However, there are valid
 reasons for keeping the default installation location, some of which are
 discussed in [bug
-448639](http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=448639), and users
+448639](https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=448639), and users
 who find these more compelling may freely skip this section.
 
 There are a few ways to change the installation location, called the "gem

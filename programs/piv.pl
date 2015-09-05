@@ -73,7 +73,7 @@ sub print_version {
     print PROGRAM_NAME_LONG.' '.PROGRAM_VERSION."\n";
     print <<HERE;
 Copyright (c) 2007 Kevin Locke <kwl7\@cornell.edu>
-License:  MIT <http://www.opensource.org/licenses/mit-license.php>
+License:  MIT <https://opensource.org/licenses/mit-license.php>
 This is free software; you are free to modify and redistribute it.
 There is NO WARRANTY, to the extent permitted by law.
 HERE
@@ -260,7 +260,7 @@ Kevin Locke <kwl7@cornell.edu>
 Copyright 2007 Kevin Locke <kwl7@cornell.edu>
 
 This program is distributed under the terms of the MIT License.
-See <http://www.opensource.org/licenses/mit-license.php> for details.
+See <https://opensource.org/licenses/mit-license.php> for details.
 
 This is free software; you are free to modify and redistribute it.
 There is NO WARRANTY, to the extent permitted by law.

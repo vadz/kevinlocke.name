@@ -32,7 +32,7 @@
 # Author: Michael Levin
 # Site: http://www.kinnetica.com
 # Distributed Under A Creative Commons License
-#   - http://creativecommons.org/licenses/by/3.0/
+#   - https://creativecommons.org/licenses/by/3.0/
 # 
 # Modified for Octopress by John W. Long
 #

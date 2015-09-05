@@ -10,7 +10,7 @@ tags: [ SDL ]
 several years ago.  It is presented here for posterity and in the hopes that it
 may still be useful in some way.</p>
 
-<p>The <a href="http://www.libsdl.org/">Simple Directmedia Layer (SDL)</a>
+<p>The <a href="https://www.libsdl.org/">Simple Directmedia Layer (SDL)</a>
 library provides several methods of displaying images, many of which may be
 used interchangeably.  In order to help developers choose which method to
 use in a given set of situations, this post presents performance numbers for
@@ -19,19 +19,18 @@ a variety of these display methods.</p>
 <!--more-->
 
 <h2>Background</h2>
-<!-- What is SDL, what is a blit, what are the meanings of each of the flags 
--->
+<!-- What is SDL, what is a blit, what are the meanings of each of the flags -->
 <h3>Motivation</h3>
-<p><a href="http://www.libsdl.org/">Simple Directmedia Layer (SDL)</a> is a
-cross-platform multimedia library which has been used in the creation of 
-several games, emulators, and other graphically driven applications.  SDL 
-provides low-level access to the graphics system, allowing program authors to 
-maximize the performance of their program through precise use of the available 
-graphics hardware.  However, with this power comes a certain level of 
-complexity as well as variability from differences in the hardware and the 
+<p><a href="https://www.libsdl.org/">Simple Directmedia Layer (SDL)</a> is a
+cross-platform multimedia library which has been used in the creation of
+several games, emulators, and other graphically driven applications.  SDL
+provides low-level access to the graphics system, allowing program authors to
+maximize the performance of their program through precise use of the available
+graphics hardware.  However, with this power comes a certain level of
+complexity as well as variability from differences in the hardware and the
 drivers used to control it.  The benchmarks/statistics on this page
-are intended to clear up some of the doubt about the performance 
-characteristics of video backends under some of the different sets of 
+are intended to clear up some of the doubt about the performance
+characteristics of video backends under some of the different sets of
 configuration options available, allowing program authors to make better
 informed decisions about which settings to use in their applications.</p>
 
@@ -72,7 +71,7 @@ significantly more artistic control and effects at the cost of some
 processing.  The exact cost is the subject of these tests.</dd>
 </dl>
 <p>Along with the options described above, which apply to images, there are
-several options which affect the behavior of the screen (drawing surface). 
+several options which affect the behavior of the screen (drawing surface).
 The ones tested here are:</p>
 <dl>
 <dt>SDL_HWSURFACE</dt>
@@ -86,7 +85,7 @@ there are effectively 2 display surfaces.  Screen updates will be drawn
 to the surface that is not being displayed, then a call to <code>SDL_Flip</code>
 will cause the updated surface to be displayed and the other surface to be
 set to receive future updates.  This prevents tearing effects from
-appearing on the screen as different parts of the screen are updated. 
+appearing on the screen as different parts of the screen are updated.
 Instead it allows the entire screen to be updated in a single action, creating
 a more unified picture.  Note:  SDL_DOUBLEBUF requires a hardware surface to
 work, so specifying SDL_DOUBLEBUF is equivalent to SDL_DOUBLEBUF|SDL_HWSURFACE
@@ -106,23 +105,23 @@ and would rather avoid guessing...).</dd>
 the specified surface flags.  For surfaces with
 <code>SDL_SRCCOLORKEY</code> set, it converts completely transparent pixels
 into color-keyed pixels.  The test program then blits the image to the
-screen 1000 times, as fast as it can and records the time required to complete 
+screen 1000 times, as fast as it can and records the time required to complete
 the blits, then calculates the framerate based on this time.  The program
 runs at a resolution of 800x600.  For the exact details, please consult
 the <a href="sdltest.cpp">source to the test program</a>.</p>
 
-<p>Note that this is not necessarily a fair comparison, since in "real-world" 
-conditions blits would be sent at greater intervals.  However, for testing 
-this would bring up problems with measurement errors for the timing of 
-individual blits (requiring very high precision) or with the precision of sleep 
-functions used to space out the blits.  Given these caveats, the test 
-results do seem to agree with the experienced performance under more practical 
-conditions and none of the backends seem to be limiting themselves to the 
-vertical refresh rate or any other constraint requiring greater spacing of the 
+<p>Note that this is not necessarily a fair comparison, since in "real-world"
+conditions blits would be sent at greater intervals.  However, for testing
+this would bring up problems with measurement errors for the timing of
+individual blits (requiring very high precision) or with the precision of sleep
+functions used to space out the blits.  Given these caveats, the test
+results do seem to agree with the experienced performance under more practical
+conditions and none of the backends seem to be limiting themselves to the
+vertical refresh rate or any other constraint requiring greater spacing of the
 blits.</p>
 
 <p>The image used for the tests was a scaled version of Klowner's
-<a href="http://www.dugnet.org/klown/wallpaper/show.php?id=_wallpaper/_linux/seehearspeak">See,
+<a href="http://klowner.com/wallpaper/see_hear_speak/">See,
 Hear, Speak...</a> wallpaper (the exact image used for testing is
 <a href="seehearspeak-transparent.png">here</a>).  This image was chosen
 because it is similar to typical sprites found in 2D games
@@ -176,31 +175,31 @@ configuration.  See the DirectFB documentation for details.</p>
 <br class="enclosefloat" />
 
 <h3>DirectX</h3>
-<a href="directx.svg"><object type="image/svg+xml" data="directx.svg" 
-width="600" height="300"><img src="directx.png" alt="Graph displaying blit 
+<a href="directx.svg"><object type="image/svg+xml" data="directx.svg"
+width="600" height="300"><img src="directx.png" alt="Graph displaying blit
 speed for the DirectX video backend" width="600" height="300" /></object></a>
 <p>The DirectX video backend provides graphics support using
-<a href="http://microsoft.com/directx">Microsoft DirectX&#0174;</a> on Microsoft 
+<a href="https://msdn.microsoft.com/directx">Microsoft DirectX&#0174;</a> on Microsoft
 Windows&#0174; platforms.  There were no unexpected visual effects
 or strangeness during the testing, although some of the results were
 unexpected.  The first oddity was the
 surprisingly low framerate for surfaces with the <code>SDL_SRCALPHA</code>
-flag on a <code>SDL_HWSURFACE</code> display surface.  In fact, the low 
-framerate caused the test to run for a long enough time that there was debate 
-about whether or not the test had frozen.  Another oddity was the low 
-framerate on the double-buffered display surface.  My guess is that when 
-double-buffered the render code waits for a vblank before finishing, so the 
-framerate is capped at the refresh rate of the monitor (which would explain the 
-60 fps recorded for double-buffered output on the test machine).  One 
-other caveat to note is that it is not possible to allocate a hardware surface 
+flag on a <code>SDL_HWSURFACE</code> display surface.  In fact, the low
+framerate caused the test to run for a long enough time that there was debate
+about whether or not the test had frozen.  Another oddity was the low
+framerate on the double-buffered display surface.  My guess is that when
+double-buffered the render code waits for a vblank before finishing, so the
+framerate is capped at the refresh rate of the monitor (which would explain the
+60 fps recorded for double-buffered output on the test machine).  One
+other caveat to note is that it is not possible to allocate a hardware surface
 unless the display surface is fullscreen (and a hardware surface, of
 course).</p>
 
 <h3>FBCon</h3>
 <a href="fbcon.svg"><object type="image/svg+xml" data="fbcon.svg" width="400" height="300"><img src="fbcon.png" alt="Graph displaying blit speed for the FBCon video backend" width="400" height="300" /></object></a>
 <p>The FBCon video backend provides graphics support for consoles using the
-<a href="http://linux-fbdev.sourceforge.net/">Linux Framebuffer</a>. 
-Although this driver does support hardware display surfaces, requesting a 
+<a href="http://linux-fbdev.sourceforge.net/">Linux Framebuffer</a>.
+Although this driver does support hardware display surfaces, requesting a
 display surface with <code>SDL_HWSURFACE</code> caused the test machine to hard
 lock and prevented gathering any test data for these surfaces.  (Note that
 this may be worth checking against before allocating a hardware display surface
@@ -250,7 +249,7 @@ skew the test results (although I am unsure of this).</p>
 <a href="windib.svg"><object type="image/svg+xml" data="windib.svg" width="400" height="300"><img src="windib.png" alt="Graph displaying blit speed for the WinDIB video backend" width="400" height="300" /></object></a>
 <p>The WinDIB video backend provides graphics support for Microsoft Windows&#0174;
 platforms using
-<a href="http://msdn2.microsoft.com/en-us/library/ms536795.aspx">Windows&#0174;
+<a href="https://msdn.microsoft.com/en-us/library/dd145203.aspx">Windows&#0174;
 <abbr title="Graphics Device Interface">GDI</abbr></a>.  This backend does
 not support hardware surfaces and therefore those results are omitted from
 the graph.</p>
@@ -293,9 +292,9 @@ a grain of salt and go with practical experience.  Best of luck!</p>
 <hr />
 <h2>References/More Information</h2>
 <ol style="footnotes">
-<li><a href="http://www.libsdl.org/cgi/docwiki.cgi/SDL_5fSurface">SDL API
+<li><a href="https://www.libsdl.org/cgi/docwiki.cgi/SDL_5fSurface">SDL API
 Documentation for <code>SDL_Surface</code></a></li>
-<li><a href="http://www.linuxjournal.com/article/4401">LinuxJournal Article:  
+<li><a href="https://www.linuxjournal.com/article/4401">LinuxJournal Article:
 A Crash Course in SDL</a></li>
 <li><a href="http://www.linuxdevcenter.com/pub/a/linux/2003/08/07/sdl_anim.html">Linux
 DevCenter:  Animation in SDL:  Hardware Surfaces</a></li>
