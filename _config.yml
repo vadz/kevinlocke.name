@@ -1,7 +1,9 @@
+excerpt_separator: <!--more-->
 future: false
+highlighter: pygments
 markdown: kramdown
 permalink: /bits/:year/:month/:day/:title/
-pygments: true
+timezone: America/Denver
 url:  https://kevinlocke.name
 
 # vi: set sts=2 sw=2 et :
