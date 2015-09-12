@@ -6,21 +6,27 @@
     <!-- Comment/Uncomment the desired flavor of HTML output
             If we bite the bullet and to with transitional or frameset, more
             conversions will be done for backwards-compatibility -->
-    
+    <!-- Note:  encoding="us-ascii" forces entities in output for compat. -->
+
+    <xsl:output method="html" indent="yes" encoding="us-ascii"/>
+    <xsl:variable name="flavor" select="'html5'"/>
+
+    <!--
     <xsl:output method="html" indent="yes" encoding="us-ascii"
         doctype-public="-//W3C//DTD HTML 4.01//EN"
         doctype-system="http://www.w3.org/TR/html4/strict.dtd"/>
     <xsl:variable name="flavor" select="'strict'"/>
+    -->
 
     <!--
-    <xsl:output method="html" indent="yes"
+    <xsl:output method="html" indent="yes" encoding="us-ascii"
         doctype-public="-//W3C//DTD HTML 4.01 Transitional//EN"
         doctype-system="http://www.w3.org/TR/html4/loose.dtd"/>
     <xsl:variable name="flavor" select="'transitional'"/>
     -->
     
     <!--
-    <xsl:output method="html" indent="yes"
+    <xsl:output method="html" indent="yes" encoding="us-ascii"
         doctype-public="-//W3C//DTD HTML 4.01 Frameset//EN"
         doctype-system="http://www.w3.org/TR/html4/frameset.dtd"/>
     <xsl:variable name="flavor" select="'frameset'"/>
@@ -37,7 +43,19 @@
     <xsl:preserve-space elements="script"/>
     -->
     <xsl:preserve-space elements="html *"/>
-    
+
+    <!-- Add HTML5 DOCTYPE.  See https://stackoverflow.com/q/3387127 -->
+    <xsl:template match="xhtml:html">
+        <xsl:if test="($flavor = 'html5')">
+          <xsl:text disable-output-escaping='yes'>&lt;!DOCTYPE html&gt;
+</xsl:text>
+        </xsl:if>
+        <html>
+            <xsl:apply-templates select="@*"/>
+            <xsl:apply-templates/>
+        </html>
+    </xsl:template>
+
     <!-- Convert xml:lang attribute to lang if no other lang attribute exists
             and element can have a lang attribute -->
     <xsl:template match="@xml:lang">
@@ -69,12 +87,11 @@
         </head>
     </xsl:template>
 
-    <xsl:template match="xhtml:meta[@http-equiv='Content-Type' and contains(@content, ';')]">
-        <meta http-equiv="Content-Type">
-            <xsl:attribute name="content"><xsl:value-of select="concat('text/html', substring-after(@content, ';'))" /></xsl:attribute>
-        </meta>
-    </xsl:template>
-    
+    <!-- Ignore type/charset meta element, since xsltproc always outputs one
+        with the output type and charset automatically.
+        See https://mail.gnome.org/archives/xslt/2007-January/msg00004.html -->
+    <xsl:template match="xhtml:meta[@http-equiv='Content-Type']|xhtml:meta[@charset]"/>
+
     <!-- Provide name attributes for elements with id attributes 
             and no name attributes provided -->
     <xsl:template match="@id">

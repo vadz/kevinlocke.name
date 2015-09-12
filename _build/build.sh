@@ -17,12 +17,14 @@ for FILE in $(find _site/bits -name '*.html') ; do
     mv "$FILE" "${FILE%.html}.xhtml"
 done
 
-# Check that XHTML files are DTD valid
-find _site -name '*.xhtml' | xargs xmllint --nonet --noout --valid
+# Check that XHTML files are valid XML
+find _site -name '*.xhtml' -print0 | xargs -0 -r xmllint --nonet --noout
 
 # Generate .html versions of .xhtml pages
 for FILE in $(find _site -name '*.xhtml') ; do
     xsltproc --nodtdattr -o "${FILE%.xhtml}.html" _build/xhtmltohtml.xsl "$FILE"
+    # Replace the over-conservative us-ascii charset with utf-8
+    perl -pi -e 's/\s*<meta[^>]*http-equiv="Content-Type"[^>]*>\s*/  <meta charset="utf-8" \/>\n/i' -- "${FILE%.xhtml}.html"
 done
 
 # Check other XML for well-formedness
