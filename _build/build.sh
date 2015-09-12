@@ -17,8 +17,21 @@ find _site/bits -name '*.html' | while IFS= read -r FILE; do
     mv -- "$FILE" "${FILE%.html}.xhtml"
 done
 
-# Check that XHTML files are valid XML
-find _site -name '*.xhtml' -print0 | xargs -0 -r xmllint --nonet --noout
+# Assume vnu.jar is set executable and placed in $PATH if available
+if command -v vnu.jar >/dev/null 2>&1 ; then
+    # Check that XHTML files are valid XHTML5
+    find _site -name '*.xhtml' -print0 | \
+        xargs -0 -r vnu.jar --
+else
+    echo 'Validator.nu command-line client not in $PATH, skipping...' >&2
+    echo 'See https://validator.github.io/validator/#usage' >&2
+
+    # Check that XHTML files are valid XML
+    find _site -name '*.xhtml' -print0 | \
+        xargs -0 -r xmllint --nonet --noout
+fi
+
+# Note:  Not checking .html files, which are phpdoc/javadoc
 
 # Generate .html versions of .xhtml pages
 find _site -name '*.xhtml' | while IFS= read -r FILE; do
