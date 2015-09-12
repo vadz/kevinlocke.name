@@ -45,3 +45,5 @@ find _site -iname '*.atom' -o -iname '*.xml' -print0 | xargs -0 -r xmllint --non
 
 # Remove .xhtml extension from URLs in the sitemap
 sed -i 's/\.xhtml<\/loc>/<\/loc>/' _site/sitemap.xml
+
+echo Done building site.
