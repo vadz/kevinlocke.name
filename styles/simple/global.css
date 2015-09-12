@@ -232,39 +232,6 @@ object {
 	clear: both;
 }
 
-table.schedule {
-	border-collapse: collapse;
-	border: 1px solid #aaaaaa;
-	width: 100%;
-}
-
-table.schedule td,th {
-	border: 1px solid #aaaaaa;
-	padding-left: 5px; padding-right: 5px;
-	text-align: center;
-}
-
-table.schedule td.time {
-	text-align: left;
-	font-weight: bold;
-}
-
-table.schedule .lecture {
-	background-color: #cce5ff;
-}
-
-table.schedule .section {
-	background-color: #ffb2b2;
-}
-
-table.schedule .lab {
-	background-color: #ccffcc;
-}
-
-table.schedule tfoot td {
-	text-align: left;
-}
-
 table.contact {
 	padding: 5px;
 	margin: 5px;
