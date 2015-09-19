@@ -1,4 +1,10 @@
 excerpt_separator: <!--more-->
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - Procfile
+  - gems
+  - vendor
 future: false
 highlighter: pygments
 markdown: kramdown
