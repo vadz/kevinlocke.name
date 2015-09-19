@@ -49,7 +49,7 @@ of `LiftRules.configureLogging`.
 ## The Problem When Testing
 
 Unfortunately, when testing (using
-[Specs2](https://etorreborre.github.com/specs2/) or
+[Specs2](https://etorreborre.github.io/specs2/) or
 [ScalaTest](http://www.scalatest.org/) with [SBT](http://www.scala-sbt.org/)),
 the Automatic Configuration method is unlikely to work.  The problem is that
 if an instance of `LiftRules` is not created before the first `Logger` is
@@ -76,7 +76,7 @@ to log all messages in the default configuration.
 
 In SBT, it is also possible to run code before any tests run by using
 [Tests.Setup and
-Tests.Cleanup](http://www.scala-sbt.org/release/docs/Detailed-Topics/Testing.html#setup-and-cleanup)
+Tests.Cleanup](http://www.scala-sbt.org/release/docs/Testing.html#Setup+and+Cleanup)
 in the `testOptions` setting.  This method is a bit awkward, since SBT project
 code does not have access to the Lift classes directly (without adding a
 dependency to the project code), so everything must be done via reflection.
