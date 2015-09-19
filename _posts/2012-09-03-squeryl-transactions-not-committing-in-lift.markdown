@@ -84,5 +84,5 @@ exceptions should continue to work as expected.  At least, I hope so...
 ### 2012-09-07
 
 * Fixed the code using `Either` to follow the standard convention that `Left`
-  is failure and `Right` is success (as documented in the [scala.Either
-  scaladoc](http://www.scala-lang.org/api/current/index.html#scala.Either)).
+  is failure and `Right` is success (as documented in the [scala.util.Either
+  scaladoc](http://www.scala-lang.org/api/current/index.html#scala.util.Either)).
