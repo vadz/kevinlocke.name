@@ -101,13 +101,13 @@ examples.
 
 First, an example program which downloads a given URL using Dispatch in Scala:
 
-{% highlight_gist scala 3829187 MyDownloader.scala %}
+{% highlight_gist scala kevinoid 3829187 MyDownloader.scala %}
 
 ### Java
 
 Then, the same program using AsyncHttpClient directly from Java:
 
-{% highlight_gist java 3829665 MyDownloader.java %}
+{% highlight_gist java kevinoid 3829665 MyDownloader.java %}
 
 ## Caveats
 
