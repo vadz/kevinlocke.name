@@ -19,11 +19,10 @@ Locke.</span>
 <span class="postdate">Posted {{ post.date | date: "%B %d, %Y at %H:%M %p %Z" }}</span>
 by <span class="postauthor">Kevin Locke</span>{% if post.updated %}<br />
 <span class="postdate">Updated {{ post.updated | date: "%B %d, %Y at %H:%M %p %Z" }}</span>{% endif %}
-<div class="postexcerpt">{% if post.excerpt %}
+<div class="postexcerpt">
   {{ post.excerpt }}
+{% if post.excerpt != post.content %}
   <a class="postreadmore" href="{{ post.url }}">Read more...</a>
-{% else %}
-  {{ post.content }}
 {% endif %}
 </div>
 {% endfor %}
