@@ -3,11 +3,22 @@ Options +MultiViews
 
 DirectoryIndex	index
 
-ErrorDocument 400 /400
-ErrorDocument 401 /401
-ErrorDocument 403 /403
-ErrorDocument 404 /404
-ErrorDocument 500 /500
+# Note:  Do not let MultiViews resolve ErrorDocument
+# It will cause a 406 on top of other errors (like 404) if no types accepted
+<If "%{HTTP_ACCEPT} =~ m#application/xhtml\+xml#i">
+    ErrorDocument 400 /400.xhtml
+    ErrorDocument 401 /401.xhtml
+    ErrorDocument 403 /403.xhtml
+    ErrorDocument 404 /404.xhtml
+    ErrorDocument 500 /500.xhtml
+</If>
+<Else>
+    ErrorDocument 400 /400.html
+    ErrorDocument 401 /401.html
+    ErrorDocument 403 /403.html
+    ErrorDocument 404 /404.html
+    ErrorDocument 500 /500.html
+</Else>
 
 # mod_auto_index options
 HeaderName README-files.txt
