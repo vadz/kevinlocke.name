@@ -8,15 +8,15 @@ configuration options are used together on an Apache server."
 tags: [ apache ]
 ---
 
-For those of you who are [Serving XHTML with Apache MultiViews]({% post_url
-2012-07-20-serving-xhtml-with-apache-multiviews %}) you may want to be careful
-about how `MultiViews` interacts with
+For those of you who are [Serving XHTML with Apache
+MultiViews]({% post_url 2012-07-20-serving-xhtml-with-apache-multiviews %})
+you may want to be careful about how `MultiViews` interacts with
 [`ErrorDocument`](https://httpd.apache.org/docs/current/mod/core.html#errordocument).
 Configuring error documents with content negotiation can lead to compound
 errors in the case that the client does not accept any of the types available
 for the error document.  This results in both unexpected behavior and a
-suboptimal user experience.  This post describes how to avoid such errors while
-still negotiating the returned content type.
+suboptimal user experience.  This post describes how to avoid such errors
+while still negotiating the returned content type.
 
 <!--more-->
 
