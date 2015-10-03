@@ -43,8 +43,8 @@ application, which may be undesirable.  It's possible to do better.
 A better solution would be to use `append` or `merge`.  Unfortunately, a quick
 look at the documentation reveals that this is not quite right.  The major
 issue is that it treats the header as a comma-separated list, while
-`Content-Security-Policy` is semicolon-separated, and there is no way to
-change that behavior.
+`Content-Security-Policy` is semicolon-separated, and there is [no way to
+change that behavior](https://bz.apache.org/bugzilla/show_bug.cgi?id=58475).
 
 ## A Solution
 
