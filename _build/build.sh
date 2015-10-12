@@ -3,6 +3,8 @@
 
 set -eux
 
+rm -fr _site
+
 bundle exec jekyll build "$@"
 
 # Copy files with leading underscore excluded by Jekyll (in programs)
