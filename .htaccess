@@ -89,6 +89,9 @@ AddCharset utf-8 .html
 AddCharset utf-8 .xhtml
 AddCharset utf-8 .atom
 
+# Negotiate gzip encoding for pre-compressed files
+AddEncoding gzip .gz
+
 # Set the default Content-Language to English (since most pages are)
 DefaultLanguage en
 

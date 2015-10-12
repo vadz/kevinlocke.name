@@ -45,6 +45,20 @@ done
 find _site \( -iname '*.atom' -o -iname '*.xml' \) -print0 \
 	| xargs -0 -r xmllint --nonet --noout
 
+# Pre-compress common text files
+find _site \( -iname '*.atom' \
+	-o -iname '*.css' \
+	-o -iname '*.html' \
+	-o -iname '*.js' \
+	-o -iname '*.svg' \
+	-o -iname '*.txt' \
+	-o -iname '*.vcard' \
+	-o -iname '*.vcf' \
+	-o -iname '*.xhtml' \
+	-o -iname '*.xml' \
+	\) -print0 \
+	| xargs -0 -r pigz -9 -k
+
 # Remove .xhtml extension from URLs in the sitemap
 sed -i 's/\.xhtml<\/loc>/<\/loc>/' _site/sitemap.xml
 
