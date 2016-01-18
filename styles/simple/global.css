@@ -196,6 +196,10 @@ object {
 	margin-left: 10%;
 }
 
+.subtitle {
+	text-indent: 0;
+}
+
 .warning {
 	background-color: #ffeeee;
 	border: 2px dashed #ff5555;
