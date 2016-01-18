@@ -6,6 +6,8 @@ exclude:
   - gems
   - vendor
 future: false
+# Should switch to rouge so I can use clodeblocks
+# See https://github.com/jekyll/jekyll/issues/3371
 highlighter: pygments
 markdown: kramdown
 permalink: /bits/:year/:month/:day/:title/
