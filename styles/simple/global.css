@@ -76,6 +76,16 @@ object {
 	float: left;
 }
 
+.as-text {
+	display: inline-block;
+	float: none;
+	/* Note:  height should be baseline to top (1em is bottom to top) */
+	height: 0.75em;
+	margin: 0;
+	padding: 0;
+	border-style: none;
+}
+
 .sitename {
 	display: block;
 	font-size: xx-large;
@@ -196,6 +206,21 @@ object {
 	margin-left: 10%;
 }
 
+.subscribe h4 {
+	display: inline;
+}
+
+.subscribe-links {
+	display: inline;
+	padding: 0;
+}
+
+.subscribe-links li {
+	display: inline-block;
+	list-style-type: none;
+	margin: 0 0 0 1ex;
+}
+
 .subtitle {
 	text-indent: 0;
 }
@@ -223,6 +248,10 @@ object {
 
 #content img {
 	float: left;
+}
+
+#content img.as-text {
+	float: none;
 }
 
 .containclear {
