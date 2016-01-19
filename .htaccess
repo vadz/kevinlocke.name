@@ -80,16 +80,30 @@ Header always set Cache-Control "max-age=86400" "expr=%{REQUEST_STATUS} == 301"
 # Set STS header to require HTTPS for the next 6 months on kevinlocke.name
 Header always set Strict-Transport-Security "max-age=15768000" "expr=tolower(%{HTTP_HOST}) == 'kevinlocke.name'"
 
+# Define media types for negotiation
+# We use .gz as an encoding, not a type.
+RemoveType .gz
+# .tar.gz is an exception and should be served as application/gzip
+<FilesMatch ".+\.tar\.gz$">
+    RemoveEncoding .gz
+    # Note:  Can use application/x-gzip for backwards-compatibility
+    AddType application/gzip .gz
+    # Alternatively:
+    #ForceType application/gzip
+</FilesMatch>
+
 # Prioritize XHTML slightly above HTML
 # Recommended mechanism for MultiViews is to add a qs parameter to the type.
 # However, qs values are sent to client in violation of RFCs
 #AddType text/html;qs=0.999 .html
 #AddType application/xhtml+xml;qs=1 .xhtml
+
+# Define character sets (for negotiation and user agent interpretation)
 AddCharset utf-8 .html
 AddCharset utf-8 .xhtml
 AddCharset utf-8 .atom
 
-# Negotiate gzip encoding for pre-compressed files
+# Define encodings (for negotiation of pre-compressed files)
 AddEncoding gzip .gz
 
 # Set the default Content-Language to English (since most pages are)
