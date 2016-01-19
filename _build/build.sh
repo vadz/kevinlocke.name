@@ -3,6 +3,24 @@
 
 set -eux
 
+# trap wrappers since some shells don't call EXIT trap on signals (e.g. dash)
+# Use onexit "cmd" then unexit "cmd" around block to ensure cmd is always run
+unexit() { eval "$*"; trap "-" EXIT HUP INT KILL PIPE QUIT TERM; }
+onexit() { trap "$*; unexit" EXIT HUP INT KILL PIPE QUIT TERM; }
+
+# For determining appropriate levels of parallelism
+NPROCS=
+if [ -r /proc/cpuinfo ] ; then
+	NPROCS=$(grep -c ^processor /proc/cpuinfo)
+elif command -v sysctl >/dev/null ; then
+	NPROCS=$(sysctl -n hw.ncpu)
+fi
+
+if [ -z "$NPROCS" ] ; then
+	echo "Warning: Unable to detect number of CPU cores.  Guessing 2."
+	NPROCS=2
+fi
+
 rm -fr _site
 
 bundle exec jekyll build "$@"
@@ -46,6 +64,8 @@ find _site \( -iname '*.atom' -o -iname '*.xml' \) -print0 \
 	| xargs -0 -r xmllint --nonet --noout
 
 # Pre-compress common text files
+COMPRESSIBLE_FILES=$(mktemp -t compressible-files.XXXXXX)
+onexit rm "$COMPRESSIBLE_FILES"
 find _site \( -iname '*.atom' \
 	-o -iname '*.asc' \
 	-o -iname '*.css' \
@@ -58,8 +78,11 @@ find _site \( -iname '*.atom' \
 	-o -iname '*.vcf' \
 	-o -iname '*.xhtml' \
 	-o -iname '*.xml' \
-	\) -print0 \
-	| xargs -0 -r pigz -9 -k
+	\) -print0 > "$COMPRESSIBLE_FILES"
+xargs -0 -r pigz -9 -k < "$COMPRESSIBLE_FILES"
+if command -v brotli ; then
+	xargs -0 -r '-I{}' -P$((NPROCS+2)) brotli --input '{}' --output '{}.bro' < "$COMPRESSIBLE_FILES"
+fi
 
 # Remove .xhtml extension from URLs in the sitemap
 sed -i 's/\.xhtml<\/loc>/<\/loc>/' _site/sitemap.xml
