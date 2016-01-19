@@ -47,9 +47,11 @@ find _site \( -iname '*.atom' -o -iname '*.xml' \) -print0 \
 
 # Pre-compress common text files
 find _site \( -iname '*.atom' \
+	-o -iname '*.asc' \
 	-o -iname '*.css' \
 	-o -iname '*.html' \
 	-o -iname '*.js' \
+	-o -iname '*.pem' \
 	-o -iname '*.svg' \
 	-o -iname '*.txt' \
 	-o -iname '*.vcard' \
