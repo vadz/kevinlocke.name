@@ -10,6 +10,9 @@ future: false
 # See https://github.com/jekyll/jekyll/issues/3371
 highlighter: pygments
 markdown: kramdown
+kramdown:
+  # Behave more similarly to CommonMark HTML blocks, which allow markup
+  parse_block_html: true
 permalink: /bits/:year/:month/:day/:title/
 timezone: America/Denver
 url:  https://kevinlocke.name
