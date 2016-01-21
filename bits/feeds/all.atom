@@ -20,7 +20,7 @@
     Additionally licensed for use under the terms of the MIT License
     &lt;https://opensource.org/licenses/mit-license.php&gt;.
 
-    Copyright &#0169; 2005-2012 Kevin Locke &lt;kevin@kevinlocke.name&gt;</rights>
+    Copyright &#0169; 2005-2016 Kevin Locke &lt;kevin@kevinlocke.name&gt;</rights>
 
   {% for post in site.posts %}
   <entry>
