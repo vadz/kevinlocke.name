@@ -1,3 +1,19 @@
+# Set permalink for drafts and posts
+# Note:  Not set sitewide, since it would cause pages to become subdirs
+# See https://github.com/jekyll/jekyll/pull/3538
+defaults:
+  -
+    scope:
+      path: ""
+      type: "drafts"
+    values:
+      permalink: /bits/:year/:month/:day/:title/
+  -
+    scope:
+      path: ""
+      type: "posts"
+    values:
+      permalink: /bits/:year/:month/:day/:title/
 excerpt_separator: <!--more-->
 exclude:
   - Gemfile
@@ -13,7 +29,7 @@ markdown: kramdown
 kramdown:
   # Behave more similarly to CommonMark HTML blocks, which allow markup
   parse_block_html: true
-permalink: /bits/:year/:month/:day/:title/
+permalink: none
 timezone: America/Denver
 url:  https://kevinlocke.name
 
