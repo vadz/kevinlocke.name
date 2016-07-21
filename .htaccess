@@ -95,8 +95,18 @@ RemoveType .gz
 # Prioritize XHTML slightly above HTML
 # Recommended mechanism for MultiViews is to add a qs parameter to the type.
 # However, qs values are sent to client in violation of RFCs
-#AddType text/html;qs=0.999 .html
-#AddType application/xhtml+xml;qs=1 .xhtml
+<If "%{HTTP_ACCEPT} =~ m#application/xhtml\+xml#i">
+    AddType text/html;qs=0.99 .html
+    AddType application/xhtml+xml .xhtml
+</If>
+<Else>
+    AddType text/html .html
+    AddType application/xhtml+xml;qs=0.99 .xhtml
+</Else>
+
+# Remove qs parameter incorrectly sent by MultiViews due to
+# https://bz.apache.org/bugzilla/show_bug.cgi?id=53595
+Header always edit "Content-Type" ";\s*qs=[0-9]*(?:\.[0-9]+)?\s*(?=;|$)" ""
 
 # Define character sets (for negotiation and user agent interpretation)
 AddCharset utf-8 .html
@@ -112,20 +122,6 @@ AddEncoding gzip .gz
 # Set the default Content-Language to English (since most pages are)
 DefaultLanguage en
 
-# Instead, we let MultiViews choose a type and if it is HTML we check whether
-# XHTML is equally acceptable and send it instead
-# Note: IS_SUBREQ is true when MultiViews has redirected
-# FIXME: Is there a way to compare with the original URL here?
-RewriteCond "%{IS_SUBREQ}" "=true"
-RewriteCond "%{REQUEST_FILENAME}" "^(.*)\.html(\..+)?$"
-RewriteCond "%1.xhtml%2" "-f"
-RewriteCond "%{HTTP:Accept}" "application/xhtml\+xml\s*(?:,|$)"
-RewriteRule "^(.*)\.html(\..+)?$" "/$1.xhtml$2" [ENV=NOW_XHTML]
-
-# RewriteRule above does not change the Content-Location set by MultiViews
-# So we change it manually after the internal redirect
-# Note:  "REDIRECT_" prefix, see https://stackoverflow.com/questions/3050444
-Header always edit "Content-Location" "\.html(\..+)?$" ".xhtml$1" env=REDIRECT_NOW_XHTML
 
 <IfVersion < 2.4.4>
 # Note:  Can't use / in FilterProvider regex in Apache < 2.2.21 use \x2F
