@@ -117,15 +117,15 @@ DefaultLanguage en
 # Note: IS_SUBREQ is true when MultiViews has redirected
 # FIXME: Is there a way to compare with the original URL here?
 RewriteCond "%{IS_SUBREQ}" "=true"
-RewriteCond "%{REQUEST_FILENAME}" "^(.*)\.html$"
-RewriteCond "%1.xhtml" "-f"
+RewriteCond "%{REQUEST_FILENAME}" "^(.*)\.html(\..+)?$"
+RewriteCond "%1.xhtml%2" "-f"
 RewriteCond "%{HTTP:Accept}" "application/xhtml\+xml\s*(?:,|$)"
-RewriteRule "^(.*)\.html$" "/$1.xhtml" [ENV=NOW_XHTML]
+RewriteRule "^(.*)\.html(\..+)?$" "/$1.xhtml$2" [ENV=NOW_XHTML]
 
 # RewriteRule above does not change the Content-Location set by MultiViews
 # So we change it manually after the internal redirect
 # Note:  "REDIRECT_" prefix, see https://stackoverflow.com/questions/3050444
-Header always edit "Content-Location" "\.html$" ".xhtml" env=REDIRECT_NOW_XHTML
+Header always edit "Content-Location" "\.html(\..+)?$" ".xhtml$1" env=REDIRECT_NOW_XHTML
 
 <IfVersion < 2.4.4>
 # Note:  Can't use / in FilterProvider regex in Apache < 2.2.21 use \x2F
