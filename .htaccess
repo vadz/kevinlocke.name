@@ -122,33 +122,43 @@ AddEncoding gzip .gz
 # Set the default Content-Language to English (since most pages are)
 DefaultLanguage en
 
+# Although the DEFLATE filter will only compress when the request accepts gzip
+# and there is the response is not already compressed, mod_filter applies the
+# header changes (e.g. removing Etag, setting Accept-Ranges: none) whenever
+# the provider matches.  To avoid this, only match the provider when it has
+# a chance of actually applying.
+#
+# Note:  %{resp:Content-Encoding} is not set by mod_negotiation.c, which only
+# sets the content_encoding field of the response struct.  Check
+# %{resp:Content-Location} which has the matched file extension, to handle it.
+<If "%{req:Accept-Encoding} =~ m#\bgzip\b#i">
+    <IfVersion < 2.4.4>
+        # Note:  Can't use / in FilterProvider regex in Apache < 2.2.21 use \x2F
+        # See https://issues.apache.org/bugzilla/show_bug.cgi?id=51434
+        # Gzip content which may benefit from the compression
+        FilterDeclare COMPRESS CONTENT_SET
+        # Compress any text content
+        FilterProvider COMPRESS DEFLATE resp=Content-Type /^text\x2F/
+        # Compress JavaScript
+        FilterProvider COMPRESS DEFLATE resp=Content-Type /^application\x2F(x-)?javascript/
+        # Compress any XML content
+        # Note:  This expression could be a lot tighter, but this is simple and works
+        FilterProvider COMPRESS DEFLATE resp=Content-Type /^[^;]+(\x2F|\+)xml\x20*(;|$)/
+        FilterChain COMPRESS
+        FilterProtocol COMPRESS DEFLATE change=yes,byteranges=no
+    </IfVersion>
 
-<IfVersion < 2.4.4>
-# Note:  Can't use / in FilterProvider regex in Apache < 2.2.21 use \x2F
-# See https://issues.apache.org/bugzilla/show_bug.cgi?id=51434
-# Gzip content which may benefit from the compression
-FilterDeclare COMPRESS CONTENT_SET
-# Compress any text content
-FilterProvider COMPRESS DEFLATE resp=Content-Type /^text\x2F/
-# Compress JavaScript
-FilterProvider COMPRESS DEFLATE resp=Content-Type /^application\x2F(x-)?javascript/
-# Compress any XML content
-# Note:  This expression could be a lot tighter, but this is simple and works
-FilterProvider COMPRESS DEFLATE resp=Content-Type /^[^;]+(\x2F|\+)xml\x20*(;|$)/
-FilterChain COMPRESS
-FilterProtocol COMPRESS DEFLATE change=yes,byteranges=no
-</IfVersion>
-
-<IfVersion >= 2.4.4>
-# Gzip content which may benefit from the compression
-FilterDeclare COMPRESS CONTENT_SET
-# Compress any text content
-FilterProvider COMPRESS DEFLATE "%{Content_Type} =~ m#^text/#i"
-# Compress JavaScript
-FilterProvider COMPRESS DEFLATE "%{Content_Type} =~ m#^application/(x-)?javascript#i"
-# Compress any XML content
-# Note:  This expression could be a lot tighter, but this is simple and works
-FilterProvider COMPRESS DEFLATE "%{Content_Type} =~ m#^[^;]+(/|\+)xml *(;|$)#i"
-FilterChain COMPRESS
-FilterProtocol COMPRESS DEFLATE change=yes,byteranges=no
-</IfVersion>
+    <IfVersion >= 2.4.4>
+        # Gzip content which may benefit from the compression
+        FilterDeclare COMPRESS CONTENT_SET
+        # Compress any text content
+        FilterProvider COMPRESS DEFLATE "%{Content_Type} =~ m#^text/#i && -z %{resp:Content-Encoding} && %{resp:Content-Location} !~ m/\.(?:bro?|gz)$/"
+        # Compress JavaScript
+        FilterProvider COMPRESS DEFLATE "%{Content_Type} =~ m#^application/(x-)?javascript#i && -z %{resp:Content-Encoding} && %{resp:Content-Location} !~ m/\.(?:bro?|gz)$/"
+        # Compress any XML content
+        # Note:  This expression could be a lot tighter, but this is simple and works
+        FilterProvider COMPRESS DEFLATE "%{Content_Type} =~ m#^[^;]+(/|\+)xml *(;|$)#i && -z %{resp:Content-Encoding} && %{resp:Content-Location} !~ m/\.(?:bro?|gz)$/"
+        FilterChain COMPRESS
+        FilterProtocol COMPRESS DEFLATE change=yes,byteranges=no
+    </IfVersion>
+</If>
