@@ -36,6 +36,9 @@ find _site/bits -name '*.html' | while IFS= read -r FILE; do
     mv -- "$FILE" "${FILE%.html}.xhtml"
 done
 
+# Remove .xhtml extension from URLs in the sitemap
+sed -i 's/\.xhtml<\/loc>/<\/loc>/' _site/sitemap.xml
+
 # Assume vnu.jar is set executable and placed in $PATH if available
 if command -v vnu.jar >/dev/null 2>&1 ; then
     # Check that XHTML files are valid XHTML5
@@ -83,8 +86,5 @@ xargs -0 -r pigz -9 -k < "$COMPRESSIBLE_FILES"
 if command -v brotli ; then
 	xargs -0 -r '-I{}' -P$((NPROCS+2)) brotli --input '{}' --output '{}.bro' < "$COMPRESSIBLE_FILES"
 fi
-
-# Remove .xhtml extension from URLs in the sitemap
-sed -i 's/\.xhtml<\/loc>/<\/loc>/' _site/sitemap.xml
 
 echo Done building site.
