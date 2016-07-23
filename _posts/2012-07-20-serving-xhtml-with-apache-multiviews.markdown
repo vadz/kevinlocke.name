@@ -224,7 +224,7 @@ Header always edit "Content-Location" "\.html$" ".xhtml" env=REDIRECT_NOW_XHTML
 {% endhighlight %}
 
 The second issue is that when [Serving Pre-Compressed Files with Apache
-MultiViews]({% post_url _posts/2016-01-20-serving-pre-compressed-files-with-apache-multiviews %})
+MultiViews]({% post_url 2016-01-20-serving-pre-compressed-files-with-apache-multiviews %})
 the filename may end in `.html.gz` or another encoding, rather than `.html`.
 To address this, the above rules can be extended to match and preserve
 additional extensions after `.html`:
