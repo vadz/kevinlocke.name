@@ -86,5 +86,8 @@ xargs -0 -r pigz -9 -k < "$COMPRESSIBLE_FILES"
 if command -v brotli ; then
 	xargs -0 -r '-I{}' -P$((NPROCS+2)) brotli --input '{}' --output '{}.bro' < "$COMPRESSIBLE_FILES"
 fi
+# Rename original files to .orig so that MultiViews will negotiate the encoding
+# when accessing the file with the type extension  (otherwise just serves it)
+xargs -0 -r '-I{}' -P$((NPROCS+2)) mv '{}' '{}.orig' < "$COMPRESSIBLE_FILES"
 
 echo Done building site.

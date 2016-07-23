@@ -114,8 +114,13 @@ AddCharset utf-8 .atom
 # Define encodings (for negotiation of pre-compressed files)
 # Note:  Can't use .br extension, which conflicts with ISO-693 br language code
 #        Using .bro as currently in https://github.com/google/brotli/pull/163
+# Note:  .orig is necessary for negotiating encoding of URLs with type extension
 AddEncoding br .bro
 AddEncoding gzip .gz
+# Note:  Multiviews treats no encoding differently than identity.
+#        Ignore by assigning extension to en language, which is our default.
+#AddEncoding identity .orig
+AddLanguage en .orig
 
 # Set the default Content-Language to English (since most pages are)
 DefaultLanguage en
