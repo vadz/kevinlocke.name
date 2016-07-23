@@ -93,8 +93,6 @@ RemoveType .gz
 </FilesMatch>
 
 # Prioritize XHTML slightly above HTML
-# Recommended mechanism for MultiViews is to add a qs parameter to the type.
-# However, qs values are sent to client in violation of RFCs
 <If "%{HTTP_ACCEPT} =~ m#application/xhtml\+xml#i">
     AddType text/html;qs=0.99 .html
     AddType application/xhtml+xml .xhtml
