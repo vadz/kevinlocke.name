@@ -90,4 +90,11 @@ fi
 # when accessing the file with the type extension  (otherwise just serves it)
 xargs -0 -r '-I{}' -P$((NPROCS+2)) mv '{}' '{}.orig' < "$COMPRESSIBLE_FILES"
 
+# ErrorDocument does not appear to accept .html.orig.
+# Copy to .orig.html for this use.
+# (Avoid just .html which would thwart encoding negotiation of .html type).
+for FILE in _site/[0-9][0-9][0-9].html.orig ; do
+	ln "$FILE" "${FILE%.html.orig}.orig.html"
+done
+
 echo Done building site.

@@ -3,21 +3,31 @@ Options +MultiViews
 
 DirectoryIndex	index
 
-# Note:  Do not let MultiViews resolve ErrorDocument
-# It will cause a 406 on top of other errors (like 404) if no types accepted
-<If "%{HTTP_ACCEPT} =~ m#application/xhtml\+xml#i">
+# Note:  Be careful to avoid compounding errors due to failed negotiation (406)
+# This is particularly likely for 404 when HTML is not accepted (since error
+# document is an HTML document) so it can not be type-negotiated.
+<If "%{HTTP_ACCEPT} =~ m#application/xhtml\+xml\s*(?:,|$)#i">
     ErrorDocument 400 /400.xhtml
     ErrorDocument 401 /401.xhtml
     ErrorDocument 403 /403.xhtml
     ErrorDocument 404 /404.xhtml
     ErrorDocument 500 /500.xhtml
 </If>
-<Else>
+<ElseIf "%{HTTP_ACCEPT} =~ m#text/html\s*(?:,|$)#i">
     ErrorDocument 400 /400.html
     ErrorDocument 401 /401.html
     ErrorDocument 403 /403.html
     ErrorDocument 404 /404.html
     ErrorDocument 500 /500.html
+</ElseIf>
+<Else>
+    # Note:  ErrorDocument appears to ignore .html.orig and .html.gz
+    # Make an exception to the usual convention to work around this problem.
+    ErrorDocument 400 /400.orig.html
+    ErrorDocument 401 /401.orig.html
+    ErrorDocument 403 /403.orig.html
+    ErrorDocument 404 /404.orig.html
+    ErrorDocument 500 /500.orig.html
 </Else>
 
 # mod_auto_index options
