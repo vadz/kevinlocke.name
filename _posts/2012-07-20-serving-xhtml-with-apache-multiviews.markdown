@@ -166,7 +166,7 @@ ways.
 
 The content negotiation process occurs before the rewrite process [when the
 rewrite rules are in directory
-context](https://issues.apache.org/bugzilla/show_bug.cgi?id=29576).  This
+context](https://bz.apache.org/bugzilla/show_bug.cgi?id=29576).  This
 allows RewriteRules to change the result of the negotiation when it results
 in HTML rather than XHTML.  It is made more difficult if the restriction that
 HTML pages requested explicitly (with a URL that ends in `.html`) should still

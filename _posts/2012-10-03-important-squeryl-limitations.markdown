@@ -8,7 +8,7 @@ tags: [ scala, squeryl, scalaquery, slick ]
 updated: 2012-11-16 11:41:32-07:00
 ---
 I recently had to make the difficult choice to replace
-[Squeryl](http://squeryl.org/) with [SLICK](http://slick.typesafe.com/)
+[Squeryl](http://squeryl.org/) with [SLICK](http://slick.lightbend.com/)
 (formerly [ScalaQuery](http://scalaquery.org/)) much later in the development
 cycle than I would have liked.  Although I do like some of the design and
 features of Squeryl, it has some very significant limitations that anyone

@@ -21,7 +21,7 @@ how to configure logging during tests.
 
 The configuration mechanism that Lift uses is documented on the
 [Logging page on the Lift
-Wiki](https://www.assembla.com/spaces/liftweb/wiki/Logging#configuration).
+Wiki](https://app.assembla.com/spaces/liftweb/wiki/Logging#configuration).
 This post presents only a simplified overview.
 
 ### Programmatic Configuration

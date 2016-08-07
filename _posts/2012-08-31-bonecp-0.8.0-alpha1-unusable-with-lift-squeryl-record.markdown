@@ -8,7 +8,7 @@ tags: [ lift ]
 ---
 In tracking down some persistent errors relating to using
 [Squeryl](http://squeryl.org) with [Lift](http://liftweb.net/), I've found that
-the latest version of [BoneCP](http://jolbox.com/) does not appear to be safe
+the latest version of [BoneCP](http://www.jolbox.com/) does not appear to be safe
 for use in this scenario.  This article is a quick discussion of the symptoms
 that I am seeing and how to avoid them.
 
@@ -18,7 +18,7 @@ that I am seeing and how to avoid them.
 
 The setup that I am using is quite generic and based on the example
 configurations on the [Squeryl-Record wiki
-page](https://www.assembla.com/wiki/show/liftweb/Squeryl).  Basically, I'm
+page](https://app.assembla.com/wiki/show/liftweb/Squeryl).  Basically, I'm
 using the following code in my Lift Boot class:
 
     Props.get("db.driver") map { Class.forName(_) }

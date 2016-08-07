@@ -13,4 +13,4 @@ and role-based access control for users to name a few. This article will cover
 the process of installing Redmine on Debian Squeeze using MySQL for data
 storage, Thin for serving Ruby, and nginx as the outward-facing server.
 
-[Read more at Debian Administration...](https://www.debian-administration.org/article/673/Installing_Redmine_with_MySQL_Thin_and_Redmine_on_Debian_Squeeze)
+[Read more at Debian Administration...](https://debian-administration.org/article/673/Installing_Redmine_with_MySQL_Thin_and_Redmine_on_Debian_Squeeze)

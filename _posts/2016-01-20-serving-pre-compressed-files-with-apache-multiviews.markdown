@@ -136,7 +136,7 @@ Content-Encoding: gzip
 
 This is all sorts of wrong (although it is common enough that [Firefox detects
 it and provides a
-workaround](https://mxr.mozilla.org/mozilla-esr38/source/netwerk/protocol/http/nsHttpChannel.cpp#4291)).
+workaround](https://dxr.mozilla.org/mozilla-esr38/source/netwerk/protocol/http/nsHttpChannel.cpp#4291)).
 We wanted to send the browser a stylesheet, but instead we sent it a gzip file
 (according to `Content-Type`) which is gzipped (according to
 `Content-Encoding`).  We actually sent it the same gzipped stylesheet, but
@@ -172,7 +172,7 @@ Content-Encoding: gzip
 This tells the browser that we are sending it a tar file which is compressed
 for transmission.  So, if the browser didn't have [workarounds for this
 brokenness
-too](https://mxr.mozilla.org/mozilla-esr38/source/uriloader/exthandler/nsExternalHelperAppService.cpp#572)),
+too](https://dxr.mozilla.org/mozilla-esr38/source/uriloader/exthandler/nsExternalHelperAppService.cpp#572)),
 it would decompress the response content and save the uncompressed file as
 `launch-codes.tar` (or worse `launch-codes.tar.gz`).  What we actually wanted
 was to send a gzipped file with no additional content encoding.  We can

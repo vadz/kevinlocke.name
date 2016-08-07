@@ -7,7 +7,7 @@ tags: [ scala, scalaquery, slick ]
 updated: 2012-11-16 08:38:53-07:00
 ---
 
-I recently started using [SLICK](http://slick.typesafe.com/) (formerly
+I recently started using [SLICK](http://slick.lightbend.com/) (formerly
 [ScalaQuery](http://scalaquery.org/)) for database access in a Scala project.
 In the process of wrapping my head around how SLICK, I'm documenting some
 "recipes" for common queries.  Unfortunately, this post got published before

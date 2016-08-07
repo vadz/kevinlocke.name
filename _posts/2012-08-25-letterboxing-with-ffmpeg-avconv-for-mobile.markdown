@@ -24,7 +24,7 @@ properly written FFmpeg) which developed the ffmpeg command as well as a
 significant amount of other multimedia software.  The avconv program is a
 fork of ffmpeg by the Libav project.  The relationship between the two
 projects is a bit complex (see [this StackOverflow
-question](https://stackoverflow.com/questions/9477115/who-can-tell-me-the-difference-and-relation-between-ffmpeg-libav-and-avconv)
+question](https://stackoverflow.com/questions/9477115/what-are-the-differences-and-similarities-between-ffmpeg-libav-and-avconv)
 and linked pages for some details), but all commands in this post should work
 with either ffmpeg or avconv.  Feel free to use whichever you prefer.
 

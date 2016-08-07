@@ -18,10 +18,10 @@ on how to avoid the issue.
 ## The Setup
 
 [As noted
-before](/bits/2012/08/31/bonecp-0.8.0-alpha1-unusable-with-lift-squeryl-record),
+before]({% post_url 2012-08-31-bonecp-0.8.0-alpha1-unusable-with-lift-squeryl-record %}),
 the setup that I am using is quite generic and based on the example
 configurations on the [Squeryl-Record wiki
-page](https://www.assembla.com/wiki/show/liftweb/Squeryl).  The only portion
+page](https://app.assembla.com/wiki/show/liftweb/Squeryl).  The only portion
 which is relevant to this article is how transactions are handled.  For now,
 I'm using a simple transaction-per-request strategy, implemented as follows:
 
