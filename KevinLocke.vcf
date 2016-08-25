@@ -1,16 +1,16 @@
 BEGIN:VCARD
-VERSION:4.0
+VERSION:3.0
 SOURCE:https://kevinlocke.name/KevinLocke.vcf
-REV:20150903T200000Z
+REV:20160825T020000Z
 URL:https://kevinlocke.name/
 FN:Kevin Locke
 N:Locke;Kevin;;;
-EMAIL;TYPE=HOME:kevin@kevinlocke.name
+EMAIL;TYPE=INTERNET;TYPE=HOME:kevin@kevinlocke.name
 X-MOZILLA-HTML:FALSE
 IMPP;TYPE=HOME:xmpp:kevin@kevinlocke.name
 X-JABBER;TYPE=HOME:kevin@kevinlocke.name
 IMPP;TYPE=HOME:irc://irc.freenode.net/kevinoid,isnick
 X-IRC;TYPE=HOME:irc://irc.freenode.net/kevinoid,isnick
+TZ:VALUE=text:-07:00; MST; Denver/North America
 LANG:en
-TZ:America/Denver
 END:VCARD
