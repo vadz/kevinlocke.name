@@ -2,15 +2,22 @@ BEGIN:VCARD
 VERSION:3.0
 SOURCE:https://kevinlocke.name/KevinLocke.vcf
 REV:20160825T020000Z
+CLASS:PUBLIC
+KIND:individual
 URL:https://kevinlocke.name/
 FN:Kevin Locke
 N:Locke;Kevin;;;
 EMAIL;TYPE=INTERNET;TYPE=HOME:kevin@kevinlocke.name
+KEY;TYPE=PGP:https://kevinlocke.name/pgpkey-8CE71E1C.asc
 X-MOZILLA-HTML:FALSE
 IMPP;TYPE=HOME:xmpp:kevin@kevinlocke.name
+X-GOOGLE-TALK;TYPE=HOME:kevin@kevinlocke.name
+X-GTALK;TYPE=HOME:kevin@kevinlocke.name
 X-JABBER;TYPE=HOME:kevin@kevinlocke.name
 IMPP;TYPE=HOME:irc://irc.freenode.net/kevinoid,isnick
 X-IRC;TYPE=HOME:irc://irc.freenode.net/kevinoid,isnick
 TZ:VALUE=text:-07:00; MST; Denver/North America
 LANG:en
+X-EVOLUTION-BLOG-URL:https://kevinlocke.name/bits/
+X-KADDRESSBOOK-BlogFeed:https://kevinlocke.name/bits/
 END:VCARD
