@@ -1,6 +1,7 @@
 ---
 layout: post
 date: 2016-01-20 15:22:48-08:00
+updated: 2017-01-20 19:55:49-07:00
 title: Serving Pre-Compressed Files with Apache MultiViews
 description: "This post describes how to serve pre-compressed files, such as \
 gzipped CSS and JavaScript, using MultiViews in Apache while avoiding the \
@@ -78,12 +79,21 @@ out of the box by `mod_negotiation`.
 
 ## Building A Solution Using MultiViews
 
+### Prerequisites
+
 As in previous posts, we will build up a solution iteratively, tackling
 problems as they appear.  For this to work, `mod_mime` and `mod_negotiation`
 must be enabled/loaded.   On Debian and related distributions this can be done
-by running `a2enmod mime` and `a2enmod negotiation` as root.  The following
-examples use the domain `localhost` and the files `style.css` and
-`style.css.gz` in the site root.
+by running `a2enmod mime` and `a2enmod negotiation` as root.  Additionally,
+`mod_deflate` should not be applied to negotiated files/types.  This can be
+accomplished by removing its default configuration symlink at
+`/etc/apache2/mods-enabled/deflate.conf` or disabling the module with
+`a2dismod -f deflate`.
+
+The following examples use the domain `localhost` and assume the file
+`style.css.gz` exists in the site root.
+
+### First Steps
 
 We start by simply enabling `MultiViews` and declaring the extension `.gz` to
 identify the gzip encoding using following configuration (which must be inside
@@ -101,23 +111,83 @@ http://localhost/style.css` we get something like the following:
 
 {% highlight http %}
 HTTP/1.1 200 OK
-Date: Thu, 21 Jan 2016 01:03:58 GMT
-Server: Apache/2.4.18 (Debian)
-Last-Modified: Thu, 21 Jan 2016 01:00:51 GMT
-ETag: "f9e-529cda2456c78-gzip"
+Date: Sat, 21 Jan 2017 01:11:40 GMT
+Server: Apache/2.4.25 (Debian)
+Content-Location: style.css.gz
+Vary: negotiate,accept-encoding
+TCN: choice
+Last-Modified: Sat, 21 Jan 2017 01:04:11 GMT
+ETag: "538-5469058274adb;546906978a4c6"
 Accept-Ranges: bytes
-Vary: Accept-Encoding
-Content-Encoding: gzip
-Content-Length: 1323
+Content-Length: 1336
 Content-Type: text/css
+Content-Encoding: gzip
 {% endhighlight %}
 
 Notice that the server sent a response with the correct `Content-Type` and
-`Content-Encoding`.  We are already 95% of the way to the solution.  However,
-some issues appear if we request `style.css.gz` directly or request `style`
-without an extension to negotiate the `Content-Type`.[^negotiatetype]
-Consider the result for `curl -I -H "Accept-Encoding: gzip"
-http://localhost/style`:
+`Content-Encoding` and as a bonus it included the
+[TCN](https://tools.ietf.org/html/rfc2295) headers to inform clients that the
+result was negotiated and there may be other representations available.
+Hurray!
+
+### Non-Negotiated Files
+
+Not so fast!  If we add an uncompressed `style.css` file to the site root, the
+same request returns:
+
+{% highlight http %}
+HTTP/1.1 200 OK
+Date: Sat, 21 Jan 2017 01:15:34 GMT
+Server: Apache/2.4.25 (Debian)
+Last-Modified: Sat, 21 Jan 2017 00:05:41 GMT
+ETag: "f9d-5468f86e84147"
+Accept-Ranges: bytes
+Content-Length: 3997
+Content-Type: text/css
+{% endhighlight %}
+
+This response is neither negotiated or compressed!  What happened?
+Unfortunately, [`MultiViews` only negotiates requests for files which do not
+exist](https://httpd.apache.org/docs/2.4/mod/mod_negotiation.html#multiviews).
+After adding `style.css` the request matched the uncompressed file exactly so
+the response was not negotiated and the uncompressed file was sent.  This
+makes what we are trying to do particularly difficult ([Bug
+60619](https://bz.apache.org/bugzilla/show_bug.cgi?id=60619)).
+
+A solution is to rename the uncompressed file with an additional extension
+such as `.orig` or `.id` (for the `identity` encoding) and include that
+extension in negotiation.  This could be done by adding [`MultiviewsMatch
+Any`](https://httpd.apache.org/docs/current/mod/mod_mime.html#multiviewsmatch),
+although this risks matching unexpected file types (e.g. if a type is not
+assigned to `.md5`, `.asc`, `.torrent` or other additional extensions).  It
+could also be done by assigning `.orig` to a negotiated feature.  The obvious
+choice would be encoding: `AddEncoding identity .orig`.  Unfortunately, this
+does not work as expected since Apache treats the `identity` encoding
+differently from an unspecified encoding with undesired results (e.g. gzip is
+served for requests without `Accept-Encoding` because it is smaller than the
+uncompressed file).  Another option would be to assign `.orig` to a default
+charset or language, such as `AddCharset utf-8 .orig` or `AddLanguage en
+.orig` if all compressed files are UTF-8 or English.  A third option, which I
+find most appealing, is to use a no-op filter or handler such as the
+[`default-handler`](https://httpd.apache.org/docs/current/handler.html) and
+allow `MultiViews` to match extensions assigned to handlers:
+
+{% highlight apache %}
+Options +MultiViews
+AddEncoding gzip .gz
+MultiviewsMatch Handlers
+AddHandler default-handler .orig
+{% endhighlight %}
+
+With this configuration in place, the response is again compressed as it
+should be.
+
+### Fixing Incorrect .gz Type
+
+A problem with the above solution appears if we request `style.css.gz`
+directly or request `style` without an extension to negotiate the
+`Content-Type`.[^negotiatetype] Consider the result for `curl -I -H
+"Accept-Encoding: gzip" http://localhost/style`:
 
 {% highlight http %}
 HTTP/1.1 200 OK
@@ -126,7 +196,7 @@ Server: Apache/2.4.18 (Debian)
 Content-Location: style.css.gz
 Vary: negotiate,accept,accept-encoding
 TCN: choice
-Last-Modified: Thu, 21 Jan 2016 01:00:51 GMT
+Last-Modified: Thu, 21 Jan 2017 01:00:51 GMT
 ETag: "536-529cda2456c78;529cdb967800b"
 Accept-Ranges: bytes
 Content-Length: 1334
@@ -150,6 +220,8 @@ encoding of the file.  This can be fixed using `RemoveType` as follows:
 Options +MultiViews
 RemoveType .gz
 AddEncoding gzip .gz
+MultiviewsMatch Handlers
+AddHandler default-handler .orig
 {% endhighlight %}
 
 With this fix, the response now includes the correct headers, as in the first
@@ -161,7 +233,7 @@ results in a response similar to the following:
 HTTP/1.1 200 OK
 Date: Thu, 21 Jan 2016 01:32:51 GMT
 Server: Apache/2.4.18 (Debian)
-Last-Modified: Thu, 21 Jan 2016 01:27:34 GMT
+Last-Modified: Thu, 21 Jan 2017 01:27:34 GMT
 ETag: "3b709-529ce01dc4107"
 Accept-Ranges: bytes
 Content-Length: 243465
@@ -173,15 +245,18 @@ This tells the browser that we are sending it a tar file which is compressed
 for transmission.  So, if the browser didn't have [workarounds for this
 brokenness
 too](https://dxr.mozilla.org/mozilla-esr38/source/uriloader/exthandler/nsExternalHelperAppService.cpp#572)),
-it would decompress the response content and save the uncompressed file as
-`launch-codes.tar` (or worse `launch-codes.tar.gz`).  What we actually wanted
-was to send a gzipped file with no additional content encoding.  We can
-achieve that by adding some further configuration to `.tar.gz` files:
+it would decompress the response content and save the file as
+`launch-codes.tar` (or worse `launch-codes.tar.gz`) with uncompressed content.
+What we actually wanted was to send a gzipped file with no additional content
+encoding.  We can achieve that by adding some further configuration to
+`.tar.gz` files:
 
 {% highlight apache %}
 Options +MultiViews
 RemoveType .gz
 AddEncoding gzip .gz
+MultiviewsMatch Handlers
+AddHandler default-handler .orig
 <FilesMatch ".+\.tar\.gz$">
     RemoveEncoding .gz
     AddType application/gzip .gz
@@ -202,20 +277,79 @@ With this configuration we have eliminated all of the previous issues and
 achieved the desired result.  It can also be extend to include additional
 encodings easily, as we will demonstrate.
 
-## The MultiViews Method
+### Adding Brotli
 
 Now that we have found a working solution using `MultiViews`, lets add support
 for
 [Brotli](https://hacks.mozilla.org/2015/11/better-than-gzip-compression-with-brotli/)
-with the extension `.brotli`, as the icing on the cake:
+as icing on the cake.
+
+The first question is what extension to use, since the [brotli
+tool](https://github.com/google/brotli) does not provide one.  Using `.br`
+analogously to `.gz` provokes a conflict with the [ISO 639 language
+code](https://www.loc.gov/standards/iso639-2/php/code_list.php) for Breton,
+which is configured by default (but can be addressed by `RemoveLanguage .br`).
+Using `.bro` as suggested in [this pull
+request](https://github.com/google/brotli/pull/163) has already been [rejected
+by Mozilla](https://bugzilla.mozilla.org/show_bug.cgi?id=366559#c147).  So
+lets use `.brotli` as a neutral, if verbose, choice.
 
 {% highlight apache %}
 Options +MultiViews
 RemoveType .gz
 AddEncoding gzip .gz
-# Note:  If using .br for brotli, uncomment the following line
+AddEncoding br .brotli
+MultiviewsMatch Handlers
+AddHandler default-handler .orig
+<FilesMatch ".+\.tar\.gz$">
+    RemoveEncoding .gz
+    AddType application/gzip .gz
+</FilesMatch>
+{% endhighlight %}
+
+If we then create `style.css.brotli` with `brotli < style.css.orig >
+style.css.brotli`, a test request with `curl -I -H 'Accept-Encoding:
+br' http://localhost/style.css` yields:
+
+{% highlight http %}
+HTTP/1.1 200 OK
+Date: Sat, 21 Jan 2017 03:07:00 GMT
+Server: Apache/2.4.25 (Debian)
+Content-Location: style.css.brotli
+Vary: negotiate,accept-encoding
+TCN: choice
+Last-Modified: Sat, 21 Jan 2017 03:05:02 GMT
+ETag: "43b-54692084e8c35;546920f3c26ac"
+Accept-Ranges: bytes
+Content-Length: 1083
+Content-Type: text/css
+Content-Encoding: br
+{% endhighlight %}
+
+Hurrah!
+
+## The MultiViews Method
+
+The final configuration, which addresses all of the above issues is:
+
+{% highlight apache %}
+# Enable MultiViews for content negotiation
+Options +MultiViews
+
+# Treat .gz as gzip encoding, not application/gzip type
+RemoveType .gz
+AddEncoding gzip .gz
+
+# Treat .brotli as br encoding
+# Note:  If using .br for brotli, uncomment the following line:
 #RemoveLanguage .br
 AddEncoding br .brotli
+
+# Allow .orig files to be considered for negotiation (without type or encoding)
+MultiviewsMatch Handlers
+AddHandler default-handler .orig
+
+# As an exception, send .tar.gz files as gzip type, not gzip encoding
 <FilesMatch ".+\.tar\.gz$">
     RemoveEncoding .gz
     # Note:  Can use application/x-gzip for backwards-compatibility
@@ -230,17 +364,6 @@ this format is not currently widely used.  When serving tarballs that should
 be saved as brotli-compressed, add a `FilesMatch` directive analogous to the
 one for `tar.gz`.  Doing so is left as an exercise for the reader.
 
-The choice of `.brotli` for the file extension is somewhat arbitrary.  As
-noted in the comment above, using the extension `.br` would require the
-addition of `RemoveLanguage .br` because `br` is the [ISO 639 language
-code](https://www.loc.gov/standards/iso639-2/php/code_list.php) for Breton,
-which is configured to the `.br` extension by default.  The [pull request
-adding a proper command-line
-program](https://github.com/google/brotli/pull/163)
-uses `.bro`.  However, this naming was [rejected by
-Mozilla](https://bugzilla.mozilla.org/show_bug.cgi?id=366559#c147).  So I used
-`.brotli` as a neutral, if verbose, choice.
-
 This configuration intentionally omits support for `deflate` encoding due to
 [compatibility issues](http://www.gzip.org/zlib/zlib_faq.html#faq38) and no
 use case that I am aware of, since all browsers which support deflate support
@@ -248,5 +371,15 @@ gzip.
 
 If you encounter issues with this solution, please [let me know](/contact).
 Otherwise, best of luck serving pre-compressed files with Apache!
+
+## Article Changes
+
+### 2017-01-20
+
+* Added use of `.orig` to support compressed responses for requests which
+  include the file extenion (and would otherwise match the uncompressed file
+  exactly).
+* Added more headings and moved brotli into its own section to make the post
+  easier to skim.
 
 [^negotiatetype]: Although type negotiation is not often used for stylesheets, it is currently used to [negotiate WebP](https://developers.google.com/speed/webp/faq?hl=en#server-side_content_negotiation_via_accept_headers), [XHTML]({% post_url 2012-07-20-serving-xhtml-with-apache-multiviews %}), and in some REST APIs.
