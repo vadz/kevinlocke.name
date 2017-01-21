@@ -21,13 +21,12 @@ DirectoryIndex	index
     ErrorDocument 500 /500.html
 </ElseIf>
 <Else>
-    # Note:  ErrorDocument appears to ignore .html.orig and .html.gz
-    # Make an exception to the usual convention to work around this problem.
-    ErrorDocument 400 /400.orig.html
-    ErrorDocument 401 /401.orig.html
-    ErrorDocument 403 /403.orig.html
-    ErrorDocument 404 /404.orig.html
-    ErrorDocument 500 /500.orig.html
+    # Type negotiation would fail.  Name non-negotiated file explicitly.
+    ErrorDocument 400 /400.html.html
+    ErrorDocument 401 /401.html.html
+    ErrorDocument 403 /403.html.html
+    ErrorDocument 404 /404.html.html
+    ErrorDocument 500 /500.html.html
 </Else>
 
 # mod_auto_index options
@@ -124,13 +123,8 @@ AddCharset utf-8 .atom
 # Define encodings (for negotiation of pre-compressed files)
 # Note:  Can't use .br extension, which conflicts with ISO-693 br language code
 #        Using .bro as currently in https://github.com/google/brotli/pull/163
-# Note:  .orig is necessary for negotiating encoding of URLs with type extension
 AddEncoding br .bro
 AddEncoding gzip .gz
-# Note:  Multiviews treats no encoding differently than identity.
-#        Ignore by assigning extension to en language, which is our default.
-#AddEncoding identity .orig
-AddLanguage en .orig
 
 # Set the default Content-Language to English (since most pages are)
 DefaultLanguage en
