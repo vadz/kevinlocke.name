@@ -31,9 +31,16 @@ find programs -name '_*' | while IFS= read -r FILE; do
     cp -ar -- "$FILE" "_site/$FILE"
 done
 
-# Rename blog posts from .html to .xhtml
+# Rename blog posts from .html to .xhtml and replace named HTML entities
 find _site/bits -name '*.html' | while IFS= read -r FILE; do
-    mv -- "$FILE" "${FILE%.html}.xhtml"
+    sed -f _build/nametonum_entities.sed -- "$FILE" > "${FILE%.html}.xhtml"
+    rm -- "$FILE"
+done
+
+# Replace named HTML entities in non-html files
+find _site/bits -iname '*.atom' | while IFS= read -r FILE; do
+    sed -f _build/nametonum_entities.sed -- "$FILE" > "${FILE}.tmp"
+    mv -f -- "${FILE}.tmp" "$FILE"
 done
 
 # Remove .xhtml extension from URLs in the sitemap
