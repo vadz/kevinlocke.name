@@ -149,7 +149,7 @@ Content-Type: text/css
 This response is neither negotiated or compressed!  What happened?
 Unfortunately, [`MultiViews` only negotiates requests for files which do not
 exist](https://httpd.apache.org/docs/2.4/mod/mod_negotiation.html#multiviews).
-After adding `style.css` the request matched the uncompressed file exactly so
+After adding `style.css` the request matched the uncompressed file exactly, so
 the response was not negotiated and the uncompressed file was sent.  This
 makes what we are trying to do particularly difficult ([Bug
 60619](https://bz.apache.org/bugzilla/show_bug.cgi?id=60619)).
@@ -168,7 +168,7 @@ served for requests without `Accept-Encoding` because it is smaller than the
 uncompressed file).  Another option would be to assign `.orig` to a default
 charset or language, such as `AddCharset utf-8 .orig` or `AddLanguage en
 .orig` if all compressed files are UTF-8 or English.  A third option, which I
-find most appealing, is to use a no-op filter or handler such as the
+find more appealing, is to use a no-op filter or handler such as the
 [`default-handler`](https://httpd.apache.org/docs/current/handler.html) and
 allow `MultiViews` to match extensions assigned to handlers:
 
@@ -179,8 +179,14 @@ MultiviewsMatch Handlers
 AddHandler default-handler .orig
 {% endhighlight %}
 
-With this configuration in place, the response is again compressed as it
-should be.
+After a bit more digging, I found [François Marier has an even better
+solution](https://feeding.cloud.geek.nz/posts/serving-pre-compressed-files-using/)
+of doubling the type extension.  So `style.css` is saved as `style.css.css` on
+the server and requests for `/style.css` are negotiated between
+`style.css.css` (no encoding) and `style.css.gz` (gzip encoding).  This has
+the added advantage of not interfering with the type-detection of any other
+tools which may open the file on the server that do not recognize the .orig
+file extension.
 
 ### Fixing Incorrect .gz Type
 
@@ -220,8 +226,6 @@ encoding of the file.  This can be fixed using `RemoveType` as follows:
 Options +MultiViews
 RemoveType .gz
 AddEncoding gzip .gz
-MultiviewsMatch Handlers
-AddHandler default-handler .orig
 {% endhighlight %}
 
 With this fix, the response now includes the correct headers, as in the first
@@ -255,8 +259,6 @@ encoding.  We can achieve that by adding some further configuration to
 Options +MultiViews
 RemoveType .gz
 AddEncoding gzip .gz
-MultiviewsMatch Handlers
-AddHandler default-handler .orig
 <FilesMatch ".+\.tar\.gz$">
     RemoveEncoding .gz
     AddType application/gzip .gz
@@ -299,8 +301,6 @@ Options +MultiViews
 RemoveType .gz
 AddEncoding gzip .gz
 AddEncoding br .brotli
-MultiviewsMatch Handlers
-AddHandler default-handler .orig
 <FilesMatch ".+\.tar\.gz$">
     RemoveEncoding .gz
     AddType application/gzip .gz
@@ -345,10 +345,6 @@ AddEncoding gzip .gz
 #RemoveLanguage .br
 AddEncoding br .brotli
 
-# Allow .orig files to be considered for negotiation (without type or encoding)
-MultiviewsMatch Handlers
-AddHandler default-handler .orig
-
 # As an exception, send .tar.gz files as gzip type, not gzip encoding
 <FilesMatch ".+\.tar\.gz$">
     RemoveEncoding .gz
@@ -359,15 +355,20 @@ AddHandler default-handler .orig
 </FilesMatch>
 {% endhighlight %}
 
-This configuration does not provide a `FilesMatch` for `.tar.brotli` since
-this format is not currently widely used.  When serving tarballs that should
-be saved as brotli-compressed, add a `FilesMatch` directive analogous to the
-one for `tar.gz`.  Doing so is left as an exercise for the reader.
+This configuration **requires that uncompressed files be renamed with a
+double-extension** (e.g. `style.css.css`) unless one of the alternatives in
+the [Non-Negotiated Files](#non-negotiated-files) section is used.
 
 This configuration intentionally omits support for `deflate` encoding due to
 [compatibility issues](http://www.gzip.org/zlib/zlib_faq.html#faq38) and no
-use case that I am aware of, since all browsers which support deflate support
-gzip.
+significant use case that I am aware of, since all browsers which support
+deflate support gzip.  It could be easily added with `AddEncoding deflate
+.zlib` or similar if desired.
+
+This configuration also does not provide a `FilesMatch` for `.tar.brotli` since
+this format is not currently widely used.  When serving tarballs that should
+be saved as brotli-compressed, add a `FilesMatch` directive analogous to the
+one for `tar.gz`.  Doing so is left as an exercise for the reader.
 
 If you encounter issues with this solution, please [let me know](/contact).
 Otherwise, best of luck serving pre-compressed files with Apache!
@@ -376,9 +377,8 @@ Otherwise, best of luck serving pre-compressed files with Apache!
 
 ### 2017-01-20
 
-* Added use of `.orig` to support compressed responses for requests which
-  include the file extenion (and would otherwise match the uncompressed file
-  exactly).
+* Added Non-Negotiated Files section discussing how to handle requests matching
+  uncompressed files being non-negotiated.
 * Added more headings and moved brotli into its own section to make the post
   easier to skim.
 
