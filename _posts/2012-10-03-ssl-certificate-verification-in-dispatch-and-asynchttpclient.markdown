@@ -101,13 +101,279 @@ examples.
 
 First, an example program which downloads a given URL using Dispatch in Scala:
 
-{% highlight_gist scala kevinoid 3829187 MyDownloader.scala %}
+``` scala
+/* An example program using Dispatch with SSL certificate verification
+ *
+ * To the extent possible under law, Kevin Locke has waived all copyright and
+ * related or neighboring rights to this work.
+ */
+import com.ning.http.client.{AsyncHttpClient, AsyncHttpClientConfig}
+import dispatch._
+import java.security.cert.{CertificateException, X509Certificate}
+import javax.net.ssl.{HostnameVerifier, SSLPeerUnverifiedException, SSLSession}
+import javax.security.auth.kerberos.KerberosPrincipal
+import sun.security.util.HostnameChecker
+
+/** HostnameVerifier implementation which implements the same policy as the
+ * Java built-in pre-HostnameVerifier policy.
+ */
+object MyHostnameVerifier extends HostnameVerifier {
+  /** Checks if a given hostname matches the certificate or principal of a
+   * given session.
+   */
+  private def hostnameMatches(hostname: String, session: SSLSession): Boolean = {
+    val checker = HostnameChecker.getInstance(HostnameChecker.TYPE_TLS);
+
+    try {
+      session.getPeerCertificates match {
+        case Array(cert: X509Certificate, _*) =>
+          try {
+            checker.`match`(hostname, cert)
+            // Certificate matches hostname
+            true
+          } catch {
+            case _: CertificateException =>
+              // Certificate does not match hostname
+              false
+          }
+
+        case _ =>
+          // Peer does not have any certificates or they aren't X.509
+          false
+      }
+    } catch {
+      case _: SSLPeerUnverifiedException =>
+        // Not using certificates for verification, try verifying the principal
+        try {
+          session.getPeerPrincipal match {
+            case principal: KerberosPrincipal =>
+              HostnameChecker.`match`(hostname, principal)
+
+            case _ =>
+              // Can't verify principal, not Kerberos
+              false
+          }
+        } catch {
+          case _: SSLPeerUnverifiedException =>
+            // Can't verify principal, no principal
+            false
+        }
+    }
+  }
+
+  def verify(hostname: String, session: SSLSession): Boolean = {
+    if (hostnameMatches(hostname, session)) {
+      true
+    } else {
+      // TODO: Add application-specific checks for hostname/certificate match
+      false
+    }
+  }
+}
+
+/** Extension of Http which uses an AsyncHttpClient configured with our
+ * customized SSLContext and HostnameVerifier
+ */
+object MyHttp extends Http {
+  override lazy val client = new AsyncHttpClient(
+    new AsyncHttpClientConfig.Builder()
+      .setSSLContext({
+        val ctx = javax.net.ssl.SSLContext.getInstance("TLS")
+        ctx.init(null, null, null)
+        ctx
+      })
+      .setHostnameVerifier(MyHostnameVerifier)
+      .build
+  )
+}
+
+/** Implements the "MyDownloader" application */
+object MyDownloader {
+  def main(args: Array[String]) {
+    args match {
+      case Array(url) =>
+        val request = dispatch.url(url)
+
+        Console.err.println("Downloading " + url)
+        MyHttp(request OK as.String).either() match {
+          case Left(e) =>
+            // Something failed
+            Console.err.println("Failure downloading " + url + ": " + e)
+
+          case Right(content) =>
+            // Success
+            Console.err.println("Successfully downloaded " + url)
+            Console.out.println(content)
+        }
+
+        MyHttp.shutdown()
+
+      case _ =>
+        Console.err.println("Usage: myhttp <URL>")
+        System.exit(1)
+    }
+  }
+}
+```
+
+The above code is [also available as part of a GitHub
+Gist](https://gist.github.com/kevinoid/3829187#file-mydownloader-scala).
 
 ### Java
 
 Then, the same program using AsyncHttpClient directly from Java:
 
-{% highlight_gist java kevinoid 3829665 MyDownloader.java %}
+``` java
+/* An example program using AsyncHttpClient with SSL certificate verification
+ *
+ * To the extent possible under law, Kevin Locke has waived all copyright and
+ * related or neighboring rights to this work.
+ * A legal description of this waiver is available in LICENSE.txt.
+ */
+import com.ning.http.client.AsyncHttpClient;
+import com.ning.http.client.AsyncHttpClientConfig;
+import com.ning.http.client.Response;
+
+import java.io.IOException;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
+import java.security.Principal;
+import java.security.cert.Certificate;
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
+import java.util.concurrent.ExecutionException;
+
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLPeerUnverifiedException;
+import javax.net.ssl.SSLSession;
+import javax.security.auth.kerberos.KerberosPrincipal;
+import sun.security.util.HostnameChecker;
+
+/** Implements the "MyDownloader" application */
+public class MyDownloader {
+
+    /** HostnameVerifier implementation which implements the same policy as the
+     * Java built-in pre-HostnameVerifier policy.
+     */
+    private static class MyHostnameVerifier implements HostnameVerifier {
+        /** Checks if a given hostname matches the certificate or principal of
+         * a given session.
+         */
+        private boolean hostnameMatches(String hostname, SSLSession session) {
+            HostnameChecker checker =
+                HostnameChecker.getInstance(HostnameChecker.TYPE_TLS);
+
+            boolean validCertificate = false, validPrincipal = false;
+            try {
+                Certificate[] peerCertificates = session.getPeerCertificates();
+
+                if (peerCertificates.length > 0 &&
+                        peerCertificates[0] instanceof X509Certificate) {
+                    X509Certificate peerCertificate =
+                            (X509Certificate)peerCertificates[0];
+
+                    try {
+                        checker.match(hostname, peerCertificate);
+                        // Certificate matches hostname
+                        validCertificate = true;
+                    } catch (CertificateException ex) {
+                        // Certificate does not match hostname
+                    }
+                } else {
+                    // Peer does not have any certificates or they aren't X.509
+                }
+            } catch (SSLPeerUnverifiedException ex) {
+                // Not using certificates for peers, try verifying the principal
+                try {
+                    Principal peerPrincipal = session.getPeerPrincipal();
+                    if (peerPrincipal instanceof KerberosPrincipal) {
+                        validPrincipal = HostnameChecker.match(hostname,
+                                (KerberosPrincipal)peerPrincipal);
+                    } else {
+                        // Can't verify principal, not Kerberos
+                    }
+                } catch (SSLPeerUnverifiedException ex2) {
+                    // Can't verify principal, no principal
+                }
+            }
+
+            return validCertificate || validPrincipal;
+        }
+
+        public boolean verify(String hostname, SSLSession session) {
+            if (hostnameMatches(hostname, session)) {
+                return true;
+            } else {
+                // TODO: Add application-specific checks for
+                // hostname/certificate match
+                return false;
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        if (args.length != 1) {
+            System.err.println("Usage: myhttp <URL>");
+        } else {
+            String url = args[0];
+
+            SSLContext context = null;
+            try {
+                context = SSLContext.getInstance("TLS");
+            } catch (NoSuchAlgorithmException e) {
+                e.printStackTrace();
+                return;
+            }
+
+            try {
+                context.init(null, null, null);
+            } catch (KeyManagementException e) {
+                e.printStackTrace();
+                return;
+            }
+
+            AsyncHttpClient client = new AsyncHttpClient(
+                    new AsyncHttpClientConfig.Builder()
+                        .setSSLContext(context)
+                        .setHostnameVerifier(new MyHostnameVerifier())
+                        .build()
+                );
+
+            Response response = null;
+            try {
+                response = client.prepareGet(url).execute().get();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+                return;
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+                return;
+            } catch (IOException e) {
+                e.printStackTrace();
+                return;
+            }
+
+            if (response.getStatusCode() / 100 == 2) {
+                try {
+                    String responseBody = response.getResponseBody();
+                    System.err.println("Successfully downloaded " + url);
+                    System.out.println(responseBody);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    return;
+                }
+            } else {
+                System.err.println("Failure downloading " + url +
+                        ": HTTP Status " + response.getStatusCode());
+            }
+        }
+    }
+}
+```
+
+The above code is [also available as part of a GitHub
+Gist](https://gist.github.com/kevinoid/3829665#file-mydownloader-java).
 
 ## Caveats
 
