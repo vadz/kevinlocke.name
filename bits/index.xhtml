@@ -27,9 +27,9 @@ Locke.</p>
 
 {% for post in site.posts %}
 <h2><a href="{{ post.url }}">{{ post.title | xml_escape }}</a></h2>
-<span class="postdate">Posted {{ post.date | date: "%B %d, %Y at %H:%M %p %Z" }}</span>
+<span class="postdate">Posted {{ post.date | date: "%B %d, %Y at %l:%M %p %Z" }}</span>
 by <span class="postauthor">Kevin Locke</span>{% if post.updated %}<br />
-<span class="postdate">Updated {{ post.updated | date: "%B %d, %Y at %H:%M %p %Z" }}</span>{% endif %}
+<span class="postdate">Updated {{ post.updated | date: "%B %d, %Y at %l:%M %p %Z" }}</span>{% endif %}
 <div class="postexcerpt">
   {{ post.excerpt }}
 {% if post.excerpt != post.content %}
