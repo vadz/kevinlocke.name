@@ -59,7 +59,9 @@ which preserves the source aspect ratio (so the video is not stretched) and
 fills the screen either horizontally or vertically.  This can be done by
 calculating a scale factor and applying it equally, as follows:
 
-    scale=iw*min($MAX_WIDTH/iw\,$MAX_HEIGHT/ih):ih*min($MAX_WIDTH/iw\,$MAX_HEIGHT/ih)
+``` sh
+scale=iw*min($MAX_WIDTH/iw\,$MAX_HEIGHT/ih):ih*min($MAX_WIDTH/iw\,$MAX_HEIGHT/ih)
+```
 
 Note that `$MAX_WIDTH` and `$MAX_HEIGHT` should be replaced with the desired
 output width and height, or set as variables in a shell script.  Also note
@@ -76,7 +78,9 @@ placed within the defined output and, optionally, a color.  To add equal-sized
 pads simply requires that the offset is half of the size difference between
 the output and the input in each dimension, as follows:
 
-    pad=$MAX_WIDTH:$MAX_HEIGHT:(ow-iw)/2:(oh-ih)/2
+``` sh
+pad=$MAX_WIDTH:$MAX_HEIGHT:(ow-iw)/2:(oh-ih)/2
+```
 
 Again, `$MAX_WIDTH` and `$MAX_HEIGHT` should be replaced with the desired
 output width and height, or set as variables in a shell script.
@@ -93,7 +97,9 @@ time to get rid of the anamorphism and make the pixels square.  All that this
 requires is to take the Source Aspect Ratio (SAR) into account in the scaling
 calculation:
 
-    scale=iw*sar*min($MAX_WIDTH/(iw*sar)\,$MAX_HEIGHT/ih):ih*min($MAX_WIDTH/(iw*sar)\,$MAX_HEIGHT/ih)
+``` sh
+scale=iw*sar*min($MAX_WIDTH/(iw*sar)\,$MAX_HEIGHT/ih):ih*min($MAX_WIDTH/(iw*sar)\,$MAX_HEIGHT/ih)
+```
 
 ## Putting it Together
 
@@ -101,14 +107,16 @@ With the filters defined above, all that is required is to put them together
 into a complete command.  It is possible to produce H.264 video with AAC audio
 by using the following command:
 
-    avconv \
-        -i "$INPUT_FILE" \
-        -map 0 \
-        -vf "scale=iw*sar*min($MAX_WIDTH/(iw*sar)\,$MAX_HEIGHT/ih):ih*min($MAX_WIDTH/(iw*sar)\,$MAX_HEIGHT/ih),pad=$MAX_WIDTH:$MAX_HEIGHT:(ow-iw)/2:(oh-ih)/2" \
-        -c:v libx264 \
-        -vprofile baseline -level 30 \
-        -c:a libvo_aacenc \
-        "$OUTPUT_FILE"
+``` sh
+avconv \
+    -i "$INPUT_FILE" \
+    -map 0 \
+    -vf "scale=iw*sar*min($MAX_WIDTH/(iw*sar)\,$MAX_HEIGHT/ih):ih*min($MAX_WIDTH/(iw*sar)\,$MAX_HEIGHT/ih),pad=$MAX_WIDTH:$MAX_HEIGHT:(ow-iw)/2:(oh-ih)/2" \
+    -c:v libx264 \
+    -vprofile baseline -level 30 \
+    -c:a libvo_aacenc \
+    "$OUTPUT_FILE"
+```
 
 Simply replace `$MAX_WIDTH`, `$MAX_HEIGHT`, `$INPUT_FILE`, and `$OUTPUT_FILE`
 (or define them as environment variables) as desired.  That's it.

@@ -34,34 +34,34 @@ retained, while making the uncommon case significantly more complex.
 For all of the following examples, suppose we have the following HTML stored
 in a variable named `html`:
 
-{% highlight html %}
+``` html
 <p id="notice1" class="admonition important">Be careful with CSS Selector Transforms!</p>
-{% endhighlight %}
+```
 
 First, as an example of attribute merging, suppose we wanted to replace the
 element with another using the following code:
 
-{% highlight scala %}
+``` scala
 ("#notice1" #> <p id="notice2" class="alert">Breaking News:  CSS Selectors!</p>)(html)
-{% endhighlight %}
+```
 
 This would produce:
 
-{% highlight html %}
+``` html
 <p id="notice2" class="alert admonition important">Breaking News:  CSS Selectors!</p>
-{% endhighlight %}
+```
 
 Notice that the id attribute has been replaced while the class attribute has
 been merged.  With this in mind, it should be obvious why the following code
 does not work:
 
-{% highlight scala %}
+``` scala
 // WARNING:  Does nothing!
 ("#notice1" #> { n =>
   val e = n.asInstanceOf[Elem];
   e.copy(attributes = e.attributes.remove("class"))
 })(html)
-{% endhighlight %}
+```
 
 Although the element returned by the transformation function doesn't have a
 class attribute, attribute merging will add the class attribute from the
@@ -71,15 +71,15 @@ possibly changing the attribute order).
 The correct way to modify attributes is by matching against the attribute (a
 Lift addition to the CSS syntax) as follows:
 
-{% highlight scala %}
+``` scala
 ("#notice1 [id]" #> (None: Option[String]))(html)
-{% endhighlight %}
+```
 
 This would (as expected) result in:
 
-{% highlight html %}
+``` html
 <p class="admonition important">Breaking News:  CSS Selectors!</p>
-{% endhighlight %}
+```
 
 Although, interestingly, replacing `None` with `Nil` will result in an empty
 id attribute.  I haven't fully investigated this behavior, although part of
@@ -91,15 +91,15 @@ In 2.4-M4, there is even an [addition to the
 syntax](https://github.com/lift/framework/issues/1030) to allow removing a
 space-separated word from an attribute:
 
-{% highlight scala %}
+``` scala
 ("#notice1 [class!]" #> "important")(html)
-{% endhighlight %}
+```
 
 Which would result in:
 
-{% highlight html %}
+``` html
 <p id="notice1" class="admonition">Breaking News:  CSS Selectors!</p>
-{% endhighlight %}
+```
 
 Neat, huh?
 
@@ -111,19 +111,19 @@ working when combined with other CSS Selector Transforms either as child
 transforms (as appears in the bug report) or when combined.  So if we add an
 identity transformation function to the previous transformation as follows:
 
-{% highlight scala %}
+``` scala
 // WARNING:  Does nothing!
 ("#notice1" #> { n => n } & "#notice1 [class!]" #> "important")(html)
-{% endhighlight %}
+```
 
 The output is the same as the input (again, ignoring any attribute ordering).
 After a bit of digging, I found that if the attribute-modifying transforms are
 chained rather than combined they behave as expected.  So the previous
 (non-functional) transformation can be changed to:
 
-{% highlight scala %}
+``` scala
 ("#notice1" #> { n => n } andThen "#notice1 [class!]" #> "important")(html)
-{% endhighlight %}
+```
 
 Which does behave as expected.
 
@@ -136,10 +136,10 @@ Appending `"!!"` to the outermost selector will disable attribute merging,
 which allows our original example (or any other nested selectors) to modify
 attributes at will:
 
-{% highlight scala %}
+``` scala
 // WARNING:  Won't compile in 2.5-M1 or later
 ("#notice1 !!" #> { n => n } & "#notice1 [class!]" #> "important")(html)
-{% endhighlight %}
+```
 
 Whoops!  That doesn't work, for 2 reasons.  First, `n` needs a declared type.
 Second, the design of the new CSS Type Classes in 2.5 mean that the `html`
@@ -147,14 +147,14 @@ parameter is interpreted as the implicit `ComputeTransformRules` parameter of
 the `#>` method of `ToCssBindPromoter` rather than the parameter of the
 `apply` method of `CssSel`.  These problems can be fixed as follows:
 
-{% highlight scala %}
+``` scala
 // Works in 2.5-M1 and later
 ("#notice1 !!" #> { n: NodeSeq => n } & "#notice1 [class!]" #> "important").apply(html)
-{% endhighlight %}
+```
 
 However, this syntax does not work if all of the classes are removed:
 
-{% highlight scala %}
+``` scala
 // WARNING:  Doesn't work in 2.5-M1 (won't remove either class)
 ("#notice1 !!" #> { n: NodeSeq => n } & "#notice1 [class!]" #> List("admonition", "important")).apply(html)
 
@@ -163,7 +163,7 @@ However, this syntax does not work if all of the classes are removed:
   val e = n.asInstanceOf[Elem];
   e.copy(attributes = e.attributes.remove("class"))
 }).apply(html)
-{% endhighlight %}
+```
 
 ## Article Changes
 

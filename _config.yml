@@ -22,13 +22,23 @@ exclude:
   - gems
   - vendor
 future: false
-# Should switch to rouge so I can use clodeblocks
-# See https://github.com/jekyll/jekyll/issues/3371
-highlighter: pygments
+highlighter: rouge
 markdown: kramdown
 kramdown:
+  input: GFM
   # Behave more similarly to CommonMark HTML blocks, which allow markup
   parse_block_html: true
+
+  # https://kramdown.gettalong.org/syntax_highlighter/rouge.html
+  syntax_highlighter_opts:
+    # Set default language to plaintext to disable language guessing.
+    # This is useful for non-fenced blocks I don't want to highlight.
+    default_lang: plaintext
+    # Disable syntax highlighting of inline code, which is distracting and
+    # problematic since language is not usually detectable.
+    # https://github.com/gettalong/kramdown/issues/286
+    span:
+      disable: true
 permalink: none
 timezone: America/Denver
 url:  https://kevinlocke.name

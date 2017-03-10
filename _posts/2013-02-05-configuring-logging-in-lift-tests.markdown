@@ -84,7 +84,7 @@ To pass `LoggingAutoConfigurer` to `Logger.setup`, add the following to
 `build.sbt` (Note that blank lines would confuse the `.sbt` parser, but would
 be allowed in a `.scala` file):
 
-{% highlight scala %}
+``` scala
 testOptions += Tests.Setup { loader: ClassLoader =>
   // Get Logger.setup
   val boxClass = loader.loadClass("net.liftweb.common.Box")
@@ -102,7 +102,7 @@ testOptions += Tests.Setup { loader: ClassLoader =>
   // Call Logger.setup on the Box
   loggerSetupEq.invoke(logger, configFuncBox.asInstanceOf[Object])
 }
-{% endhighlight %}
+```
 
 ### Use The Default Search Path
 

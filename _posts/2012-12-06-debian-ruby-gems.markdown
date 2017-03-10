@@ -103,21 +103,21 @@ To change the system-wide default installation directory (if the
 `/usr/lib/ruby/vendor_ruby/rubygems/defaults/operating_system.rb:4` as
 follows:
 
-{% highlight ruby %}
+``` ruby
   def default_dir
 #    File.join('/', 'var', 'lib', 'gems', Gem::ConfigMap[:ruby_version])
     File.join('/', 'usr', 'local', 'lib', 'ruby', 'gems', Gem::ConfigMap[:ruby_version])
   end
-{% endhighlight %}
+```
 
 If the `rubygems-integration` package is not installed, edit
 `/usr/lib/ruby/1.9.1/rubygems/defaults.rb` and change the following lines at
 the end of `self.default_dir` as follows:
 
-{% highlight ruby %}
+``` ruby
 #    @default_dir ||= File.join(*path)
     @default_dir ||= File.join('/', 'usr', 'local', 'lib', 'ruby', 'gems', ConfigMap[:ruby_version])
-{% endhighlight %}
+```
 
 With those edits made, the default installation directory will be
 `/usr/local/lib/ruby/gems/1.9/`.  Remember to re-edit the files after an

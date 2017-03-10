@@ -21,25 +21,27 @@ configurations on the [Squeryl-Record wiki
 page](https://app.assembla.com/wiki/show/liftweb/Squeryl).  Basically, I'm
 using the following code in my Lift Boot class:
 
-    Props.get("db.driver") map { Class.forName(_) }
+``` scala
+Props.get("db.driver") map { Class.forName(_) }
 
-    val config = new BoneCPConfig()
-    config.setCloseConnectionWatch(true)
-    Props.get("db.jdbcUrl") map { config.setJdbcUrl(_) }
-    Props.get("db.username") map { config.setUsername(_) }
-    Props.get("db.password") map { config.setPassword(_) }
+val config = new BoneCPConfig()
+config.setCloseConnectionWatch(true)
+Props.get("db.jdbcUrl") map { config.setJdbcUrl(_) }
+Props.get("db.username") map { config.setUsername(_) }
+Props.get("db.password") map { config.setPassword(_) }
 
-    val connPool = new BoneCP(config)
-    val adapterName = Props.get("db.squerylAdapter").open_!
-    var adapterClass = Class.forName(adapterName).asInstanceOf[Class[DatabaseAdapter]]
-    // Note:  Passed by name, called repeatedly
-    net.liftweb.squerylrecord.SquerylRecord.initWithSquerylSession(
-        Session.create(connPool.getConnection, adapterClass.newInstance)
-    )
+val connPool = new BoneCP(config)
+val adapterName = Props.get("db.squerylAdapter").open_!
+var adapterClass = Class.forName(adapterName).asInstanceOf[Class[DatabaseAdapter]]
+// Note:  Passed by name, called repeatedly
+net.liftweb.squerylrecord.SquerylRecord.initWithSquerylSession(
+    Session.create(connPool.getConnection, adapterClass.newInstance)
+)
 
-    S.addAround(new LoanWrapper {
-      override def apply[T](f: => T): T = inTransaction { f }
-    })
+S.addAround(new LoanWrapper {
+  override def apply[T](f: => T): T = inTransaction { f }
+})
+```
 
 ## The Symptoms
 

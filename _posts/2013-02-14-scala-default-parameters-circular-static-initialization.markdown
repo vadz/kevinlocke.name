@@ -21,7 +21,7 @@ static initialization resulting in a NullPointerError, read on.
 
 In order to see the problem, consider the following program:
 
-{% highlight scala %}
+``` scala
 case class Hobbit(
   name: String,
   hasRing: Boolean = false
@@ -41,7 +41,7 @@ object RunMe {
     println(Hobbit.Sam.name)
   }
 }
-{% endhighlight %}
+```
 
 What will happen if RunMe is launched?
 

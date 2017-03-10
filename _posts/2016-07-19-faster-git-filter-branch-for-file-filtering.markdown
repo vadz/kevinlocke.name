@@ -26,7 +26,7 @@ makes a huge difference when filtering for a small subset of the commits.  As
 an example, consider extracting the history for getopt from the [FreeBSD src
 repo](https://github.com/freebsd/freebsd):
 
-{% highlight sh %}
+``` sh
 git filter-branch --prune-empty \
     --index-filter 'git ls-files -s | \
         sed -n "s/\tlib\/libc\/stdlib\/getopt/\tgetopt/p" | \
@@ -37,7 +37,7 @@ git filter-branch --prune-empty \
             rm "$GIT_INDEX_FILE" ; \
         fi' \
     HEAD -- lib/libc/stdlib/getopt*
-{% endhighlight %}
+```
 
 On my laptop, without the file arguments (the `-- lib/libc/stdlib/getopt*`)
 after 5 minutes git estimates that the command will take about 4 more hours

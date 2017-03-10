@@ -45,12 +45,12 @@ diagnose simple errors.
 
 For example, consider the following query:
 
-{% highlight scala %}
+``` scala
 join(students, courseSubscriptions, courses)((s,cs,c) =>
   select(s.name, c.name)
   on(s.id === cs.studentId and c.id === cs.courseId)
 )
-{% endhighlight %}
+```
 
 Attempting to compile this results in the following error:
 
@@ -68,13 +68,13 @@ error message (although the number in the class name does provide a hint).
 For another example (I know this query is sub-optimal, but it is meant to
 parallel the first example):
 
-{% highlight scala %}
+``` scala
 join(students, courseSubscriptions, courses)((s,cs,c) =>
   compute(count(c.name))
   groupBy(s.name)
   on(s.id === cs.studentId, c.id === cs.courseId)
 )
-{% endhighlight %}
+```
 
 Which results in:
 

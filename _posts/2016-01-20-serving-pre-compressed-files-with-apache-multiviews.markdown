@@ -101,15 +101,15 @@ a `<Directory>` directive or `.htaccess` file, as noted in the description of
 the `MultiViews` value for
 [`Options`](https://httpd.apache.org/docs/2.4/mod/core.html#options)):
 
-{% highlight apache %}
+``` apache
 Options +MultiViews
 AddEncoding gzip .gz
-{% endhighlight %}
+```
 
 If we test the result using `curl -I -H "Accept-Encoding: gzip"
 http://localhost/style.css` we get something like the following:
 
-{% highlight http %}
+``` http
 HTTP/1.1 200 OK
 Date: Sat, 21 Jan 2017 01:11:40 GMT
 Server: Apache/2.4.25 (Debian)
@@ -122,7 +122,7 @@ Accept-Ranges: bytes
 Content-Length: 1336
 Content-Type: text/css
 Content-Encoding: gzip
-{% endhighlight %}
+```
 
 Notice that the server sent a response with the correct `Content-Type` and
 `Content-Encoding` and as a bonus it included the
@@ -135,7 +135,7 @@ Hurray!
 Not so fast!  If we add an uncompressed `style.css` file to the site root, the
 same request returns:
 
-{% highlight http %}
+``` http
 HTTP/1.1 200 OK
 Date: Sat, 21 Jan 2017 01:15:34 GMT
 Server: Apache/2.4.25 (Debian)
@@ -144,7 +144,7 @@ ETag: "f9d-5468f86e84147"
 Accept-Ranges: bytes
 Content-Length: 3997
 Content-Type: text/css
-{% endhighlight %}
+```
 
 This response is neither negotiated or compressed!  What happened?
 Unfortunately, [`MultiViews` only negotiates requests for files which do not
@@ -172,12 +172,12 @@ find more appealing, is to use a no-op filter or handler such as the
 [`default-handler`](https://httpd.apache.org/docs/current/handler.html) and
 allow `MultiViews` to match extensions assigned to handlers:
 
-{% highlight apache %}
+``` apache
 Options +MultiViews
 AddEncoding gzip .gz
 MultiviewsMatch Handlers
 AddHandler default-handler .orig
-{% endhighlight %}
+```
 
 After a bit more digging, I found [François Marier has an even better
 solution](https://feeding.cloud.geek.nz/posts/serving-pre-compressed-files-using/)
@@ -195,7 +195,7 @@ directly or request `style` without an extension to negotiate the
 `Content-Type`.[^negotiatetype] Consider the result for `curl -I -H
 "Accept-Encoding: gzip" http://localhost/style`:
 
-{% highlight http %}
+``` http
 HTTP/1.1 200 OK
 Date: Thu, 21 Jan 2016 01:08:30 GMT
 Server: Apache/2.4.18 (Debian)
@@ -208,7 +208,7 @@ Accept-Ranges: bytes
 Content-Length: 1334
 Content-Type: application/x-gzip
 Content-Encoding: gzip
-{% endhighlight %}
+```
 
 This is all sorts of wrong (although it is common enough that [Firefox detects
 it and provides a
@@ -222,18 +222,18 @@ configuration (in `/etc/apache2/mods-available/mime.conf`), so for
 `style.css.gz` the `.gz` is being interpreted as both the type and the
 encoding of the file.  This can be fixed using `RemoveType` as follows:
 
-{% highlight apache %}
+``` apache
 Options +MultiViews
 RemoveType .gz
 AddEncoding gzip .gz
-{% endhighlight %}
+```
 
 With this fix, the response now includes the correct headers, as in the first
 example response above.  Unfortunately, we've introduced a new problem.
 Suppose we are hosting a gzipped-tarball `launch-codes.tar.gz`.  Requesting it
 results in a response similar to the following:
 
-{% highlight http %}
+``` http
 HTTP/1.1 200 OK
 Date: Thu, 21 Jan 2016 01:32:51 GMT
 Server: Apache/2.4.18 (Debian)
@@ -243,7 +243,7 @@ Accept-Ranges: bytes
 Content-Length: 243465
 Content-Type: application/x-tar
 Content-Encoding: gzip
-{% endhighlight %}
+```
 
 This tells the browser that we are sending it a tar file which is compressed
 for transmission.  So, if the browser didn't have [workarounds for this
@@ -255,7 +255,7 @@ What we actually wanted was to send a gzipped file with no additional content
 encoding.  We can achieve that by adding some further configuration to
 `.tar.gz` files:
 
-{% highlight apache %}
+``` apache
 Options +MultiViews
 RemoveType .gz
 AddEncoding gzip .gz
@@ -263,7 +263,7 @@ AddEncoding gzip .gz
     RemoveEncoding .gz
     AddType application/gzip .gz
 </FilesMatch>
-{% endhighlight %}
+```
 
 This approach can easily be extended to any other compound file extensions
 that should be saved without gunzipping by altering the `FilesMatch`
@@ -296,7 +296,7 @@ request](https://github.com/google/brotli/pull/163) has already been [rejected
 by Mozilla](https://bugzilla.mozilla.org/show_bug.cgi?id=366559#c147).  So
 lets use `.brotli` as a neutral, if verbose, choice.
 
-{% highlight apache %}
+``` apache
 Options +MultiViews
 RemoveType .gz
 AddEncoding gzip .gz
@@ -305,13 +305,13 @@ AddEncoding br .brotli
     RemoveEncoding .gz
     AddType application/gzip .gz
 </FilesMatch>
-{% endhighlight %}
+```
 
 If we then create `style.css.brotli` with `brotli < style.css.orig >
 style.css.brotli`, a test request with `curl -I -H 'Accept-Encoding:
 br' http://localhost/style.css` yields:
 
-{% highlight http %}
+``` http
 HTTP/1.1 200 OK
 Date: Sat, 21 Jan 2017 03:07:00 GMT
 Server: Apache/2.4.25 (Debian)
@@ -324,7 +324,7 @@ Accept-Ranges: bytes
 Content-Length: 1083
 Content-Type: text/css
 Content-Encoding: br
-{% endhighlight %}
+```
 
 Hurrah!
 
@@ -332,7 +332,7 @@ Hurrah!
 
 The final configuration, which addresses all of the above issues is:
 
-{% highlight apache %}
+``` apache
 # Enable MultiViews for content negotiation
 Options +MultiViews
 
@@ -353,7 +353,7 @@ AddEncoding br .brotli
     # Alternatively:
     #ForceType application/gzip
 </FilesMatch>
-{% endhighlight %}
+```
 
 This configuration **requires that uncompressed files be renamed with a
 double-extension** (e.g. `style.css.css`) unless one of the alternatives in

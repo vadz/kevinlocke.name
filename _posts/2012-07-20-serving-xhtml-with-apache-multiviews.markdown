@@ -57,13 +57,13 @@ enable content negotiation for directory indexes, it is necessary to change
 the search order so that it uses a resource without a file extension.  This can
 be done as follows:
 
-{% highlight apache %}
+``` apache
 # Enable MultiViews
 Options +MultiViews
 
 # Set the directory index to a resource named index
 DirectoryIndex	index
-{% endhighlight %}
+```
 
 After this change is made, resources should be accessible by URLs with or
 without file extensions.  When accessed by file extension, the file matching
@@ -101,10 +101,10 @@ map](https://httpd.apache.org/docs/current/mod/mod_negotiation.html#typemaps),
 or by redefining the type for the file extension to include a `qs` parameter
 in the Apache configuration as follows:
 
-{% highlight apache %}
+``` apache
 AddType text/html;qs=0.99 .html
 AddType application/xhtml+xml .xhtml
-{% endhighlight %}
+```
 
 The above configuration specifies that text/html has a slightly lower (99%)
 relative quality than application/xhtml+xml (with the default
@@ -119,7 +119,7 @@ expresses no preference by sending `Accept: */*`.  This can be avoided by
 setting the quality-of-source differently when application/xhtml+xml appears
 in the `Accept` header:
 
-{% highlight apache %}
+``` apache
 <If "%{HTTP_ACCEPT} =~ m#application/xhtml\+xml#i">
     # application/xhtml+xml is explicitly mentioned.  Prefer XHTML slightly.
     AddType text/html;qs=0.99 .html
@@ -130,7 +130,7 @@ in the `Accept` header:
     AddType text/html .html
     AddType application/xhtml+xml;qs=0.99 .xhtml
 </Else>
-{% endhighlight %}
+```
 
 The other problem is that the `qs` media type parameter is also sent to the
 client in the `Content-Type` header.  This is non-standard behavior, since the
@@ -151,9 +151,9 @@ parameters, and I am not aware of any issues in popular browsers caused by the
 the `qs` parameter, consider removing it using
 [`mod_headers`](https://httpd.apache.org/docs/current/mod/mod_headers.html#header):
 
-{% highlight apache %}
+``` apache
 Header always edit "Content-Type" ";\s*qs=[0-9]*(?:\.[0-9]+)?\s*" ""
-{% endhighlight %}
+```
 
 ### Using Rewrite Rules
 
@@ -194,13 +194,13 @@ conservative approach and only returns XHTML if XHTML was requested without a
 be realized with the following addition to the Apache configuration (in
 `Directory` or `.htaccess` context):
 
-{% highlight apache %}
+``` apache
 RewriteCond "%{IS_SUBREQ}" "=true"
 RewriteCond "%{REQUEST_FILENAME}" "^(.*)\.html$"
 RewriteCond "%1.xhtml" "-f"
 RewriteCond "%{HTTP:Accept}" "application/xhtml\+xml\s*(?:,|$)"
 RewriteRule "^(.*)\.html$" "/$1.xhtml"
-{% endhighlight %}
+```
 
 This approach is almost correct with two remaining problems.  First, the
 content-negotiation process sets the HTTP Content-Location header to inform
@@ -213,7 +213,7 @@ RewriteRules](https://stackoverflow.com/questions/3050444/when-setting-environme
 With this behavior in mind, the above configuration can be extended as
 follows:
 
-{% highlight apache %}
+``` apache
 RewriteCond "%{IS_SUBREQ}" "=true"
 RewriteCond "%{REQUEST_FILENAME}" "^(.*)\.html$"
 RewriteCond "%1.xhtml" "-f"
@@ -221,7 +221,7 @@ RewriteCond "%{HTTP:Accept}" "application/xhtml\+xml\s*(?:,|$)"
 RewriteRule "^(.*)\.html$" "/$1.xhtml" [ENV=NOW_XHTML]
 
 Header always edit "Content-Location" "\.html$" ".xhtml" env=REDIRECT_NOW_XHTML
-{% endhighlight %}
+```
 
 The second issue is that when [Serving Pre-Compressed Files with Apache
 MultiViews]({% post_url 2016-01-20-serving-pre-compressed-files-with-apache-multiviews %})
@@ -229,7 +229,7 @@ the filename may end in `.html.gz` or another encoding, rather than `.html`.
 To address this, the above rules can be extended to match and preserve
 additional extensions after `.html`:
 
-{% highlight apache %}
+``` apache
 RewriteCond "%{IS_SUBREQ}" "=true"
 RewriteCond "%{REQUEST_FILENAME}" "^(.*)\.html(\..+)?$"
 RewriteCond "%1.xhtml%2" "-f"
@@ -237,7 +237,7 @@ RewriteCond "%{HTTP:Accept}" "application/xhtml\+xml\s*(?:,|$)"
 RewriteRule "^(.*)\.html(\..+)?$" "/$1.xhtml$2" [ENV=NOW_XHTML]
 
 Header always edit "Content-Location" "\.html(\..+)?$" ".xhtml$1" env=REDIRECT_NOW_XHTML
-{% endhighlight %}
+```
 
 ## Recommendations
 
@@ -245,7 +245,7 @@ Due to the complexity and fragility of the RewriteRule method, my current
 recommendation for serving XHTML with MultiViews, and the one used on this
 website, is:
 
-{% highlight apache %}
+``` apache
 # Enable MultiViews
 Options +MultiViews
 
@@ -266,7 +266,7 @@ DirectoryIndex index
 # Remove qs parameter incorrectly sent by MultiViews due to
 # https://bz.apache.org/bugzilla/show_bug.cgi?id=53595
 Header always edit "Content-Type" ";\s*qs=[0-9]*(?:\.[0-9]+)?\s*" ""
-{% endhighlight %}
+```
 
 This will serve XHTML in preference to HTML when supported and HTML otherwise,
 for URLs without a type extension, allowing increased flexibility and [cool

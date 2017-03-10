@@ -24,30 +24,30 @@ while still negotiating the returned content type.
 
 Lets assume that you have a website with the following `.htaccess` file:
 
-{% highlight apache %}
+``` apache
 Options +MultiViews
 ErrorDocument 404 /404
-{% endhighlight %}
+```
 
 Along with `404.html`:
 
-{% highlight html %}
+``` html
 <!DOCTYPE html>
 <html>
 <head><title>404 HTML</title></head>
 <body><h1>404 HTML</h1></body>
 </html>
-{% endhighlight %}
+```
 
 and `404.xhtml`:
 
-{% highlight html %}
+``` html
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head><title>404 XHTML</title></head>
 <body><h1>404 XHTML</h1></body>
 </html>
-{% endhighlight %}
+```
 
 Accessing a non-existent URL from your browser will result in a 404 response
 with the content from the file of the preferred content type being returned,
@@ -56,26 +56,28 @@ type, such as a bot collecting favicons?  Lets examine the result of running
 `curl -i -H "Accept: image/vnd.microsoft.icon, image/x-icon"
 http://localhost/favicon.ico`:
 
-	HTTP/1.1 404 Not Found
-	Date: Thu, 01 Oct 2015 03:57:33 GMT
-	Server: Apache/2.4.16 (Debian)
-	Alternates: {"404.html" 1 {type text/html} {length 99}}, {"404.xhtml" 1 {type application/xhtml+xml} {length 155}}
-	Vary: negotiate,accept
-	TCN: list
-	Content-Length: 403
-	Content-Type: text/html; charset=iso-8859-1
+``` http
+HTTP/1.1 404 Not Found
+Date: Thu, 01 Oct 2015 03:57:33 GMT
+Server: Apache/2.4.16 (Debian)
+Alternates: {"404.html" 1 {type text/html} {length 99}}, {"404.xhtml" 1 {type application/xhtml+xml} {length 155}}
+Vary: negotiate,accept
+TCN: list
+Content-Length: 403
+Content-Type: text/html; charset=iso-8859-1
 
-	<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
-	<html><head>
-	<title>404 Not Found</title>
-	</head><body>
-	<h1>Not Found</h1>
-	<p>The requested URL /favicon.ico was not found on this server.</p>
-	<p>Additionally, a 404 Not Found
-	error was encountered while trying to use an ErrorDocument to handle the request.</p>
-	<hr>
-	<address>Apache/2.4.16 (Debian) Server at localhost Port 80</address>
-	</body></html>
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+<html><head>
+<title>404 Not Found</title>
+</head><body>
+<h1>Not Found</h1>
+<p>The requested URL /favicon.ico was not found on this server.</p>
+<p>Additionally, a 404 Not Found
+error was encountered while trying to use an ErrorDocument to handle the request.</p>
+<hr>
+<address>Apache/2.4.16 (Debian) Server at localhost Port 80</address>
+</body></html>
+```
 
 Which is accompanied by the following error in the Apache log:
 
@@ -103,7 +105,7 @@ negotiation, but works reasonably well when there are few types to choose
 between and quality comparison isn't required.  To negotiate between the HTML
 and XHTML versions of the 404 page, modify `.htaccess` as follows:
 
-{% highlight apache %}
+``` apache
 Options +MultiViews
 <If "%{HTTP_ACCEPT} =~ m#application/xhtml\+xml#i">
 	ErrorDocument 404 /404.xhtml
@@ -111,28 +113,30 @@ Options +MultiViews
 <Else>
 	ErrorDocument 404 /404.html
 </Else>
-{% endhighlight %}
+```
 
 This sends the XHTML version whenever `application/xhtml+xml` is present in
 the `Accept` header (which, in practice, is only true for browsers which
 support it and prefer it equally to `text/html`) and otherwise send the HTML
 version.  The same curl command now returns:
 
-	HTTP/1.1 404 Not Found
-	Date: Thu, 01 Oct 2015 04:16:13 GMT
-	Server: Apache/2.4.16 (Debian)
-	Vary: Accept
-	Last-Modified: Thu, 01 Oct 2015 03:54:21 GMT
-	ETag: "63-5210300883cb3;521034eaa61f4"
-	Accept-Ranges: bytes
-	Content-Length: 99
-	Content-Type: text/html
+``` http
+HTTP/1.1 404 Not Found
+Date: Thu, 01 Oct 2015 04:16:13 GMT
+Server: Apache/2.4.16 (Debian)
+Vary: Accept
+Last-Modified: Thu, 01 Oct 2015 03:54:21 GMT
+ETag: "63-5210300883cb3;521034eaa61f4"
+Accept-Ranges: bytes
+Content-Length: 99
+Content-Type: text/html
 
-	<!DOCTYPE html>
-	<html>
-	<head><title>404 HTML</title></head>
-	<body><h1>404 HTML</h1></body>
-	</html>
+<!DOCTYPE html>
+<html>
+<head><title>404 HTML</title></head>
+<body><h1>404 HTML</h1></body>
+</html>
+```
 
 Another drawback of this approach, which you can see from the response above,
 is that the response omits the Transparent Content Negotiation (TCN) headers.

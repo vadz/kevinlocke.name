@@ -102,10 +102,12 @@ x-scheme-handler/http for HTTP URLs) or the attachment MIME type (e.g.
 text/html).  The XDG MIME database can be queried and modified using the
 xdg-mime command-line tool as follows:
 
-    # Query the current default for HTTP URLs
-    xdg-mime query default x-scheme-handler/http
-    # Set default program for HTTP URLs to Firefox
-    xdg-mime default firefox.desktop x-scheme-handler/http
+``` sh
+# Query the current default for HTTP URLs
+xdg-mime query default x-scheme-handler/http
+# Set default program for HTTP URLs to Firefox
+xdg-mime default firefox.desktop x-scheme-handler/http
+```
 
 To find the .desktop file for your desired browser, look in
 `/usr/share/applications` (for system-wide applications) or
@@ -139,11 +141,13 @@ opened.
 
 The information may be modified and queried using gconftool-2 on the command-line as follows:
 
-    # Query the current command for http
-    gconftool-2 --get /desktop/gnome/url-handlers/http/command
-    # Set the command for http to firefox
-    gconftool-2 --set /desktop/gnome/url-handlers/http/command \
-        --type string 'firefox "%s"'
+``` sh
+# Query the current command for http
+gconftool-2 --get /desktop/gnome/url-handlers/http/command
+# Set the command for http to firefox
+gconftool-2 --set /desktop/gnome/url-handlers/http/command \
+    --type string 'firefox "%s"'
+```
 
 The information can also be queried and modified using a graphical program
 such as `gconf-editor`.

@@ -23,7 +23,7 @@ creates a parent table, child table, results table, and a trigger which
 fires on both the parent and child to record whether the parent row being
 deleted is present in the parent table.
 
-{% highlight sql %}
+``` sql
 CREATE TABLE parents (
     parent_id INTEGER NOT NULL PRIMARY KEY
 );
@@ -75,7 +75,7 @@ INSERT INTO children (child_id, parent_id) VALUES (2, 1);
 DELETE FROM parents;
 
 SELECT * FROM results;
-{% endhighlight %}
+```
 
 ## What Happens
 

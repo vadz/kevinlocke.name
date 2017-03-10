@@ -25,9 +25,9 @@ set by earlier configuration options or returned by an application server.
 A first-attempt at setting the `Content-Security-Policy` header using
 `mod_header` may look something like this:
 
-{% highlight apache %}
+``` apache
 Header always set Content-Security-Policy "referrer origin"
-{% endhighlight %}
+```
 
 For simple use cases, this is straight-forward and sufficient to get the job
 done.  But what happens if the site includes an application which sets its own
@@ -52,10 +52,10 @@ After pondering this problem for a bit, I realized it would not be difficult
 to implement the `merge` behavior using a combination of `setifempty` and
 `edit`.  Here's how:
 
-{% highlight apache %}
+``` apache
 Header always setifempty Content-Security-Policy ""
 Header always edit Content-Security-Policy "^(?!(?:.*;)?\s*referrer\s)" "referrer origin;"
-{% endhighlight %}
+```
 
 It first ensures that the header exists using `setifempty` (otherwise `edit`
 will not apply), then prepends the `referrer` policy only if the header does
@@ -70,10 +70,10 @@ But wait, there's more!  Using `edit` provides more power than just
 prepending.  With a quick adjustment, the regular expression can be used to
 unconditionally replace policy components.  Here's how:
 
-{% highlight apache %}
+``` apache
 Header always setifempty Content-Security-Policy ""
 Header always edit Content-Security-Policy "(^(?!(?:.*;)?\s*referrer\s)|(?:.*;)?\s*referrer\s+[^;]+;?)" "referrer origin;"
-{% endhighlight %}
+```
 
 Now the regular expression matches against either the beginning of the string,
 if it does not already contain the referrer policy, or against the existing
@@ -83,13 +83,13 @@ be applied multiple times for multiple policy directives, using either the
 first or second variant to either preserve or overwrite the policy directives
 respectively:
 
-{% highlight apache %}
+``` apache
 Header always setifempty Content-Security-Policy ""
 # Override the referrer policy directive, if present
 Header always edit Content-Security-Policy "(^(?!(?:.*;)?\s*referrer\s)|(?:.*;)?\s*referrer\s+[^;]+;?)" "referrer origin;"
 # Preserve the script-src policy directive, if present
 Header always edit Content-Security-Policy "^(?!(?:.*;)?\s*script-src\s)" "script-src 'self';"
-{% endhighlight %}
+```
 
 This technique allows defining directives and overriding them wherever it is
 most convenient, in either the application or in the Apache configuration

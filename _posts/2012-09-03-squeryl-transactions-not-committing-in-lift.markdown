@@ -25,9 +25,11 @@ page](https://app.assembla.com/wiki/show/liftweb/Squeryl).  The only portion
 which is relevant to this article is how transactions are handled.  For now,
 I'm using a simple transaction-per-request strategy, implemented as follows:
 
-    S.addAround(new LoanWrapper {
-      override def apply[T](f: => T): T = inTransaction { f }
-    })
+``` scala
+S.addAround(new LoanWrapper {
+  override def apply[T](f: => T): T = inTransaction { f }
+})
+```
 
 Although this code fragment appears in most of the examples on the web, it has
 at least one significant flaw.
@@ -53,22 +55,24 @@ after database changes are made, those changes will be rolled back.
 The solution that I am using is reasonably simple.  Replace the above code
 fragment with:
 
-    S.addAround(new LoanWrapper {
-      override def apply[T](f: => T): T = {
-        val resultOrExcept = inTransaction {
-          try {
-            Right(f)
-          } catch {
-            case e: LiftFlowOfControlException => Left(e)
-          }
-        }
-
-        resultOrExcept match {
-          case Right(result) => result
-          case Left(except) => throw except
-        }
+``` scala
+S.addAround(new LoanWrapper {
+  override def apply[T](f: => T): T = {
+    val resultOrExcept = inTransaction {
+      try {
+        Right(f)
+      } catch {
+        case e: LiftFlowOfControlException => Left(e)
       }
-    })
+    }
+
+    resultOrExcept match {
+      case Right(result) => result
+      case Left(except) => throw except
+    }
+  }
+})
+```
 
 This way whenever a `LiftFlowOfControlException` is thrown it will be returned
 through inTransaction and the transaction will commit while any other exception

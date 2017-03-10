@@ -50,7 +50,7 @@ of thorough error handling and robustness.
 Note that the choice of port 53535 is arbitrary.  Similar tutorials often use
 5353 or 5355 (which can conflict with MDNS).
 
-{% highlight sh %}
+``` sh
 #!/bin/sh
 # Steps to configure unbound on OpenWRT with dnsmasq for dynamic DNS
 # Note:  Clarity of instruction is favored over script speed or robustness.
@@ -150,7 +150,7 @@ sed -E -i \
 
 # Restart (or start) unbound (System -> Startup -> unbound -> Restart)
 /etc/init.d/unbound restart
-{% endhighlight %}
+```
 
 The resulting configuration (with defaults and comments removed) should look
 something like:
