@@ -1,6 +1,7 @@
 ---
 layout: post
 date: 2012-10-03 14:34:21-06:00
+updated: 2017-03-28 23:42:23-06:00
 title: SSL Certificate Verification in Dispatch and AsyncHttpClient
 description: "A description of the insecure-by-default handling of SSL
 connections in Ning/Sonatype AsyncHttpClient library and how to implement
@@ -10,11 +11,24 @@ tags: [ java, scala, async-http-client ]
 I've recently started using the [Dispatch](http://dispatch.databinder.net/)
 library for HTTP/HTTPS, which is quite a nice library, as long as you don't
 need documentation.  Dispatch uses the Ning/Sonatype
-[AsyncHttpClient](https://github.com/sonatype/async-http-client) library,
+[AsyncHttpClient](https://github.com/AsyncHttpClient/async-http-client) library,
 which is also quite nice, and although AsyncHttpClient is a library which I
 could recommend, it does have an insecure-by-default implementation of SSL.
 This post is a quick discussion of the AsyncHttpClient defaults and how to
 implement certificate verification to increase the security provided by SSL.
+
+<div class="warning">
+The information in this post is outdated.  Thanks to the efforts of the Async
+Http Client team, hostname validation was enabled by default in commit
+[3c9152e](https://github.com/AsyncHttpClient/async-http-client/commit/3c9152e)
+from pull request
+[#510](https://github.com/AsyncHttpClient/async-http-client/pull/510), which is
+included in 2.0.0-alpha9 and later.  The fix was also backported to
+1.9.0-BETA1 in commit
+[a894583](https://github.com/AsyncHttpClient/async-http-client/commit/a894583).
+If you are using Async Http Client 1.9.0 or later, there is no need to use the
+`MyHostnameVerifier` class described in this post.
+</div>
 
 <!--more-->
 
