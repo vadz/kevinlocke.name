@@ -1,6 +1,12 @@
 # Enable content negotiation
 Options +MultiViews
 
+# Allow PHP to match negotiated response for any request.
+# https://stackoverflow.com/a/24598848/503410
+<FilesMatch ".+\.php$">
+    MultiviewsMatch Any
+</FilesMatch>
+
 DirectoryIndex	index
 
 # Note:  Be careful to avoid compounding errors due to failed negotiation (406)
