@@ -93,8 +93,9 @@ RewriteRule "^(.*/)?\.git/" - [F]
 # FIXME:  Should set Expires, but can't find a way to conditionally set it
 Header always set Cache-Control "max-age=86400" "expr=%{REQUEST_STATUS} == 301"
 
-# Set STS header to require HTTPS for the next 6 months on kevinlocke.name
-Header always set Strict-Transport-Security "max-age=15768000" "expr=tolower(%{HTTP_HOST}) == 'kevinlocke.name'"
+# Require HTTPS for the next 6 months on kevinlocke.name and subdomains
+# Note: Has no effect when served without SSL, so don't bother.
+Header always set Strict-Transport-Security "max-age=15768000; includeSubDomains; preload" "expr=%{HTTPS} == 'on'"
 
 # Define media types for negotiation
 # We use .gz as an encoding, not a type.
