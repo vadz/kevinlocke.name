@@ -40,6 +40,7 @@ HeaderName README-files.txt
 IndexOptions +XHTML
 
 # Set common security/compatibility headers
+Header set Content-Security-Policy: "default-src 'self'; form-action 'self'; block-all-mixed-content; report-uri /mail/csp"
 Header set X-Content-Type-Options: "nosniff"
 Header set X-XSS-Protection: "1; mode=block"
 Header set X-Frame-Options: "sameorigin"
