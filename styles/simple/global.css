@@ -270,9 +270,16 @@ table.contact {
 }
 
 /* Try to get desired reset semantics for ordered lists */
-ol.sectioned li {
-	display: block
+.counted-li {
+	counter-reset: li-counter;
 }
-ol.sectioned li:before {
-	content: counter(sectioneditem) ". "; counter-increment: sectioneditem
+.counted-li-from-2 {
+	counter-reset: li-counter 1;	/* First element is 2 from increment */
+}
+.counted-li li {
+	list-style-type: none;		/* Disable default numbering */
+}
+.counted-li li:before {
+	content: counter(li-counter) ". ";
+        counter-increment: li-counter;
 }
