@@ -136,6 +136,20 @@ object {
 	float: right;
 }
 
+.img-instruction-step {
+	max-width: 100%;
+        height: auto;
+        display: block;
+        float: none;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+/* Override float: left on #content img */
+#content img.img-instruction-step {
+        float: none;
+}
+
 .nav {
 	text-align: center;
 }
