@@ -1,9 +1,10 @@
 GIT
   remote: https://github.com/kevinoid/jekyll-sitemap.git
-  revision: 79aa3cd9fa7ff67e352d40d60d0228f2e3777702
-  branch: proposed-updates
+  revision: 3664bd6922373b78f75fd75ff3240226ac7234e2
+  branch: per_page_tags
   specs:
-    jekyll-sitemap (0.8.1)
+    jekyll-sitemap (1.1.1)
+      jekyll (~> 3.3)
 
 GEM
   remote: https://rubygems.org/
