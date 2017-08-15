@@ -22,11 +22,6 @@ exclude:
   - gems
   - vendor
 future: false
-# Note: Gems are listed here and in Gemfile for compatibility with Github Pages
-# See https://help.github.com/articles/configuring-jekyll-plugins/
-gems:
-  - jekyll-last-modified-at
-  - jekyll-sitemap
 highlighter: rouge
 markdown: kramdown
 kramdown:
@@ -45,6 +40,11 @@ kramdown:
     span:
       disable: true
 permalink: none
+# Note: Gems are listed here and in Gemfile for compatibility with Github Pages
+# See https://help.github.com/articles/configuring-jekyll-plugins/
+plugins:
+  - jekyll-last-modified-at
+  - jekyll-sitemap
 timezone: America/Denver
 url:  https://kevinlocke.name
 
