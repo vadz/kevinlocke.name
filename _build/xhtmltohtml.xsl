@@ -140,3 +140,4 @@
     </xsl:template>
 
 </xsl:stylesheet>
+<!-- vim: set sts=4 sw=4 et : -->
