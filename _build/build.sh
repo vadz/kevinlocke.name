@@ -33,15 +33,13 @@ done
 
 # Rename blog posts from .html to .xhtml and replace named HTML entities
 find _site/bits -name '*.html' | while IFS= read -r FILE; do
-    sed -f _build/nametonum_entities.sed -- "$FILE" > "${FILE%.html}.xhtml"
+    ./_build/htmlentitynametonum.sed -- "$FILE" > "${FILE%.html}.xhtml"
     rm -- "$FILE"
 done
 
 # Replace named HTML entities in non-html files
-find _site/bits -iname '*.atom' | while IFS= read -r FILE; do
-    sed -f _build/nametonum_entities.sed -- "$FILE" > "${FILE}.tmp"
-    mv -f -- "${FILE}.tmp" "$FILE"
-done
+find _site \( -iname '*.atom' -o -iname '*.rss' \) -print0 | \
+	xargs -0r ./_build/htmlentitynametonum.sed -i --
 
 # Remove .xhtml extension from URLs in the sitemap
 sed -i 's/\.xhtml<\/loc>/<\/loc>/' _site/sitemap.xml
