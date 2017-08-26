@@ -2,36 +2,21 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     xmlns:xhtml="http://www.w3.org/1999/xhtml"
     exclude-result-prefixes="xhtml" version="1.0">
-    
-    <!-- Comment/Uncomment the desired flavor of HTML output
-            If we bite the bullet and to with transitional or frameset, more
-            conversions will be done for backwards-compatibility -->
+
+    <!-- Configure type/flavor/version of HTML output.
+         Choices: 5, 4strict, 4transitional, 4frameset -->
+    <xsl:param name="htmlver" select="'5'"/>
+
     <!-- Note:  encoding="us-ascii" forces entities in output for compat. -->
-
     <xsl:output method="html" indent="yes" encoding="us-ascii"/>
-    <xsl:variable name="flavor" select="'html5'"/>
 
-    <!--
+    <!-- Note:  Can't be wrapped in if/choose since outside template.
+                Instead written manually below (required for HTML5 anyway).
     <xsl:output method="html" indent="yes" encoding="us-ascii"
         doctype-public="-//W3C//DTD HTML 4.01//EN"
         doctype-system="http://www.w3.org/TR/html4/strict.dtd"/>
-    <xsl:variable name="flavor" select="'strict'"/>
     -->
 
-    <!--
-    <xsl:output method="html" indent="yes" encoding="us-ascii"
-        doctype-public="-//W3C//DTD HTML 4.01 Transitional//EN"
-        doctype-system="http://www.w3.org/TR/html4/loose.dtd"/>
-    <xsl:variable name="flavor" select="'transitional'"/>
-    -->
-    
-    <!--
-    <xsl:output method="html" indent="yes" encoding="us-ascii"
-        doctype-public="-//W3C//DTD HTML 4.01 Frameset//EN"
-        doctype-system="http://www.w3.org/TR/html4/frameset.dtd"/>
-    <xsl:variable name="flavor" select="'frameset'"/>
-    -->
-    
     <!-- Should the contents of <script> be commented out? -->
     <xsl:param name="commentscripts" select="boolean(0)"/>
     
@@ -44,16 +29,30 @@
     -->
     <xsl:preserve-space elements="html *"/>
 
-    <!-- Add HTML5 DOCTYPE.  See https://stackoverflow.com/q/3387127 -->
-    <xsl:template match="xhtml:html">
-        <xsl:if test="($flavor = 'html5')">
-          <xsl:text disable-output-escaping='yes'>&lt;!DOCTYPE html&gt;
+    <!-- Add DOCTYPE.  See https://stackoverflow.com/q/3387127 -->
+    <xsl:template match="/">
+        <xsl:choose>
+            <xsl:when test="$htmlver='4strict'">
+                <xsl:text disable-output-escaping='yes'>&lt;!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+    "http://www.w3.org/TR/html4/strict.dtd"&gt;
 </xsl:text>
-        </xsl:if>
-        <html>
-            <xsl:apply-templates select="@*"/>
-            <xsl:apply-templates/>
-        </html>
+            </xsl:when>
+            <xsl:when test="$htmlver='4transitional'">
+                <xsl:text disable-output-escaping='yes'>&lt;!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+    "http://www.w3.org/TR/html4/loose.dtd"&gt;
+</xsl:text>
+            </xsl:when>
+            <xsl:when test="$htmlver='4frameset'">
+                <xsl:text disable-output-escaping='yes'>&lt;!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN"
+    "http://www.w3.org/TR/html4/frameset.dtd"&gt;
+</xsl:text>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:text disable-output-escaping='yes'>&lt;!DOCTYPE html&gt;
+</xsl:text>
+            </xsl:otherwise>
+        </xsl:choose>
+        <xsl:apply-templates/>
     </xsl:template>
 
     <!-- Convert xml:lang attribute to lang if no other lang attribute exists
