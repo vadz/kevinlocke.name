@@ -21,6 +21,16 @@ if [ -z "$NPROCS" ] ; then
 	NPROCS=2
 fi
 
+if ! [ -d _build ] ; then
+	echo 'Error: Must be run from site directory with _build subdir.' >&2
+	exit 1
+fi
+
+# Include _build in $PATH to use local copy of some tools
+PATH="$(pwd)/_build:$PATH"
+export PATH
+
+# Remove any previous site to avoid accumulating stale files
 rm -fr _site
 
 bundle exec jekyll build "$@"
@@ -33,13 +43,13 @@ done
 
 # Rename blog posts from .html to .xhtml and replace named HTML entities
 find _site/bits -name '*.html' | while IFS= read -r FILE; do
-    ./_build/htmlentitynametonum.sed -- "$FILE" > "${FILE%.html}.xhtml"
+    htmlentitynametonum -- "$FILE" > "${FILE%.html}.xhtml"
     rm -- "$FILE"
 done
 
 # Replace named HTML entities in non-html files
 find _site \( -iname '*.atom' -o -iname '*.rss' \) -print0 | \
-	xargs -0r ./_build/htmlentitynametonum.sed -i --
+	xargs -0r htmlentitynametonum -i --
 
 # Remove .xhtml extension from URLs in the sitemap
 sed -i 's/\.xhtml<\/loc>/<\/loc>/' _site/sitemap.xml
