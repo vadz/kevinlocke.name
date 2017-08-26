@@ -1,0 +1,90 @@
+#!/bin/bash
+# Wrapper for xhtmltohtml.xsl which preserves HTML4 variant
+set -Ceu
+set -o pipefail
+
+exit_code=0
+script_dir="$(cd "$(dirname "$0")" && pwd -P)"
+
+set_mtime=
+while [ $# -gt 0 ] ; do
+	case "$1" in
+		-f) set +C ; shift ;;
+		-m) set_mtime=1 ; shift ;;
+		--) shift ; break ;;
+		*) break ;;
+	esac
+done
+
+run_xsltproc() {
+	if [ $# -ne 2 ] ; then echo "bad run_xsltproc call" ; return 1 ; fi
+	local htmlver="$1"
+	local xhtmlfile="$2"
+
+	# Replace the over-conservative us-ascii charset with utf-8
+	xsltproc --nodtdattr --novalid --nonet \
+			--stringparam htmlver "$htmlver" \
+			"$script_dir/xhtmltohtml.xsl" "$xhtmlfile" | \
+		sed 's/\(<meta[^>]*http-equiv="Content-Type"[^>]*\)us-ascii/\1utf-8/'
+}
+
+convert_file() {
+	local infile="$1"
+	local outfile="${infile%.xhtml}.html"
+
+	if [ "$infile" = - ] ; then
+		infile=$(mktemp -t xhtmltohtml-XXXXXXXX)
+		outfile=
+		trap "rm -f '$infile'" EXIT HUP INT PIPE QUIT TERM
+		cat > "$infile"
+	fi
+
+	# Determine HTML version of output based on DTD of input
+	# Use HTML-equivalent
+	case "$(xmlgetdtdpublic "$infile")" in
+	'-//W3C//DTD XHTML 1.1//EN') htmlver=4strict ;;
+	'-//W3C//DTD XHTML 1.0 Strict//EN') htmlver=4strict ;;
+	'-//W3C//DTD XHTML 1.0 Transitional//EN') htmlver=4transitional ;;
+	'-//W3C//DTD XHTML 1.0 Frameset//EN') htmlver=4frameset ;;
+	'-//W3C//DTD HTML 4.01//EN') htmlver=4strict ;;
+	'-//W3C//DTD HTML 4.01 Transitional//EN') htmlver=4transitional ;;
+	'-//W3C//DTD HTML 4.01 Frameset//EN') htmlver=4frameset ;;
+	*) htmlver=5 ;;
+	esac
+
+	# Save exit code from run_xsltproc on error instead of exiting
+	local run_code=0
+	(
+		# Send output to file, when provided
+		if [ -n "$outfile" ] ; then
+			exec > "$outfile"
+		fi
+
+		# Note: explicit exit required due to conditional on subshell
+		run_xsltproc "$htmlver" "$infile" || exit $?
+
+		if [ -n "$outfile" ] && [ -n "$set_mtime" ] ; then
+			touch -r "$infile" "$outfile"
+		fi
+	) || run_code=$?
+
+	if [ "$run_code" -ne 0 ] ; then
+		exit_code=$run_code
+
+		# Remove outfile file, if empty
+		if [ -n "$outfile" ] && ! [ -s "$outfile" ] ; then
+			rm "$outfile"
+		fi
+	fi
+}
+
+if [ $# -eq 0 ] ; then
+	# Transform stdin
+	convert_file -
+else
+	for xhtml_file ; do
+		convert_file "$xhtml_file"
+	done
+fi
+
+exit $exit_code
