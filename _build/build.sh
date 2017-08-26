@@ -68,7 +68,7 @@ find _site -name '*.xhtml' | while IFS= read -r FILE; do
 done
 
 # Check other XML for well-formedness
-find _site \( -iname '*.atom' -o -iname '*.xml' \) -print0 \
+find _site \( -iname '*.atom' -o -iname '*.rss' -o -iname '*.xml' \) -print0 \
 	| xargs -0 -r xmllint --nonet --noout
 
 # Pre-compress common text files
