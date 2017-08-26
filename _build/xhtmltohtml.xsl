@@ -110,14 +110,9 @@
     <!-- Discard xmlns attributes -->
     <xsl:template match="@version"/>
     
-    <!-- Add language attribute to script if necessary -->
+    <!-- Wrap inline script in HTML comment when requested -->
     <xsl:template match="xhtml:script">
         <xsl:element name="script">
-            <xsl:if test="($flavor = 'transitional') or ($flavor = 'frameset')">
-                <xsl:call-template name="typeToLanguage">
-                    <xsl:with-param name="type" select="@type"/>
-                </xsl:call-template>
-            </xsl:if>
             <xsl:apply-templates select="@*"/>
             <xsl:choose>
                 <xsl:when test="$commentscripts">
@@ -130,20 +125,7 @@
             </xsl:choose>
         </xsl:element>
     </xsl:template>
-    
-    <xsl:template name="typeToLanguage">
-        <xsl:param name="type" select="@type"/>
-        <xsl:if test="($type = 'text/ecmascript')
-                           or ($type = 'text/javascript')
-                           or ($type = 'application/ecmascript')
-                           or ($type = 'application/javascript')">
-            <xsl:attribute name="language">javascript</xsl:attribute>
-        </xsl:if>
-        <xsl:if test="$type = 'text/vbscript'">
-            <xsl:attribute name="language">vbscript</xsl:attribute>
-        </xsl:if>
-    </xsl:template>
-    
+
     <!-- Discard the xml:* attributes, with no HTML equivalents -->
     <xsl:template match="@xml:*"/>
     
