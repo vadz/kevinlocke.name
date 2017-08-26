@@ -1,0 +1,86 @@
+#!/bin/sh
+# Build file variants for serving with Apache MultiViews
+
+set -eu
+
+if [ $# -ne 2 ] ; then
+	echo "Usage: $0 <src> <dst>" >&2
+	exit 1
+fi
+
+srcdir="${1%/}"
+dstdir="${2%/}"
+
+if [ "$dstdir" != "$srcdir" ] ; then
+	# Careful about dstdir being inside srcdir
+	dstinsrc=${dstdir#$srcdir/}
+	if [ "$dstinsrc" != "$dstdir" ] || [ "$srcdir" = . ] ; then
+		case "$dstinsrc" in
+		*/*)
+			echo "Error: dst deep inside src not supported." >&2
+			exit 1
+			;;
+		esac
+	else
+		dstinsrc=
+	fi
+
+	mkdir -p "$dstdir"
+	find "$srcdir" -maxdepth 1 \
+		-not -name "$srcdir" \
+		-not -name '.git*' \
+		-not -name "$dstinsrc" \
+		-exec cp -a '{}' "$dstdir" \;
+fi
+
+# If the website is maintained in git, set file mtime to commit time for
+# accurate Last-Modified and If-Modified-Since behavior
+if [ -d "$srcdir/.git" ] ; then
+	# $GIT_DIR (and --git-dir) apply after -C.  Use absolute path.
+	srcdir=$(cd "$srcdir" && pwd -P)
+	GIT_DIR="$srcdir/.git" git -C "$dstdir" set-mtime
+fi
+
+cd "$dstdir"
+
+# For determining appropriate levels of parallelism
+ncpus=$(getconf _NPROCESSORS_ONLN)
+
+find -name '*.xhtml' | while IFS= read -r file ; do
+	if ! [ -e "${file%.xhtml}.html" ] ; then
+		xhtmltohtml -m -- "$file"
+	fi
+done
+
+# Pre-compress common text files
+compressible_files=$(mktemp -t publish-site-compressible.XXXXXX)
+trap "rm -f '$compressible_files'" EXIT HUP INT PIPE QUIT TERM
+find \( -iname '*.asc' \
+	-o -iname '*.atom' \
+	-o -iname '*.css' \
+	-o -iname '*.html' \
+	-o -iname '*.js' \
+	-o -iname '*.json' \
+	-o -iname '*.pem' \
+	-o -iname '*.rss' \
+	-o -iname '*.svg' \
+	-o -iname '*.txt' \
+	-o -iname '*.vcard' \
+	-o -iname '*.vcf' \
+	-o -iname '*.xhtml' \
+	-o -iname '*.xml' \
+	\) -print0 > "$compressible_files"
+
+# Note:  -n to exclude mtime which interferes with change detection on upload
+xargs -0r pigz -9 -k -n < "$compressible_files"
+if command -v brotli >/dev/null ; then
+	xargs -0r '-I{}' -P$((ncpus+2)) brotli --input '{}' --output '{}.bro' < "$compressible_files"
+	# Fix permissions for brotli prior to 9223fd4d (0.6.0)
+	find -name '*.bro' -exec chmod =rw '{}' +
+fi
+# Copy mtimes to compressed files for Last-Modified and If-Modified-Since
+xargs -0r '-I{}' touch -c -r '{}' -- '{}.bro' '{}.gz' < "$compressible_files"
+
+# Rename uncompressed files with double type extension so that MultiViews will
+# negotiate requests for the original file name.
+xargs -0r sh -c 'for file; do ext=${file##*.}; mv "$file" "${file}.$ext"; done' sh < "$compressible_files"
