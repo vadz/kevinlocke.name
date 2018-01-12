@@ -75,10 +75,8 @@ RewriteRule "^(.*)\.php$" "$1" [DPI,R]
 RewriteRule "^(.*/)index$" "$1" [DPI,R]
 
 # Ensure all access to kevinlocke.name is done over HTTPS without www.
-# This is for canonicalization, SEO, and SSL (since SAN doesn't include www)
+# This is for canonicalization, SEO, and security.
 # https://blog.mozilla.org/security/2015/04/30/deprecating-non-secure-http/
-# Note:  Other subdomains not included, since some should not be canonicalized
-#        (e.g. ipv6.kevinlocke.name and ipv4.kevinlocke.name)
 # Note:  /.well-known/acme-challenge/ is excluded ACME SSL cert renewal checks.
 
 # First, handle absolute URLs in case rewriting has been done already
@@ -89,10 +87,9 @@ RewriteCond %{HTTP_HOST} =www.kevinlocke.name [NC]
 RewriteCond %{REQUEST_URI} "!^/\.well-known/acme-challenge/"
 RewriteRule ^/?(.*) "https://kevinlocke.name/$1" [R=permanent,L]
 
-RewriteCond %{HTTP_HOST} =kevinlocke.name [NC]
 RewriteCond %{HTTPS} !=on
 RewriteCond %{REQUEST_URI} "!^/\.well-known/acme-challenge/"
-RewriteRule ^/?(.*) "https://kevinlocke.name/$1" [R=permanent,L]
+RewriteRule ^/?(.*) "https://%{HTTP_HOST}/$1" [R=permanent,L]
 
 # Prevent access to .git directories
 # Note:  L implied by F, so put after HTTPS redirect
