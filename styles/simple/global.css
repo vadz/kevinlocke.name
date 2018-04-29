@@ -126,6 +126,10 @@ object {
 	overflow: auto;
 }
 
+.highlight .highlight {
+	border-style: none;
+}
+
 .highlight-git-host-footer {
 	border: thin solid gray;
 	border-top-style: none;
