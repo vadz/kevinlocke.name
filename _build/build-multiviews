@@ -74,9 +74,11 @@ find \( -iname '*.asc' \
 # Note:  -n to exclude mtime which interferes with change detection on upload
 xargs -0r pigz -9 -k -n < "$compressible_files"
 if command -v brotli >/dev/null ; then
-	xargs -0r '-I{}' -P$((ncpus+2)) brotli --input '{}' --output '{}.bro' < "$compressible_files"
+	# Note: Old versions expected --input and --output.
+	#       Add detection if support is desired later.
+	xargs -0r -P$((ncpus)) brotli -S .bro < "$compressible_files"
 	# Fix permissions for brotli prior to 9223fd4d (0.6.0)
-	find -name '*.bro' -exec chmod =rw '{}' +
+	#find -name '*.bro' -exec chmod =rw '{}' +
 fi
 # Copy mtimes to compressed files for Last-Modified and If-Modified-Since
 xargs -0r '-I{}' touch -c -r '{}' -- '{}.bro' '{}.gz' < "$compressible_files"
