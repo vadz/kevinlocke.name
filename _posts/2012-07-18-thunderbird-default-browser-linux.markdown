@@ -1,7 +1,7 @@
 ---
 layout: post
 date: 2012-07-18 17:34:12-06:00
-updated: 2012-09-01 23:07:30-06:00
+updated: 2018-08-14 09:35:10-06:00
 title: Changing the Default Browser in Thunderbird on Linux
 description: "A discussion of the process that Thunderbird uses to determine \
 the default browser on Linux and how to change it."
@@ -99,8 +99,12 @@ as specified in the
 spec](https://wiki.freedesktop.org/www/Specifications/mime-apps-spec/).
 Thunderbird looks up the program associated with the URL pseudo-MIME type (e.g.
 x-scheme-handler/http for HTTP URLs) or the attachment MIME type (e.g.
-text/html).  The XDG MIME database can be queried and modified using the
-xdg-mime command-line tool as follows:
+text/html).
+
+The Applications Associations database can often be changed using the
+"Default/Preferred Applications" or "File Associations" GUI configuration tool
+for your desktop environment.  The database can also be queried and modified
+using the `xdg-mime` command-line tool as follows:
 
 ``` sh
 # Query the current default for HTTP URLs
@@ -113,9 +117,9 @@ To find the .desktop file for your desired browser, look in
 `/usr/share/applications` (for system-wide applications) or
 `~/.local/share/applications` (for user applications).
 
-If xdg-mime is not available, the defaults can be changed by editing
-`~/.local/share/applications/mimeapps.list` as described in the
-[XDG MIME Applications Associations
+If `xdg-mime` is not available, the defaults can be changed by editing
+[`mimeapps.list`](http://standards.freedesktop.org/mime-apps-spec/mime-apps-spec-1.0.1.html#file)
+as described in the [XDG MIME Applications Associations
 spec](http://standards.freedesktop.org/mime-apps-spec/mime-apps-spec-1.0.1.html#associations)
 and using information from `/usr/share/applications/mimeinfo.cache` for
 reference.  For example, the default program for HTTP URLs can be set as
@@ -199,6 +203,14 @@ into a suitable format for posting in either location.  If someone would like
 to make the changes, I'd be happy to assist.
 
 ## Article Changes
+
+### 2018-08-14
+
+* Added mention of desktop environment GUI configuration tools for MIME DB.
+* Updated `mimeapps.list` location from
+  `~/.local/share/applications/mimeapps.list` to
+  `$XDG_CONFIG_HOME/mimeapps.list` since the previous location is described as
+  "for compatibility, deprecated" in the spec and is less frequently used.
 
 ### 2012-09-01
 
