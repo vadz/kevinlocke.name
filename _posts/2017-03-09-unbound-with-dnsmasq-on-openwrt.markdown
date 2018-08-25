@@ -1,41 +1,48 @@
 ---
 layout: post
 date: 2017-03-09 22:43:26-07:00
-title: Unbound with Dnsmasq on OpenWRT Chaos Calmer
+updated: 2018-08-25 13:03:10-06:00
+title: Unbound with Dnsmasq on OpenWrt
 description: "A script and walkthrough for installing the Unbound DNS resolver \
-with Dnsmasq on OpenWRT Chaos Calmer."
+with Dnsmasq on OpenWrt."
 tags: [ dns, openwrt, sysadmin ]
 ---
-I recently decided to setup [Unbound](https://www.unbound.net/) as a
+This post describes one way to set up [Unbound](https://www.unbound.net/) as a
 validating, recursive, caching DNS resolver on a router running
-[OpenWRT](https://openwrt.org/) Chaos Calmer (15.05.1).  The setup includes
-forwarding to [Dnsmasq](http://www.thekelleys.org.uk/dnsmasq/doc.html) for
-local names.  This page documents the process.
+[OpenWrt](https://openwrt.org/).  The setup includes forwarding to
+[Dnsmasq](http://www.thekelleys.org.uk/dnsmasq/doc.html) for local names.
 
-This post is a copy of the [Unbound HOWTO on the OpenWRT
-wiki](https://wiki.openwrt.org/doc/howto/unbound) that I wrote.
+It was initially written as the [Unbound HOWTO on the old OpenWrt
+wiki](https://wiki.openwrt.org/doc/howto/unbound) for Chaos Calmer (15.05.1).
+The content is now [Example 2 on the Unbound services page on the new
+wiki](https://openwrt.org/docs/guide-user/services/dns/unbound) and has been
+updated to work on LEDE 17.01 and OpenWrt 18.06.
+
+**Note:** OpenWrt 18.06 adds support for UCI-based configuration of Unbound.
+This tutorial has not been updated to take advantage of UCI configuration.
 
 <!--more-->
 
 ## Why Unbound?
 
-By default, OpenWRT uses Dnsmasq for DNS forwarding (and DHCP serving).  This
+By default, OpenWrt uses Dnsmasq for DNS forwarding (and DHCP serving).  This
 works well for most cases.  One notable issue is that it requires a separate
 recursive DNS resolver, usually provided by an ISP or public DNS provider, to
 resolve requests.  This can be a problem due to performance, hijacking,
-trustworthiness, or several other reasons.  Running a recursive resolver, such
-as unbound, is a solution.
-
+trustworthiness, misconfiguration, lack of DNSSEC support, or many other
+reasons.  Running a recursive resolver, such as Unbound, is one solution to
+those problems.
 
 ## Prerequisites
 
-The following steps assume that OpenWRT has been installed on a device and
+The following steps assume that OpenWrt has been installed on a device and
 configured as desired, including the network configuration.  If not, consult
-the [Newcomer's Guide](https://wiki.openwrt.org/doc/guide-newcomer) for
-instructions.
+the [Quick Start Guide](https://openwrt.org/docs/guide-quick-start/begin_here)
+for instructions.
 
 The later steps require accessing the device using a terminal.  See
-[First Login](https://wiki.openwrt.org/doc/howto/firstlogin).
+[SSH Access for
+Newcomers](https://openwrt.org/docs/guide-quick-start/sshadministration).
 
 
 ## Installation and Configuration
@@ -52,7 +59,7 @@ Note that the choice of port 53535 is arbitrary.  Similar tutorials often use
 
 ``` sh
 #!/bin/sh
-# Steps to configure unbound on OpenWRT with dnsmasq for dynamic DNS
+# Steps to configure unbound on OpenWrt with dnsmasq for dynamic DNS
 # Note:  Clarity of instruction is favored over script speed or robustness.
 #        It is not idempotent.
 
@@ -78,6 +85,10 @@ uci set 'dhcp.@dnsmasq[0].port=53535'
 # Configure dnsmasq to send a DNS Server DHCP option with its LAN IP
 # since it does not do this by default when port is configured.
 uci add_list "dhcp.lan.dhcp_option=option:dns-server,$lan_address"
+
+# Configure Unbound from unbound.conf, instead of generating it from UCI
+# Services -> Recursive DNS -> Manual Conf
+uci set 'unbound.@unbound[0].manual_conf=1'
 
 # Save & Apply (will restart dnsmasq, DNS unreachable until unbound is up)
 uci commit
@@ -127,19 +138,19 @@ sed -i "/^server:/a\	domain-insecure: \"$lan_domain\"" /etc/unbound/unbound.conf
 # by adding 'domain-insecure: "$lan_rdns_domain"' to server section
 sed -i "/^server:/a\	domain-insecure: \"$lan_rdns_domain\"" /etc/unbound/unbound.conf
 
-# Add a stub zone to dnsmasq for the local domain to the unbound configuration
-cat >> /etc/unbound/unbound.conf <<DNS_STUB_ZONE
-stub-zone:
+# Add a forward zone for the local domain to forward requests to dnsmasq
+cat >> /etc/unbound/unbound.conf <<DNS_FORWARD_ZONE
+forward-zone:
 	name: "$lan_domain"
-	stub-addr: 127.0.0.1@53535
-DNS_STUB_ZONE
+	forward-addr: 127.0.0.1@53535
+DNS_FORWARD_ZONE
 
-# Add a stub zone to dnsmasq for the local reverse domain to unbound.conf
-cat >> /etc/unbound/unbound.conf <<RDNS_STUB_ZONE
-stub-zone:
+# Add a forward zone for the local reverse domain to forward requests to dnsmasq
+cat >> /etc/unbound/unbound.conf <<RDNS_FORWARD_ZONE
+forward-zone:
 	name: "$lan_rdns_domain"
-	stub-addr: 127.0.0.1@53535
-RDNS_STUB_ZONE
+	forward-addr: 127.0.0.1@53535
+RDNS_FORWARD_ZONE
 
 # Optionally enable DNS Rebinding protection by uncommenting private-address
 # configuration and adding 'private-domain: "$lan_domain"' to server section
@@ -167,12 +178,12 @@ something like:
 		private-address: fd00::/8
 		private-address: fe80::/10
 		private-domain: "example.local"
-	stub-zone:
+	forward-zone:
 		name: "example.local"
-		stub-addr: 127.0.0.1@53535
-	stub-zone:
+		forward-addr: 127.0.0.1@53535
+	forward-zone:
 		name: "0.168.192.in-addr.arpa"
-		stub-addr: 127.0.0.1@53535
+		forward-addr: 127.0.0.1@53535
 
 The above [script and configuration are also available as a
 Gist](https://gist.github.com/kevinoid/00656e6e4815e3ffe25dabe252e0f1e3).
@@ -184,7 +195,7 @@ After completing the above steps, DNS should be working for both local and
 global addresses.  If it is not, here are some suggested troubleshooting
 steps:
 
-Resolution can be attempted from the OpenWRT system by running `nslookup
+Resolution can be attempted from the OpenWrt system by running `nslookup
 openwrt.org 127.0.0.1` and `nslookup openwrt.org 127.0.0.1:53535`.
 Unfortunately, the nslookup output does not distinguish between no response
 and a negative response, which significantly reduces its usefulness for
@@ -211,7 +222,7 @@ match a predefined zone), and as a `name` in `stub-zone`.
 If domains which use DNSSEC fail to resolve while other domains work, check
 that the system time is correct.  Time skew can cause validation failures.  If
 the time is incorrect, check the [NTP client
-configuration](https://wiki.openwrt.org/doc/howto/ntp.client).
+configuration](https://openwrt.org/docs/guide-user/advanced/ntp_configuration).
 
 
 ## Further Additions
@@ -221,7 +232,8 @@ configuration](https://wiki.openwrt.org/doc/howto/ntp.client).
 It is relatively straightforward to extend the above configuration for IPv6.
 Forward resolution (from local domain to IPv6 address) does not require any
 additional changes to Unbound, although it may require configuration changes to
-Dnsmasq.  See [IPv6 DNS](https://wiki.openwrt.org/doc/howto/ipv6.dns).
+Dnsmasq.  See [IPv6
+DNS](https://openwrt.org/docs/guide-user/network/ipv6/ipv6.dns).
 
 To configure reverse DNS for IPv6:
 
@@ -230,11 +242,22 @@ To configure reverse DNS for IPv6:
 * Add `domain-insecure: $lan6_rdns_domain`.
 * Add `local-zone: $lan6_rdns_domain nodefault` if it is in a private range
   (be sure to use a [preconfigured
-  range](https://www.unbound.net/documentation/unbound.conf.html).
+  range](https://nlnetlabs.nl/documentation/unbound/unbound.conf/).
 * Add a `stub-zone` with `name: "$lan6_rdns_domain"` as above.
 
 The difficulty of adding IPv6 is that Dnsmasq is compiled without DHCPv6
 support and [does not resolve its own name due to
-#17457](https://dev.openwrt.org/ticket/17457) so the value of forwarding IPv6
+\#17457](https://dev.openwrt.org/ticket/17457) so the value of forwarding IPv6
 reverse requests is currently rather limited.  IPv6 address configuration is
 also more variable and more difficult to detect.
+
+## Article Changes
+
+### 2018-08-25
+
+* Change `stub-zone`s to `forward-zone`s for compatibility with Dnsmasq 2.79
+  and later which "Always return `SERVFAIL` for DNS queries without the
+  recursion desired bit set, UNLESS acting as an authoritative DNS server."
+  Since Dnsmasq `auth-server` and `auth-zone` are not configurable via UCI, it
+  can not be made authoritative without manual configuration so Unbound must
+  send RD queries.
