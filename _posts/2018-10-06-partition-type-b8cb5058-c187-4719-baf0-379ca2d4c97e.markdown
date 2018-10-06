@@ -1,0 +1,114 @@
+---
+layout: post
+date: 2018-10-06 10:21:03-06:00
+title: Partition Type B8CB5058-C187-4719-BAF0-379CA2D4C97E
+description: "My findings that GPT partition type
+B8CB5058-C187-4719-BAF0-379CA2D4C97E is used by ExpressCache."
+tags: [sysadmin]
+---
+
+I am reasonably certain that the [partition type
+GUID](https://en.wikipedia.org/wiki/GUID_Partition_Table#Partition_type_GUIDs)
+`B8CB5058-C187-4719-BAF0-379CA2D4C97E` is used for
+[ExpressCache](https://en.wikipedia.org/wiki/ExpressCache) partitions.  Since
+[Wikipedia articles must not contain original
+research](https://en.wikipedia.org/wiki/Wikipedia:No_original_research), and I
+was unable to find a source to corroborate (or refute) this finding, I am
+documenting it here.
+
+<!--more-->
+
+## My Findings
+
+While working on a [Lenovo ThinkPad Twist S230u
+Laptop](https://www.lenovo.com/us/en/laptops/thinkpad/twist-series/s230u/), I
+noticed that it has a 24GB mSATA drive (Samsung MZMPA024) with the following
+partitions:
+
+    Disk /dev/sdb: 22.4 GiB, 24015495168 bytes, 46905264 sectors
+    Units: sectors of 1 * 512 = 512 bytes
+    Sector size (logical/physical): 512 bytes / 512 bytes
+    I/O size (minimum/optimal): 512 bytes / 512 bytes
+    Disklabel type: gpt
+    Disk identifier: XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX
+
+    Device        Start      End  Sectors  Size Type
+    /dev/sdb1      2048 32223231 32221184 15.4G unknown
+    /dev/sdb2  32223232 46903295 14680064    7G Intel Fast Flash
+
+The `sfdisk` dump contained the following information:
+
+    label: gpt
+    label-id: XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX
+    device: /dev/sdb
+    unit: sectors
+    first-lba: 34
+    last-lba: 46905230
+
+    /dev/sdb1 : start=        2048, size=    32221184, type=B8CB5058-C187-4719-BAF0-379CA2D4C97E, uuid=XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX, name="Basic data partition", attrs="RequiredPartition GUID:63"
+    /dev/sdb2 : start=    32223232, size=    14680064, type=D3BFE2DE-3DAF-11DF-BA40-E3A556D89593, uuid=XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX, name="Basic data partition", attrs="RequiredPartition GUID:63"
+
+The 7GB second partition with type `D3BFE2DE-3DAF-11DF-BA40-E3A556D89593`
+appears to be for [Intel® Rapid Start
+Technology](https://www.intel.com/content/dam/support/us/en/documents/motherboards/desktop/sb/rapid_start_technology_user_guide_for_uefi_v14.pdf).
+The first partition type is not documented anywhere that I can find.
+
+The machine has the [Lenovo ExpressCache Software for
+Windows](https://pcsupport.lenovo.com/us/en/downloads/DS104444) installed.
+Running `eccmd -info` to check the status (per [Lenovo ExpressCache mSATA
+troubleshooting](https://pcsupport.lenovo.com/us/en/solutions/ht074404))
+yields:
+
+    ExpressCache Command Version 1.3.118.0
+    Copyright© 2010-2014 Condusiv Technologies.
+    Date Time: 10/6/2018 10:35:45:67 (LENOVO-TWIST #4)
+
+    EC Cache Info
+    ==================================================
+
+    Mounted                   : Yes
+    Partition Size            : 15.36 GB
+    Reserved Size             : 3.00 MB
+    Volume Size               : 15.36 GB
+    Total Used Size           : 6.70 GB
+    Total Free Space          : 8.67 GB
+    Used Data Size            : 6.63 GB
+    Used Data Size on Disk    : 6.69 GB
+
+    Tiered Cache Stats
+    ==================================================
+    Memory in use             : 0 Bytes
+    Blocks in use             : 0
+    Read Percent              : 5.96%
+
+
+    Cache Stats
+    ==================================================
+    Cache Volume Drive Number : 1
+    Total Read Count          : 64828
+    Total Read Size           : 3.52 GB
+    Total Cache Read Count    : 22994
+    Total Cache Read Size     : 2.01 GB
+    Total Write Count         : 9361
+    Total Write Size          : 194.17 MB
+    Total Cache Write Count   : 6256
+    Total Cache Write Size    : 96.51 MB
+
+    Cache Read Percent        : 57.12%
+    Cache Write Percent       : 49.70%
+
+Which describes an active ExpressCache on a 15.36 GB partition.  Since there
+are no other partitions of similar size in the system, and the Lenovo
+documentation mentions mSATA drives specifically, it seems reasonable to
+conclude that this is the mystery partition.
+
+
+## Related Findings
+
+[Talk:GUID Partition Table/Archive 1 mentions this GUID "is used by SanDisk
+express
+cache".](https://wikivisually.com/wiki/Talk:GUID_Partition_Table/Archive_1#Intel_Smart_Response_Technology_GUID_code)
+It also links to a [SuperUser answer which identifies the type as Intel Rapid
+Response](https://superuser.com/a/609078) (with a comment claiming Smart
+Response).  Since the drive also contains a Rapid Start partition (discussed
+above), I suspect that may be the cause of the confusion.
