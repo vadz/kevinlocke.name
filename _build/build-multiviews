@@ -16,9 +16,11 @@ srcdir=$(cd "$srcdir" && pwd -P)
 mkdir -p "$dstdir"
 dstdir=$(cd "$dstdir" && pwd -P)
 
+# Copy files in srcdir to dstdir if required
 if [ "$dstdir" != "$srcdir" ] ; then
 	# Careful about dstdir being inside srcdir
-	dstinsrc=${dstdir#$srcdir/}
+	# Since cp does the recursive traversal, can't exclude deep dstdir
+	dstinsrc=${dstdir#"$srcdir/"}
 	if [ "$dstinsrc" != "$dstdir" ] || [ "$srcdir" = . ] ; then
 		case "$dstinsrc" in
 		*/*)
