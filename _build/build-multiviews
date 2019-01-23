@@ -11,6 +11,11 @@ fi
 srcdir="${1%/}"
 dstdir="${2%/}"
 
+# Convert srcdir/dstdir to absolute physical paths
+srcdir=$(cd "$srcdir" && pwd -P)
+mkdir -p "$dstdir"
+dstdir=$(cd "$dstdir" && pwd -P)
+
 if [ "$dstdir" != "$srcdir" ] ; then
 	# Careful about dstdir being inside srcdir
 	dstinsrc=${dstdir#$srcdir/}
