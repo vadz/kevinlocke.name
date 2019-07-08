@@ -74,10 +74,10 @@ RewriteRule "^inquiry(/.*)?$" "/bits$1" [DPI,R=permanent]
 
 # Rewrite requests for php files to extensionless files, where absent
 RewriteCond "%{REQUEST_FILENAME}" !-f
-RewriteRule "^(.*)\.php$" "$1" [DPI,R]
+RewriteRule "^(.*)\.php$" "$1" [DPI,R=permanent]
 
 # Use URL with trailing slash as canonical URL for index pages
-RewriteRule "^(.*/)index$" "$1" [DPI,R]
+RewriteRule "^(.*/)index$" "$1" [DPI,R=permanent]
 
 # Ensure all access to kevinlocke.name is done over HTTPS without www.
 # This is for canonicalization, SEO, and security.
