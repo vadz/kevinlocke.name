@@ -16,7 +16,7 @@ that the new key be used whenever possible.
 
 <!--more-->
 
-The old key was [0x498A12A1584EA6F9]({% link pgpkey-8CE71E1C.asc %}):
+The old key was [0x5FF14E6B8CE71E1C]({% link pgpkey-8CE71E1C.asc %}):
 
     pub   dsa1024/0x5FF14E6B8CE71E1C 2007-03-17
           Key fingerprint = 03CF 7D34 460F BCE6 E8B4  DA43 5FF1 4E6B 8CE7 1E1C
