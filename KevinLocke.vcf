@@ -1,14 +1,14 @@
 BEGIN:VCARD
 VERSION:3.0
 SOURCE:https://kevinlocke.name/KevinLocke.vcf
-REV:20160825T020000Z
+REV:20190717T020000Z
 CLASS:PUBLIC
 KIND:individual
 URL:https://kevinlocke.name/
 FN:Kevin Locke
 N:Locke;Kevin;;;
 EMAIL;TYPE=INTERNET;TYPE=HOME:kevin@kevinlocke.name
-KEY;TYPE=PGP:https://kevinlocke.name/pgpkey-8CE71E1C.asc
+KEY;TYPE=PGP:https://kevinlocke.name/pgpkey-498A12A1584EA6F9.asc
 X-MOZILLA-HTML:FALSE
 IMPP;TYPE=HOME:xmpp:kevin@kevinlocke.name
 X-GOOGLE-TALK;TYPE=HOME:kevin@kevinlocke.name
