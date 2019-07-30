@@ -31,6 +31,8 @@ kramdown:
 
   # https://kramdown.gettalong.org/syntax_highlighter/rouge.html
   syntax_highlighter_opts:
+    # Only use "real" text for ID generation
+    auto_id_stripping: true
     # Set default language to plaintext to disable language guessing.
     # This is useful for non-fenced blocks I don't want to highlight.
     default_lang: plaintext
