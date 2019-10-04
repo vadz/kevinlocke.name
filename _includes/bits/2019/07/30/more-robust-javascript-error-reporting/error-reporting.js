@@ -194,17 +194,21 @@
       }
     }
 
-    var message =
+    var eventMessage =
       errorEvent.message == null ? null : String(errorEvent.message);
-    if (!message) {
-      message = errorString;
-    } else if (errorString
-        // IE errorEvent.message === error.message
-        && errorString.indexOf(message) < 0
-        // Chrome errorEvent.message === 'Unhandled ' + error.toString()
-        && message.indexOf(errorString) < 0) {
-      message += ': ' + errorString;
-    }
+    var message =
+      // If there was no event message, use error string (if any)
+      !eventMessage ? errorString
+        // If there was no error string, use event message (if any)
+        : !errorString ? eventMessage
+          // If error string contains event message, use error string
+          // e.g. On Edge, IE eventMessage === error.message
+          : errorString.indexOf(eventMessage) >= 0 ? errorString
+            // If event message contains error string, use event message
+            // e.g. On Chrome eventMessage === 'Unhandled ' + errorString
+            : eventMessage.indexOf(errorString) >= 0 ? eventMessage
+              // Otherwise, combine them
+              : eventMessage + ': ' + errorString;
 
     // FIXME: To get more useful stack information (especially when minified),
     // consider https://github.com/stacktracejs/stacktrace.js
