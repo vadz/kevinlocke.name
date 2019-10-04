@@ -42,6 +42,7 @@ if command -v vnu.jar >/dev/null 2>&1 ; then
     find _site -name '*.xhtml' -print0 | \
         xargs -0 -r vnu.jar --
 else
+    # shellcheck disable=SC2016
     echo 'Validator.nu command-line client not in $PATH, skipping...' >&2
     echo 'See https://validator.github.io/validator/#usage' >&2
 
