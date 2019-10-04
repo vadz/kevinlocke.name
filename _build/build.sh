@@ -1,7 +1,7 @@
 #!/bin/sh
 # build.sh - Build the website
 
-set -eux
+set -eu
 
 if ! [ -d _build ] ; then
 	echo 'Error: Must be run from site directory with _build subdir.' >&2
