@@ -220,8 +220,8 @@
       // Remove redundancy between stack and message
       var nlPos = stack.indexOf('\n');
       var firstLine = nlPos > 0 ? stack.slice(0, nlPos) : null;
-      if (firstLine && message.indexOf(firstLine) >= 0) {
-        // First line of stack is included in message.  Remove it.
+      if (firstLine === errorString) {
+        // First line of stack is error (Chrome, Edge, IE).  Remove it.
         stack = stack.slice(nlPos + 1);
       }
     }
