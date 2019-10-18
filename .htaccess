@@ -52,6 +52,11 @@ Header set Content-Security-Policy: "default-src 'self'; form-action 'self'; blo
 Header edit Content-Security-Policy: "$" "; style-src 'self' 'unsafe-inline'" "expr=%{CONTENT_TYPE} =~ m#^image/svg\+xml# || %{REQUEST_URI} =~ m#(javadoc|phpdoc)\/#"
 # Allow inline scripts for javadoc
 Header edit Content-Security-Policy: "$" "; script-src 'self' 'unsafe-inline'" "expr=%{REQUEST_URI} =~ m#javadoc\/#"
+# Allow unsafe-inline for PDFs viewed in-browser <https://crbug.com/271452>
+# Note:  'self' is also required for viewer to fetch PDF content.
+# Note:  resp('Content-Type') is not set by mod_negotiation.c.
+#        Use %{CONTENT_TYPE} instead.
+Header edit Content-Security-Policy: "default-src 'self'" "$0 'unsafe-inline'" "expr=%{CONTENT_TYPE} =~ m#^application\/pdf#"
 
 Header set X-Content-Type-Options: "nosniff"
 Header set X-XSS-Protection: "1; mode=block"
