@@ -45,7 +45,7 @@ HeaderName README-files.txt
 IndexOptions +XHTML
 
 # Set common security/compatibility headers
-Header set Content-Security-Policy: "default-src 'self'; form-action 'self'; block-all-mixed-content; report-uri /csp-report"
+Header set Content-Security-Policy: "default-src 'self'; frame-ancestors 'self'; form-action 'self'; block-all-mixed-content; report-uri /csp-report"
 # Allow inline styles in SVG files and javadoc/phpdoc
 # Note:  resp('Content-Type') is not set by mod_negotiation.c.
 #        Use %{CONTENT_TYPE} instead.
