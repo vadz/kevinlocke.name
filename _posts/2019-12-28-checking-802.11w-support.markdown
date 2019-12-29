@@ -1,0 +1,96 @@
+---
+layout: post
+date: 2019-12-28 18:58:25-07:00
+title: Checking 802.11w (MFP/PMF) Support (on Linux)
+description: 
+tags: [ linux ]
+---
+
+[IEEE 802.11w-2009](https://wikipedia.org/wiki/IEEE_802.11w-2009) defines a
+mechanism for cryptographically protecting 802.11 management frames to prevent
+[deauthentication
+attacks](https://wikipedia.org/wiki/Wi-Fi_deauthentication_attack) (such as
+the [deauthentication attacks recently discussed on Hacker
+News](https://news.ycombinator.com/item?id=21889837)).  The feature is often
+referred to as "Protected Management Frames (PMF)" or "Management Frame
+Protection (MFP)" and is required by
+[WPA3](https://en.wikipedia.org/wiki/Wi-Fi_Protected_Access#WPA3).
+
+While configuring and testing 802.11w, I found it difficult to determine
+whether 802.11w was supported, enabled, and/or required on each device and
+network.  This post documents the methods that I used.
+
+<!--more-->
+
+
+## Checking Hardware Support with DebugFS
+
+Linux drivers set the
+[`IEEE80211_HW_MFP_CAPABLE`](https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/include/net/mac80211.h?h=v5.4#n2127)
+flag for hardware which supports 802.11w.  On kernels built with
+`CONFIG_MAC80211_DEBUGFS` and `debugfs` mounted at `/sys/kernel/debug`, this
+can be checked by running:
+
+```sh
+grep MFP_CAPABLE /sys/kernel/debug/ieee80211/phy0/hwflags
+```
+
+(Replacing `phy0` with the PHY device of interest.)
+
+
+## Checking Hardware Support with iw
+
+On kernels built without `CONFIG_MAC80211_DEBUGFS`, the `flags` member of
+`struct ieee80211_hw` does not appear to be exposed to user-space.  The best
+indicator I have found is to check for [cipher suites which are only supported
+on MFP-capable
+hardware](https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/net/mac80211/main.c?h=v5.4#n736)
+(`AES-CMAC`, `BIP-CMAC-256`, `BIP-GMAC-128`, and `BIP-GMAC-256`) using the
+[`iw`](https://wireless.wiki.kernel.org/en/users/documentation/iw) command.
+For example, to check whether `phy0` supports `AES-CMAC` (`00-0f-ac:6`):
+
+```sh
+iw phy phy0 info | grep 00-0f-ac:6
+```
+
+If `00-0f-ac:6` is included in the output, 802.11w is supported.  Note that
+listing ciphers requires the `iw-full` package on
+[OpenWRT](https://openwrt.org/).  Also note that `phy0 info` can be omitted
+from the above command to check for support on any PHY.
+
+Additionally, to check whether the driver+firmware supports optional 802.11w,
+ensure you are using `iw` 5.0 or later and look for `MFP_OPTIONAL` in
+`Supported extended features:` in the `iw phy` output.
+
+
+## Checking Available Network Support
+
+To check whether a network within scanning range supports or requires 802.11w,
+you can run:
+
+```sh
+iw dev wlan0 scan ssid NetworkName
+```
+
+(Replacing `wlan0` with the desired wireless interface to use for scanning.)
+If `RSN Capabilities` includes `MFP-required`, the station requires 802.11w.
+If `RSN Capabilities` includes `MFP-capable`, 802.11w is available, but
+clients are not required to use it.  Note that **even network cards which do
+not support 802.11w can report this information**.  Also note that `ssid
+NetworkName` can be omitted to view all networks.
+
+
+## Checking Network Support on AP
+
+To check which stations managed by interfaces on an access point support or
+require 802.11w, run:
+
+```sh
+iw dev wlan0 station dump
+```
+
+(Replacing `wlan0` with the wireless interface upon which the station is
+configured.)  `MFP: yes` indicates that 802.11w is required by the station.
+`MFP: no` indicates that 802.11w is either optional or not supported
+by the station.  (Unfortunately, I have not yet found a way to distinguish
+optional from unsupported.)
