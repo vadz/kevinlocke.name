@@ -170,34 +170,18 @@ DefaultLanguage en
 # Note:  %{resp:Content-Encoding} is not set by mod_negotiation.c, which only
 # sets the content_encoding field of the response struct.  Check
 # %{resp:Content-Location} which has the matched file extension, to handle it.
-<IfVersion < 2.4.4>
-    # Note:  Can't use / in FilterProvider regex in Apache < 2.2.21 use \x2F
-    # See https://issues.apache.org/bugzilla/show_bug.cgi?id=51434
-    # Gzip content which may benefit from the compression
-    FilterDeclare COMPRESS CONTENT_SET
-    # Compress any text content
-    FilterProvider COMPRESS DEFLATE resp=Content-Type /^text\x2F/
-    # Compress JavaScript
-    FilterProvider COMPRESS DEFLATE resp=Content-Type /^application\x2F(x-)?javascript/
-    # Compress any XML content
-    # Note:  This expression could be a lot tighter, but this is simple and works
-    FilterProvider COMPRESS DEFLATE resp=Content-Type /^[^;]+(\x2F|\+)xml\x20*(;|$)/
-    FilterChain COMPRESS
-    FilterProtocol COMPRESS DEFLATE change=yes,byteranges=no
-</IfVersion>
-
-<IfVersion >= 2.4.4>
+<IfModule mod_deflate.c>
     <If "%{req:Accept-Encoding} =~ m#\bgzip\b#i">
         # Gzip content which may benefit from the compression
         FilterDeclare COMPRESS CONTENT_SET
-        # Compress any text content
-        FilterProvider COMPRESS DEFLATE "%{Content_Type} =~ m#^text/#i && -z %{resp:Content-Encoding} && %{resp:Content-Location} !~ m/\.(?:bro?|gz)$/"
-        # Compress JavaScript
-        FilterProvider COMPRESS DEFLATE "%{Content_Type} =~ m#^application/(x-)?javascript#i && -z %{resp:Content-Encoding} && %{resp:Content-Location} !~ m/\.(?:bro?|gz)$/"
-        # Compress any XML content
-        # Note:  This expression could be a lot tighter, but this is simple and works
-        FilterProvider COMPRESS DEFLATE "%{Content_Type} =~ m#^[^;]+(/|\+)xml *(;|$)#i && -z %{resp:Content-Encoding} && %{resp:Content-Location} !~ m/\.(?:bro?|gz)$/"
+        # Compress response with Content-Type:
+        # * Starting with text/
+        # * application/javascript and application/x-javascript
+        # * application/json, application/x-yaml
+        # * Ending with /json or +json
+        # * Ending with /xml or +xml
+        FilterProvider COMPRESS DEFLATE "%{Content_Type} =~ m#^(text/[^;]+|application/(x-)?(javascript|yaml)|[^;]+[/+](json|xml)) *(;|$)#i && -z %{resp:Content-Encoding} && %{resp:Content-Location} !~ m/\.(bro?|gz)$/"
         FilterChain COMPRESS
         FilterProtocol COMPRESS DEFLATE change=yes,byteranges=no
     </If>
-</IfVersion>
+</IfModule>
