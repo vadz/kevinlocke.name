@@ -1,11 +1,11 @@
 <meta charset="utf-8" />
 <meta name="author" content="Kevin Locke &lt;kevin@kevinlocke.name&gt;" />
 <meta name="generator" content="Jekyll" />{% if page.description %}
-<meta name="description" content="{{ page.description }}" />{% endif %}
+<meta name="description" content="{{ page.description | xml_escape }}" />{% endif %}
 <meta name="viewport" content="width=device-width" />
 <link rel="license" href="/license" />{% for alternate in page.alternates %}
-<link rel="alternate" type="{{ alternate.type }}" href="{{ alternate.href }}"{% if alternate.title %}
-  title="{{ alternate.title }}"{% endif %} />{% endfor %}
-<title>{% if page.title %}{{ page.title }} - {% endif %}Kevin Locke's Homepage</title>
+<link rel="alternate" type="{{ alternate.type | xml_escape }}" href="{{ alternate.href | xml_escape }}"{% if alternate.title %}
+  title="{{ alternate.title | xml_escape }}"{% endif %} />{% endfor %}
+<title>{% if page.title %}{{ page.title | xml_escape }} - {% endif %}Kevin Locke's Homepage</title>
 <link rel="stylesheet" type="text/css" href="/styles/simple/global.css" />
 <link rel="stylesheet" media="print" type="text/css" href="/styles/simple/global-print.css" />
