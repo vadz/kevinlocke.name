@@ -24,6 +24,7 @@ exclude:
 future: false
 highlighter: rouge
 include:
+  - .htaccess
   - .well-known
 markdown: kramdown
 kramdown:
