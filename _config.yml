@@ -23,6 +23,8 @@ exclude:
   - vendor
 future: false
 highlighter: rouge
+include:
+  - .well-known
 markdown: kramdown
 kramdown:
   input: GFM
