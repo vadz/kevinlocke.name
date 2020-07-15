@@ -1,0 +1,34 @@
+#!/bin/sh
+# Build file variants for serving with Apache MultiViews
+
+set -Ceu
+
+if [ $# -eq 0 ] || [ "$1" = --help ]; then
+	echo "Usage: $0 <file...>"
+	exit 1
+fi
+
+# Note:  -n to exclude mtime which interferes with change detection on upload
+pigz -9 -k -n -- "$@"
+
+if command -v brotli >/dev/null ; then
+	# For determining appropriate levels of parallelism
+	ncpus=$(getconf _NPROCESSORS_ONLN)
+
+	# Note: Old versions expected --input and --output.
+	#       Add detection if support is desired later.
+	printf '%s\0' "$@" |
+		xargs -0r "-P$ncpus" brotli -k -S .bro --
+
+	# Fix permissions for brotli prior to 9223fd4d (0.6.0)
+	#find -name '*.bro' -exec chmod =rw '{}' +
+fi
+
+for file; do
+	# Copy mtimes to compressed files for Last-Modified and If-Modified-Since
+	touch -c -r "$file" -- "$file.bro" "$file.gz"
+
+	# Rename uncompressed files with double type extension so MultiViews
+	# will negotiate requests for the original file name.
+	mv -n "$file" "$file.${file##*.}"
+done
