@@ -8,8 +8,8 @@ parameter."
 tags: [ apache ]
 ---
 
-An intrepid reader asked about how to extend the technique from [Serving XHTML
-with Apache MultiViews]({% post_url
+Michael Dayah of [Ptable.com](https://ptable.com/) asked about how to extend
+the technique from [Serving XHTML with Apache MultiViews]({% post_url
 2012-07-20-serving-xhtml-with-apache-multiviews %}) and [Serving
 Pre-Compressed Files with Apache MultiViews]({% post_url
 2016-01-20-serving-pre-compressed-files-with-apache-multiviews %}) to serve
