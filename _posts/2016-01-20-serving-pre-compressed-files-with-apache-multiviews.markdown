@@ -360,7 +360,7 @@ double-extension** (e.g. `style.css.css`) unless one of the alternatives in
 the [Non-Negotiated Files](#non-negotiated-files) section is used.
 
 This configuration intentionally omits support for `deflate` encoding due to
-[compatibility issues](http://www.gzip.org/zlib/zlib_faq.html#faq38) and no
+[compatibility issues](https://zlib.net/zlib_faq.html#faq39) and no
 significant use case that I am aware of, since all browsers which support
 deflate support gzip.  It could be easily added with `AddEncoding deflate
 .zlib` or similar if desired.
