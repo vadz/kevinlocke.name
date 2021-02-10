@@ -1,7 +1,9 @@
 #!/bin/sh
 # Build file variants for serving with Apache MultiViews
 
-set -eu
+set -Ceu
+# shellcheck disable=2039
+[ -n "${BASH-}" ] && set -o pipefail -o posix
 
 if [ $# -ne 2 ] ; then
 	echo "Usage: $0 <src> <dst>" >&2

@@ -1,7 +1,9 @@
 #!/bin/sh
 # build.sh - Build the website
 
-set -eu
+set -Ceu
+# shellcheck disable=2039
+[ -n "${BASH-}" ] && set -o pipefail -o posix
 
 if ! [ -d _build ] ; then
 	echo 'Error: Must be run from site directory with _build subdir.' >&2
