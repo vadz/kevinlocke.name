@@ -1,6 +1,7 @@
 ---
 layout: post
 date: 2020-04-12 13:34:26-06:00
+updated: 2021-02-15 18:13:18-07:00
 title: Resolving Desktop Notifications D-Bus Service Conflicts
 description: |-
   A procedure for resolving a D-Bus service activation conflict when multiple
@@ -133,3 +134,18 @@ exit 1
 
 Then log out and back in (or `killall -HUP dbus-daemon`) to apply the changes.
 To test, send a desktop notification (e.g. `notify-send Test`).
+
+
+### Addendum: Environment Variables
+
+The `notify-dispatch` script inherits its environment from the D-Bus
+activation environment.  For `$XDG_SESSION_DESKTOP` to be set,
+[`dbus-update-activation-environment`](https://dbus.freedesktop.org/doc/dbus-update-activation-environment.1.html)
+must be called (with `--all` or `XDG_SESSION_DESKTOP=...` explicitly) after
+the session bus is started, before a notification is sent.  On Debian, this is
+done by the [Xsession](https://wiki.debian.org/Xsession) script
+`/etc/X11/Xsession.d/95dbus_update-activation-env` (from the
+[`dbus-x11`](https://packages.debian.org/sid/dbus-x11) package).  (Note:
+Although, as its name implies, Xsession is a component of the X Window System,
+some display managers also run Xsession when starting Wayland sessions.
+[LightDM](https://github.com/canonical/lightdm) is one example.)
