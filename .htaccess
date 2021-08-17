@@ -7,8 +7,10 @@
 </If>
 
 # Allow PHP to match negotiated response for any request.
-# https://stackoverflow.com/a/24598848/503410
-<FilesMatch ".+\.php$">
+# https://stackoverflow.com/a/24598848
+# Note: MultiviewsMatch Handlers may work with mod_php, but does not appear to
+# work with php-fpm.  (Not sure why, since it does use SetHandler.)
+<FilesMatch ".+\.ph(ar|p|tml)$">
     MultiviewsMatch Any
 </FilesMatch>
 
