@@ -2,8 +2,10 @@
 # build.sh - Build the website
 
 set -Ceu
+# set -o pipefail if supported
+# Note: Can't use `|| true`.  dash unconditionally exits with "Illegal option"
 # shellcheck disable=2039
-[ -n "${BASH-}" ] && set -o pipefail -o posix
+case "$(set +o)" in *pipefail*) set -o pipefail ;; esac
 
 if ! [ -d _build ] ; then
 	echo 'Error: Must be run from site directory with _build subdir.' >&2

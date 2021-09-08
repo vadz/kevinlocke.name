@@ -2,8 +2,10 @@
 # Build file variants for serving with Apache MultiViews
 
 set -Ceu
+# set -o pipefail if supported
+# Note: Can't use `|| true`.  dash unconditionally exits with "Illegal option"
 # shellcheck disable=2039
-[ -n "${BASH-}" ] && set -o pipefail -o posix
+case "$(set +o)" in *pipefail*) set -o pipefail ;; esac
 
 if [ $# -eq 0 ] || [ "$1" = --help ]; then
 	echo "Usage: $0 <file...>"
