@@ -1,7 +1,7 @@
 ---
 layout: post
 date: 2017-03-09 22:43:26-07:00
-updated: 2018-08-25 13:03:10-06:00
+updated: 2021-09-08 11:23:08-06:00
 title: Unbound with Dnsmasq on OpenWrt
 description: "A script and walkthrough for installing the Unbound DNS resolver \
 with Dnsmasq on OpenWrt."
@@ -12,14 +12,19 @@ validating, recursive, caching DNS resolver on a router running
 [OpenWrt](https://openwrt.org/).  The setup includes forwarding to
 [Dnsmasq](http://www.thekelleys.org.uk/dnsmasq/doc.html) for local names.
 
-It was initially written as the [Unbound HOWTO on the old OpenWrt
-wiki](https://wiki.openwrt.org/doc/howto/unbound) for Chaos Calmer (15.05.1).
-The content is now [Example 2 on the Unbound services page on the new
-wiki](https://openwrt.org/docs/guide-user/services/dns/unbound) and has been
-updated to work on LEDE 17.01 and OpenWrt 18.06.
+**IMPORTANT:** This post is of historical interest only.  OpenWrt 18.06 added
+support for UCI-based configuration of Unbound and OpenWrt 21.02 added support
+for the `dhcp_link` option.  Configuring Unbound as described in the [Parallel
+dnsmasq section of
+README.md](https://github.com/openwrt/packages/blob/master/net/unbound/files/README.md#parallel-dnsmasq)
+should now be sufficient.
 
-**Note:** OpenWrt 18.06 adds support for UCI-based configuration of Unbound.
-This tutorial has not been updated to take advantage of UCI configuration.
+**History:** This post was initially written as the [Unbound HOWTO on the old
+OpenWrt wiki](https://wiki.openwrt.org/doc/howto/unbound) for Chaos Calmer
+(15.05.1).  It was moved to [Example 2 on the Unbound services page on the new
+wiki](https://openwrt.org/docs/guide-user/services/dns/unbound?rev=1576631346#example_2_-_parallel_unbound_primary_and_dnsmasq_only_local)
+and updated to work on LEDE 17.01 and OpenWrt 18.06, then subsequently removed
+when it became too outdated.
 
 <!--more-->
 
