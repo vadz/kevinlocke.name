@@ -1,6 +1,7 @@
 ---
 layout: post
 date: 2021-12-10 12:50:56-07:00
+updated: 2022-01-13 09:07:15-07:00
 title: Windows 11 Guest VM with VirtIO on Libvirt
 description: Notes on running Windows 11 (or 10) in a virtual machine with paravirtualized (virtio) drivers using libvirt.
 tags: [ windows ]
@@ -248,16 +249,43 @@ space and/or time on slow media".
 ### Video
 
 There are [several options for graphics
-cards](https://wiki.archlinux.org/index.php/QEMU#Graphic_card).  At the time
-of this writing, there is [no Windows guest
-drivers](https://wiki.archlinux.org/title/QEMU/Guest_graphics_acceleration#Virgil3d_virtio-gpu_paravirtualized_device_driver)
-for `virtio-vga`/`virtio-gpu` (i.e. [Virgil 3d](https://virgil3d.github.io/)).
-For Windows guests, I recommend QXL.
+cards](https://wiki.archlinux.org/index.php/QEMU#Graphic_card).  [VGA and
+other display devices in qemu by Gerd
+Hoffmann](https://www.kraxel.org/blog/2019/09/display-devices-in-qemu/) has
+practical descriptions and recommendations ([kraxel's
+news](https://www.kraxel.org/blog/) is great for following progress).
+virtio-drivers 0.1.208 and later include the `viogpudo` driver for
+`virtio-vga`.  ([Bug
+1861229](https://bugzilla.redhat.com/show_bug.cgi?id=1861229)  Unfortunately,
+it has some limitations:
 
-<!--
-virtio-dod is usable with viogpudid?
-https://github.com/virtio-win/kvm-guest-drivers-windows/issues/668#issuecomment-951451771
--->
+- It is [limited to `height x width <=
+  4x1024x1024`](https://github.com/virtio-win/kvm-guest-drivers-windows/issues/560#issuecomment-894033021).
+- It requires additional work to configure automatic resolution switching,
+  which is not done by the installer
+  ([virtio-win/virtio-win-guest-tools-installer#32](https://github.com/virtio-win/virtio-win-guest-tools-installer/issues/32)).
+  From [Bug 1923886](https://bugzilla.redhat.com/show_bug.cgi?id=1923886#c4):
+  - Copy `viogpuap.exe` and `vgpusrv.exe` to a permanent location.
+  - Run `vgpusrv.exe -i` as Administrator to register the "VioGpu Resolution Service" Windows Service.
+- It doesn't support Windows 7
+  ([virtio-win/kvm-guest-drivers-windows#591](https://github.com/virtio-win/kvm-guest-drivers-windows/issues/591))
+- It is currently a [WDDM Display Only
+  Driver](https://docs.microsoft.com/windows-hardware/drivers/display/wddm-in-windows-8)
+  without support for 2-D or 3-D rendering.  (Same as the QXL-WDDM-DOD driver
+  for QXL.)  This may be added in the future with [Virgil
+  3d](https://virgil3d.github.io/) similarly to Linux guests.
+- It [doesn't currently provide any advantages over
+  QXL](https://github.com/virtio-win/kvm-guest-drivers-windows/issues/668#issuecomment-951451771).
+
+However, unless the above limitations are critical for a particular use case,
+I would recommend `virtio-vga` over QXL based on the understanding that it is
+a better and more promising approach on technical grounds and that it is where
+most current development effort is directed.
+
+**Note:** If 3D acceleration is enabled for `virtio-vga`, the VM must have a
+Spice display device with OpenGL enabled to avoid an "opengl is not available"
+error when the VM is started.  Since the `viogpudo` driver does not support 3D
+acceleration, I recommend disabling both.
 
 
 ### Keyboard and Mouse
@@ -531,7 +559,9 @@ by running
 
 ### QXL Driver
 
-For QXL graphics on Windows 8 and later, install the [QXL-WDDM-DOD
+If the virtual machine is configured with QXL graphics instead of
+`virtio-vga`, as discussed in the [Video section](#video), a QXL driver should
+be installed. For Windows 8 and later, install the [QXL-WDDM-DOD
 driver](https://www.spice-space.org/download/windows/qxl-wddm-dod/)
 ([Source](https://gitlab.freedesktop.org/spice/win32/qxl-wddm-dod)).  On
 Windows 7 and earlier, the [QXL
@@ -617,3 +647,11 @@ trim/discard unused space in the disk image.
 * [QEMU: Preparing a Windows Guest on ArchWiki](https://wiki.archlinux.org/index.php/QEMU#Preparing_a_Windows_guest)
 * [libvirt: Domain XML format](https://libvirt.org/formatdomain.html)
 * [Tuning KVM](https://www.linux-kvm.org/page/Tuning_KVM)
+
+
+## ChangeLog
+
+### 2022-01-13
+
+* Recommend `virtio-vga` with the `viogpudo` driver instead of QXL with the
+  `qxldod` or `qxl` driver.
