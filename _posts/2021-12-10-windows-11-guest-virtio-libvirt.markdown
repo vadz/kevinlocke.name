@@ -1,7 +1,7 @@
 ---
 layout: post
 date: 2021-12-10 12:50:56-07:00
-updated: 2022-01-13 09:07:15-07:00
+updated: 2022-03-19 14:29:34-06:00
 title: Windows 11 Guest VM with VirtIO on Libvirt
 description: Notes on running Windows 11 (or 10) in a virtual machine with paravirtualized (virtio) drivers using libvirt.
 tags: [ windows ]
@@ -14,7 +14,7 @@ collection of my notes for how to configure the host and guest.  Most are
 applicable to any recent version of Windows.
 
 For the impatient, just use my [libvirt domain XML]({% post_url
-2012-07-20-serving-xhtml-with-apache-multiviews %}win11.xml).
+2021-12-10-windows-11-guest-virtio-libvirt %}win11.xml).
 
 <!--more-->
 
@@ -650,6 +650,12 @@ trim/discard unused space in the disk image.
 
 
 ## ChangeLog
+
+### 2022-03-19
+
+* Fix broken link to [my example libvirt domain XML]({% post_url
+  2021-12-10-windows-11-guest-virtio-libvirt %}win11.xml).  Thanks to Peter
+  Greenwood for notifying me.
 
 ### 2022-01-13
 
