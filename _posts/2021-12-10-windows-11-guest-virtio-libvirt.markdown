@@ -48,13 +48,20 @@ on Windows, which was fixed in
 [qemu/qemu@105fad6bb22](https://git.qemu.org/?p=qemu.git;a=commit;h=105fad6bb226ac3404874fe3fd7013ad6f86fc86).
 
 
-### Wayland Shortcut Inhibit
+### Wayland Keyboard Inhibit
 
-Note that [Sway](https://swaywm.org/) gained support for the [Wayland keyboard
-shortcut inhibition
-protocol](https://gitlab.freedesktop.org/wayland/wayland-protocols/-/tree/main/unstable/keyboard-shortcuts-inhibit)
+To send keyboard shortcuts (i.e. key combinations) to the virtual machine
+viewer that has focus, rather than sending them to the Wayland compositor, the
+compositor must support the [Wayland keyboard shortcut inhibition
+protocol](https://gitlab.freedesktop.org/wayland/wayland-protocols/-/tree/main/unstable/keyboard-shortcuts-inhibit).
+For example, [Sway](https://swaywm.org/) gained support for for this protocol
 in Sway 1.5 ([swaywm/sway#5021](https://github.com/swaywm/sway/pull/5021)).
-Without it, configured key combinations are sent to Sway rather than the VM.
+When using Sway 1.4 or earlier in the default configuration, pressing
+<kbd><kbd>Win</kbd> + <kbd>d</kbd></kbd> would invoke
+[dmenu](https://wiki.archlinux.org/title/dmenu) rather than [display or hide
+the
+desktop](https://support.microsoft.com/windows/keyboard-shortcuts-in-windows-dcc61a57-8ff0-cffe-9796-cb9706c75eec)
+in the focused Windows VM.
 
 
 ## Guest Configuration
@@ -656,6 +663,7 @@ trim/discard unused space in the disk image.
 * Fix broken link to [my example libvirt domain XML]({% post_url
   2021-12-10-windows-11-guest-virtio-libvirt %}win11.xml).  Thanks to Peter
   Greenwood for notifying me.
+* Rewrite the "Wayland Keyboard Inhibit" section to improve clarity.
 
 ### 2022-01-13
 
