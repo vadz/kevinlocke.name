@@ -1,7 +1,7 @@
 ---
 layout: post
 date: 2021-12-10 12:50:56-07:00
-updated: 2022-03-19 14:29:34-06:00
+updated: 2022-05-06 11:37:19-06:00
 title: Windows 11 Guest VM with VirtIO on Libvirt
 description: Notes on running Windows 11 (or 10) in a virtual machine with paravirtualized (virtio) drivers using libvirt.
 tags: [ windows ]
@@ -114,11 +114,25 @@ requested configuration.  This is not currently set by default.  ([Bug
 
 If topology is not specified, libvirt instructs QEMU to add a socket for each
 vCPU (e.g. `<vcpu placement="static">4</vcpu>` results in `-smp
-4,sockets=4,cores=1,threads=1`).  It may be useful, particularly on a NUMA
-system, to specify a topology matching (a subset of) the host and pin vCPUs to
-the matching elements (e.g. virtual cores on physical cores).  See [KVM
-Windows 10 Guest - CPU Pinning Recommended? on Reddit](https://redd.it/7zcn5g)
-and [PCI passthrough via OVMF: CPU pinning on
+4,sockets=4,cores=1,threads=1`).  It may be preferable to change this for
+several reasons:
+
+First, as Jared Epp pointed out to me via email, for licensing reasons
+[Windows 10 Home and Pro are limited to 2 CPUs
+(sockets)](https://www.microsoft.com/microsoft-365/blog/2017/12/15/windows-10-pro-workstations-power-advanced-workloads/),
+while Pro for Workstations and Enterprise are limited to 4 (possibly
+[requiring build 1903 or later to use more than
+2](https://superuser.com/a/1565953)). Similarly, [Windows 11 Home is limited
+to 1 CPU while 11 Pro is limited to
+2](https://www.xda-developers.com/windows-11-home-vs-windows-11-pro/).
+Therefore, limiting sockets to 1 or two on these systems is strongly
+recommended.
+
+Additionally, it may be useful, particularly on a NUMA system, to specify a
+topology matching (a subset of) the host and pin vCPUs to the matching
+elements (e.g. virtual cores on physical cores).  See [KVM Windows 10 Guest -
+CPU Pinning Recommended? on Reddit](https://redd.it/7zcn5g) and [PCI
+passthrough via OVMF: CPU pinning on
 ArchWiki](https://wiki.archlinux.org/index.php/PCI_passthrough_via_OVMF#CPU_pinning)
 Be aware that, on my single-socket i5-3320M system, the matching
 configurations I tried performed worse than the default.  Some expertise is
@@ -146,6 +160,18 @@ enlightenments](https://blog.wikichoon.com/2014/07/enabling-hyper-v-enlightenmen
 which are not described as "nested specific".  In particular, `hv_stimer`,
 which [reduces CPU usage when the guest is
 paused](https://lore.kernel.org/kvm/20200625201046.GA179502@kevinolos/).
+
+
+### Memory Size
+
+When configuring the memory size, be aware of the system requirements ([4GB
+for Windows
+11](https://docs.microsoft.com/windows/whats-new/windows-11-requirements),
+[1GB for 32-bit, 2GB for 64-bit Windows
+10](https://support.microsoft.com/windows/windows-10-system-requirements-6d4e9a79-66bf-7950-467c-795cf0386715))
+and [Memory Limits for Windows and Windows Server
+Releases](https://docs.microsoft.com/windows/win32/memory/memory-limits-for-windows-releases)
+which vary by edition.
 
 
 ### Memory Backing
@@ -210,6 +236,10 @@ multiple LUNs, CD-ROMs, more than 28 disks).  Citations:
 - The [QEMU wiki VirtioSCSI page](https://wiki.qemu.org/Features/VirtioSCSI)
   notes `virtio-scsi` "rough numbers: 6% slower \[than `virtio-blk`] on iozone
   with a tmpfs-backed disk".
+- [Paolo Bonzini (in 2017)
+  thinks](https://lists.gnu.org/archive/html/qemu-devel/2017-10/msg02142.html)
+  "long-term virtio-blk should only be used for high-performance scenarios
+  where the guest SCSI layer slows down things sensibly."
 - [Proxmox recommends SCSI and states "VirtIO block may get deprecated in the
   future."](https://pve.proxmox.com/wiki/Paravirtualized_Block_Drivers_for_Windows)
 - `vioscsi` has supported discard for long time (pre 2015, when changelog
@@ -639,14 +669,36 @@ a VirtIO SCSI controller (if one is not already present) then a CD-ROM on the
 SCSI bus.
 
 
-### Check Thin Provisioning
+### Defragment and Optimize Drives
 
-To ensure trim support is enabled and detected by the Windows guest,
-[Defragment and Optimize
+If [discard was enabled](#discard) for the virtual disk, [Defragment and
+Optimize
 Drives](https://support.microsoft.com/windows/defragment-your-windows-10-pc-048aefac-7f1f-4632-d48a-9700c4ec702a)
-should show the drive with media type "[Thin provisioned
-drive](https://docs.microsoft.com/windows-hardware/drivers/storage/thin-provisioning)".  Additionally, consider configuring a disk optimization schedule to
-trim/discard unused space in the disk image.
+in the Windows guest should show the drive with media type "[Thin provisioned
+drive](https://docs.microsoft.com/windows-hardware/drivers/storage/thin-provisioning)"
+(or "SSD", see below).  It may be useful to configure a disk optimization
+schedule to trim/discard unused space in the disk image.
+
+Jared Epp also informed me of an incompatibility between the virtio drivers
+and `defrag` in Windows 10 and 11
+([virtio-win/kvm-guest-drivers-windows#666](https://github.com/virtio-win/kvm-guest-drivers-windows/issues/666))
+which causes defragment and optimize to take a long time and write a lot of
+data (the entire image?).  [A workaround suggested by Pau
+Rodriguez-Estivill](https://github.com/virtio-win/kvm-guest-drivers-windows/issues/666#issuecomment-991618301=)
+is to set `rotation_rate=1` (for [SSD
+detection](https://lists.gnu.org/archive/html/qemu-devel/2017-10/msg00698.html))
+and `discard_granularity=0` (to change the [MODE PAGE POLICY to
+"Obsolete"](https://www.seagate.com/files/staticfiles/support/docs/manual/Interface%20manuals/100293068j.pdf#page=500)?
+I don't understand.  See [@prodrigestivill's
+comment](https://github.com/virtio-win/kvm-guest-drivers-windows/issues/666#issuecomment-994997355=)).
+Rather than adding `<qemu:arg>`, it may be possible to set these values using
+`<disk>` `<target rotation_rate="1">` (as in [BZ
+1498955](https://bugzilla.redhat.com/show_bug.cgi?id=1498955#c18)) and
+`<disk>` `<blockio discard_granularity="0">` (as in [the libvirt patch which
+added
+it](https://listman.redhat.com/archives/libvir-list/2020-June/203863.html)). I
+have not tested this workaround, preferring instead to disable scheduled
+defrag.
 
 
 ## Additional Resources
@@ -657,6 +709,16 @@ trim/discard unused space in the disk image.
 
 
 ## ChangeLog
+
+### 2022-05-06
+
+* Discuss Windows licensing limits on sockets in CPU Topology section, thanks
+  to Jared Epp.
+* Discuss slow operation and excessive writes performed by defrag on Windows
+  10 and 11, also thanks to Jared Epp.
+* Add Memory Size section to note minimum and maximum size limits for
+  different Windows editions.
+* Add quote from Paolo Bonzini about virtio-blk use for high-performance.
 
 ### 2022-03-19
 
