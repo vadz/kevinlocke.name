@@ -1,7 +1,7 @@
 ---
 layout: post
 date: 2021-12-10 12:50:56-07:00
-updated: 2022-05-06 11:37:19-06:00
+updated: 2022-05-09 10:32:31-06:00
 title: Windows 11 Guest VM with VirtIO on Libvirt
 description: Notes on running Windows 11 (or 10) in a virtual machine with paravirtualized (virtio) drivers using libvirt.
 tags: [ windows ]
@@ -75,13 +75,18 @@ There are trade-offs to consider when choosing between BIOS and UEFI:
   Although the secure boot check can be bypassed, allowing Windows 11 to be
   installed, it is an unsupported configuration.
 * Libvirt [forbids internal snapshots with pflash
-  firmware](https://gitlab.com/libvirt/libvirt/-/commit/9e2465834f4bff4068e270f15e9ed5d7301de045)
-  (used for UEFI variable storage) and lacks support for basic features with
-  external snapshots ([Bug 1519002](https://bugzilla.redhat.com/1519002)) such
-  as reverting or deleting external snapshots.  This means [snapshots for
-  guests with UEFI may not be supported for a
+  firmware](https://gitlab.com/libvirt/libvirt/-/commit/9e2465834f4bff4068e270f15e9ed5d7301de045),
+  which is used for UEFI variable storage, thus preventing internal snapshots
+  ([RH Bug 1881850](https://bugzilla.redhat.com/1881850)).  Libvirt also lacks
+  support for basic features with external snapshots ([RH Bug
+  1519002](https://bugzilla.redhat.com/1519002)) such as reverting or deleting
+  external snapshots.  This means [snapshots for guests with UEFI may not be
+  supported for a
   while](https://www.redhat.com/archives/virt-tools-list/2017-September/msg00008.html).
-  Which was true in 2017 and is still true in 2021.
+  Which was true in 2017 and is still true in 2021.  There are some partial
+  workarounds, such as libvirt disk-only snapshots or QEMU disk snapshots
+  managed manually, as [described by Chris
+  Siebenmann](https://utcc.utoronto.ca/~cks/space/blog/linux/LibvirtUEFISnapshots).
 * The [Windows Driver Signing
   Policy](https://docs.microsoft.com/windows-hardware/drivers/install/kernel-mode-code-signing-policy--windows-vista-and-later-#signing-requirements-by-version)
   requires drivers to be WHQL-signed signed if Secure Boot is enabled on Windows
@@ -709,6 +714,12 @@ defrag.
 
 
 ## ChangeLog
+
+### 2022-05-09
+
+* Add link to [Chris
+  Siebenmann's post about workarounds for snapshots of libvirt-based
+  VMs](https://utcc.utoronto.ca/~cks/space/blog/linux/LibvirtUEFISnapshots).
 
 ### 2022-05-06
 
