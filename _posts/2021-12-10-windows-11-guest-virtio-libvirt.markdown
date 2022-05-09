@@ -297,9 +297,8 @@ Hoffmann](https://www.kraxel.org/blog/2019/09/display-devices-in-qemu/) has
 practical descriptions and recommendations ([kraxel's
 news](https://www.kraxel.org/blog/) is great for following progress).
 virtio-drivers 0.1.208 and later include the `viogpudo` driver for
-`virtio-vga`.  ([Bug
-1861229](https://bugzilla.redhat.com/show_bug.cgi?id=1861229)  Unfortunately,
-it has some limitations:
+`virtio-vga`.  ([Bug 1861229](https://bugzilla.redhat.com/1861229))
+Unfortunately, it has some limitations:
 
 - It is [limited to `height x width <=
   4x1024x1024`](https://github.com/virtio-win/kvm-guest-drivers-windows/issues/560#issuecomment-894033021).
@@ -362,14 +361,15 @@ https://libvirt.org/formatdomain.html#elementsNICSROM
 
 [Windows 11 requires TPM
 2.0](https://support.microsoft.com/topic/86c11283-ea52-4782-9efd-7674389a7ba3).
-Therefore, it is recommended to a [QEMU TPM
+Therefore, I recommend adding a [QEMU TPM
 Device](https://qemu.readthedocs.io/en/latest/specs/tpm.html) to provide one.
 Either TIS or CRB can be used.  ["TPM CRB interface is a simpler interface
 than the TPM TIS and is only available for TPM
 2."](https://listman.redhat.com/archives/libvir-list/2018-April/msg00756.html)
 If emulated, [swtpm](https://github.com/stefanberger/swtpm) must be installed
-and configured on the host.  Note:  swtpm is not currently packaged for Debian
-([Bug 941199](https://bugs.debian.org/941199)).
+and configured on the host.  Note:  swtpm was packaged for Debian in 2022
+([Bug 941199](https://bugs.debian.org/941199)), so it is not available in
+Debian 11 (Bullseye) or earlier releases.
 
 
 ### RNG
@@ -720,6 +720,7 @@ defrag.
 * Add link to [Chris
   Siebenmann's post about workarounds for snapshots of libvirt-based
   VMs](https://utcc.utoronto.ca/~cks/space/blog/linux/LibvirtUEFISnapshots).
+* Note that swtpm is now packaged for Debian.
 
 ### 2022-05-06
 
