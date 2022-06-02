@@ -1,7 +1,7 @@
 ---
 layout: post
 date: 2021-12-10 12:50:56-07:00
-updated: 2022-05-09 10:32:31-06:00
+updated: 2022-06-02 07:26:28-06:00
 title: Windows 11 Guest VM with VirtIO on Libvirt
 description: Notes on running Windows 11 (or 10) in a virtual machine with paravirtualized (virtio) drivers using libvirt.
 tags: [ windows ]
@@ -97,9 +97,19 @@ There are trade-offs to consider when choosing between BIOS and UEFI:
   0.1.204 and later, most drivers are signed, excluding ivshmem, pvpanic, and
   possibly others.)
 
-To enable UEFI with Secure Boot, [use
-`OVMF_CODE_4M.ms.fd`](https://salsa.debian.org/qemu-team/edk2/-/blob/debian/debian/README.Debian).
-If snapshots aren't required and UEFI is desired, don't enable Secure Boot:
+If UEFI is selected, an image must be chosen for the pflash device firmware. I
+recommend `OVMF_CODE_4M.ms.fd` (which pairs with `OVMF_VARS_4M.ms.fd` which
+enables Secure Boot and includes Microsoft keys in KEK/DB) or
+`OVMF_CODE_4M.fd` if Secure Boot is not desired.  See
+[ovmf.README.Debian](https://salsa.debian.org/qemu-team/edk2/-/blob/debian/debian/ovmf.README.Debian)
+for details.
+
+**Note:** Be aware that UEFI does not support the QEMU `-boot order=` option.
+It does support the [bootindex
+properties](https://www.qemu.org/docs/master/system/bootindex.html).  For
+example, to boot from `win10.iso`, use `-drive
+id=drive0,file=win10.iso,format=raw,if=none,media=cdrom,readonly=on -device
+ide-cd,drive=drive0,bootindex=1` instead of `-cdrom win10.iso -boot order=d`.
 
 
 ### CPU Model
@@ -322,6 +332,24 @@ However, unless the above limitations are critical for a particular use case,
 I would recommend `virtio-vga` over QXL based on the understanding that it is
 a better and more promising approach on technical grounds and that it is where
 most current development effort is directed.
+
+**Warning:** When using BIOS firmware, the video device should be connected to
+the PCI Express Root Complex (i.e. [`<address type='pci'
+bus='0x00'>`](https://libvirt.org/formatdomain.html#elementsAddress)) in order
+for [VESA BIOS Extensions
+(VBE)](https://en.wikipedia.org/wiki/VESA_BIOS_Extensions) to work.  Without
+VBE modes, the Windows 11 (or 10) installer is [limited to grayscale at
+640x480](https://lists.nongnu.org/archive/html/qemu-discuss/2022-05/msg00053.html)
+which is not pleasant.  Although the [QEMU PCI Express
+Guidelines](https://github.com/qemu/qemu/blob/v7.0.0/docs/pcie.txt),
+recommended attaching PCI Express devices to a Root Port, rather than the Root
+Complex, this appears to be unsupported by
+[SeaVGABIOS](https://www.seabios.org/SeaVGABIOS).
+
+Note that QEMU, virt-manager, and virt-install connect video devices to the
+Root Complex by default, so no additional configuration is required.  However,
+if a second video device is added in virt-manager, it is connected to a Root
+Port, even if the first device is later removed.
 
 **Note:** If 3D acceleration is enabled for `virtio-vga`, the VM must have a
 Spice display device with OpenGL enabled to avoid an "opengl is not available"
@@ -714,6 +742,13 @@ defrag.
 
 
 ## ChangeLog
+
+### 2022-06-02
+
+* Add warning to [Video](#video) about missing VBE modes when the video device
+  is connected to a PCIe Root Port rather than the Root Complex.
+* Improve discussion of UEFI firmware images.
+* Add note about `-boot order=`, bootindex, and UEFI.
 
 ### 2022-05-09
 
