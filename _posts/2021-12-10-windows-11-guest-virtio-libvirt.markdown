@@ -336,20 +336,18 @@ most current development effort is directed.
 **Warning:** When using BIOS firmware, the video device should be connected to
 the PCI Express Root Complex (i.e. [`<address type='pci'
 bus='0x00'>`](https://libvirt.org/formatdomain.html#elementsAddress)) in order
-for [VESA BIOS Extensions
-(VBE)](https://en.wikipedia.org/wiki/VESA_BIOS_Extensions) to work.  Without
-VBE modes, the Windows 11 (or 10) installer is [limited to grayscale at
-640x480](https://lists.nongnu.org/archive/html/qemu-discuss/2022-05/msg00053.html)
-which is not pleasant.  Although the [QEMU PCI Express
-Guidelines](https://github.com/qemu/qemu/blob/v7.0.0/docs/pcie.txt),
-recommended attaching PCI Express devices to a Root Port, rather than the Root
-Complex, this appears to be unsupported by
-[SeaVGABIOS](https://www.seabios.org/SeaVGABIOS).
+[to access the VESA BIOS Extensions (VBE)
+registers](https://mail.coreboot.org/hyperkitty/list/seabios@seabios.org/message/XVP3I2KQVZHSTDA4SNVKOITWGRGSDU3F/).
+Without VBE modes, the Windows installer is [limited to grayscale at
+640x480](https://lists.nongnu.org/archive/html/qemu-discuss/2022-05/msg00053.html),
+which is not pleasant.
 
-Note that QEMU, virt-manager, and virt-install connect video devices to the
-Root Complex by default, so no additional configuration is required.  However,
-if a second video device is added in virt-manager, it is connected to a Root
-Port, even if the first device is later removed.
+Note that QEMU and libvirt connect video devices to the Root Complex by
+default, so no additional configuration is required.  However, if a second
+video device is added using virt-manager or virt-xml, it is connected to a
+Root Port or PCIe-to-PCI bridge, which creates problems if the first device is
+removed
+([virt-manager/virt-manager#402](https://github.com/virt-manager/virt-manager/issues/402)).
 
 **Note:** If 3D acceleration is enabled for `virtio-vga`, the VM must have a
 Spice display device with OpenGL enabled to avoid an "opengl is not available"
@@ -742,6 +740,12 @@ defrag.
 
 
 ## ChangeLog
+
+### 2022-06-12
+
+* Add a link to
+  ([virt-manager/virt-manager#402](https://github.com/virt-manager/virt-manager/issues/402))
+  in the VBE warning in the [Video](#video) section.
 
 ### 2022-06-02
 
