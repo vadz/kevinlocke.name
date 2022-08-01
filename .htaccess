@@ -98,7 +98,18 @@ RewriteRule "^(.*/)index$" "$1" [DPI,R=permanent]
 RewriteRule "^https?://(www\.)?kevinlocke.name(.*)$" "https://kevinlocke.name$2" [R=permanent,L]
 RewriteRule "^(https?://.*)$" "$1" [L]
 
-RewriteCond %{HTTP_HOST} =www.kevinlocke.name [NC]
+# Canonicalize kevinwlocke.com to kevinlocke.name (temporarily)
+RewriteCond %{HTTP_HOST} =kevinwlocke.com [NC,OR]
+RewriteCond %{HTTP_HOST} =www.kevinwlocke.com [NC]
+RewriteCond %{REQUEST_URI} "!^/\.well-known/acme-challenge/"
+RewriteRule ^/?(.*) "https://kevinlocke.name/$1" [R,L]
+
+# Canonicalize any other unexpected hostname to kevinlocke.name (permanently)
+RewriteCond %{HTTP_HOST} !=""
+RewriteCond %{HTTP_HOST} !=kevinlocke.name [NC]
+RewriteCond %{HTTP_HOST} !=ipv4.kevinlocke.name [NC]
+RewriteCond %{HTTP_HOST} !=ipv6.kevinlocke.name [NC]
+RewriteCond %{HTTP_HOST} !=testing.kevinlocke.name [NC]
 RewriteCond %{REQUEST_URI} "!^/\.well-known/acme-challenge/"
 RewriteRule ^/?(.*) "https://kevinlocke.name/$1" [R=permanent,L]
 
