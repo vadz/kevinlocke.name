@@ -176,27 +176,36 @@ object {
 }
 
 .nav a {
-	color: #286ea0;
 	text-decoration: none;
 	line-height: 1.5em;
 	display: inline-block;
 	padding: 0 1ex;
-	/* border: thin solid #ffffff; */
 }
 
 .nav a:hover {
-	background-color: #eeeeff;
-	/* border-color: #286ea0; */
-	text-decoration: none;
+	/* Note: To use a partially-transparent link color as the background,
+	 * I'd prefer to use currentColor with relative rgb():
+	 * https://www.w3.org/TR/css-color-3/#currentcolor
+	 * https://www.w3.org/TR/css-color-5/#relative-RGB
+	 * But these are not supported by current browsers.
+	 * TODO: Enable when widely supported.
+	background-color: rgb(from currentColor r g b 0.4);
+	 * Instead, use a pseudo-element with partial opacity.
+	 * Use relative position to make containing block for pseudo-element.
+	 */
+	position: relative;
 }
 
-.nav a:visited {
-	color: #7d1a8b;
-}
-
-.nav a:visited:hover {
-	background-color: #f4e5f6;
-	/* border-color: #7d1a8b; */
+.nav a:hover::before {
+	content: '';
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	background-color: currentColor;
+	opacity: 0.2;
+	z-index: -1;
 }
 
 .subscribe h4 {
