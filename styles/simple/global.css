@@ -6,22 +6,18 @@ body {
 }
 
 a:link {
-	color: #2222ff;
 	text-decoration: underline;
 }
 
 a:visited {
-	color: #7d1a8b;
 	text-decoration: underline;
 }
 
 a:visited:hover {
-/*	color: #650a7b; */
 	text-decoration: none;
 }
 
 a:link:hover {
-/*	color: #0000ff; */
 	text-decoration: none;
 }
 
