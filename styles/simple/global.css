@@ -198,23 +198,6 @@ object {
 	/* border-color: #7d1a8b; */
 }
 
-.license {
-	color: #000000;
-	background: #ffffff;
-	border: 2px dotted #aaaaaa;
-	padding: 10px;
-	margin: 10px;
-}
-
-.license p {
-	text-indent: 0px;
-	margin-top: 1em;
-}
-
-.license p:first-child {
-	margin-top: 0px;
-}
-
 .keybox {
 	overflow: auto;
 	width: 60ex;
