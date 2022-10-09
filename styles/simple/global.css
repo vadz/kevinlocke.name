@@ -198,15 +198,6 @@ object {
 	/* border-color: #7d1a8b; */
 }
 
-.keybox {
-	overflow: auto;
-	width: 60ex;
-	border: 3px inset #000000;
-	background-color: #dddddd;
-	padding: 10px;
-	margin-left: 10%;
-}
-
 .subscribe h4 {
 	display: inline;
 }
