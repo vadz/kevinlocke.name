@@ -109,7 +109,12 @@ object {
 	padding-top: 5px;
 	text-align: center;
 	font-size: small;
-	color: #555555;
+	opacity: 0.8;
+}
+
+#footer:focus-within,
+#footer:hover {
+	opacity: 1;
 }
 
 #footer img {
