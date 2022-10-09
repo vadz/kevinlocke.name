@@ -230,6 +230,7 @@ object {
 .warning {
 	background-color: #ffeeee;
 	border: 2px dashed #ff5555;
+	color: #111111;
 	font-size: small;
 	font-weight: bold;
 	font-style: oblique;
