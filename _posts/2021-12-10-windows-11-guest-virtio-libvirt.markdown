@@ -297,6 +297,55 @@ zero bytes and optionally unmap the zeroed areas in the disk image.  As the
 "enabling the detection is a compute intensive operation, but can save file
 space and/or time on slow media".
 
+##### Discard Granularity or SSD
+
+Jared Epp also informed me of an incompatibility between the virtio drivers
+and `defrag` in Windows 10 and 11
+([virtio-win/kvm-guest-drivers-windows#666](https://github.com/virtio-win/kvm-guest-drivers-windows/issues/666))
+which causes defragment and optimize to take a long time and write a lot of
+data.  There are two workarounds suggested:
+
+1. Use a recent version of the virtio-win drivers (0.1.225-1 or later?) which
+   includes
+   [virtio-win/kvm-guest-drivers-windows#824](https://github.com/virtio-win/kvm-guest-drivers-windows/pull/824)
+   and [set `discard_granularity` to a large
+   value](https://github.com/virtio-win/kvm-guest-drivers-windows/issues/666#issuecomment-1239200655)
+   (Hyper-V uses 32M).
+
+   For libvirt, `discard_granularity` can be set using
+   [`<qemu:property>`](https://libvirt.org/drvqemu.html#overriding-properties-of-qemu-devices)
+   on libvirt 8.2 and later, or
+   [`<qemu:arg>`](https://libvirt.org/drvqemu.html#pass-through-of-arbitrary-qemu-commands)
+   on earlier versions, as [demonstrated by Pau
+   Rodriguez-Estivill](https://github.com/virtio-win/kvm-guest-drivers-windows/issues/666#issuecomment-1239635988).
+   Note: There was [a patch to add `discard_granularity` to
+   `<blockio>`](https://listman.redhat.com/archives/libvir-list/2020-June/203863.html)
+   but it was never merged, as far as I can tell.
+2. [Emulate an SSD rather than a Thin Volume, as suggested by Pau
+   Rodriguez-Estivill](https://github.com/virtio-win/kvm-guest-drivers-windows/issues/666#issuecomment-991618301)
+   by setting `rotation_rate=1` (for [SSD
+   detection](https://lists.gnu.org/archive/html/qemu-devel/2017-10/msg00698.html))
+   and `discard_granularity=0` (to change the [MODE PAGE POLICY to
+   "Obsolete"](https://www.seagate.com/files/staticfiles/support/docs/manual/Interface%20manuals/100293068j.pdf#page=500)?).
+   These settings were [inferred from QEMU
+   behavior](https://github.com/virtio-win/kvm-guest-drivers-windows/issues/666#issuecomment-994997355).
+   It's not clear to me why this avoids the slowness issue.
+
+   For libvirt, `rotation_rate` can be set on [`<target>` of
+   `<disk>`](https://libvirt.org/formatdomain.html#hard-drives-floppy-disks-cdroms).
+   As above, `discard_granularity` can be set using
+   [`<qemu:property>`](https://libvirt.org/drvqemu.html#overriding-properties-of-qemu-devices)
+   on libvirt 8.2 and later, or
+   [`<qemu:arg>`](https://libvirt.org/drvqemu.html#pass-through-of-arbitrary-qemu-commands)
+   on earlier versions.
+
+I am unsure which approach to recommend, although I am currently using
+`discard_granularity=32M`.  [Stewart Bright noted some differences between SSD
+and Thin Provisioning behavior in Windows
+guests.](https://github.com/virtio-win/kvm-guest-drivers-windows/issues/666#issuecomment-1284438024)
+In particular, I'm curious how slabs and slab consolidation behave. Interested
+readers are encouraged to investigate further and report their findings.
+
 
 ### Video
 
@@ -707,29 +756,9 @@ Optimize
 Drives](https://support.microsoft.com/windows/defragment-your-windows-10-pc-048aefac-7f1f-4632-d48a-9700c4ec702a)
 in the Windows guest should show the drive with media type "[Thin provisioned
 drive](https://docs.microsoft.com/windows-hardware/drivers/storage/thin-provisioning)"
-(or "SSD", see below).  It may be useful to configure a disk optimization
-schedule to trim/discard unused space in the disk image.
-
-Jared Epp also informed me of an incompatibility between the virtio drivers
-and `defrag` in Windows 10 and 11
-([virtio-win/kvm-guest-drivers-windows#666](https://github.com/virtio-win/kvm-guest-drivers-windows/issues/666))
-which causes defragment and optimize to take a long time and write a lot of
-data (the entire image?).  [A workaround suggested by Pau
-Rodriguez-Estivill](https://github.com/virtio-win/kvm-guest-drivers-windows/issues/666#issuecomment-991618301=)
-is to set `rotation_rate=1` (for [SSD
-detection](https://lists.gnu.org/archive/html/qemu-devel/2017-10/msg00698.html))
-and `discard_granularity=0` (to change the [MODE PAGE POLICY to
-"Obsolete"](https://www.seagate.com/files/staticfiles/support/docs/manual/Interface%20manuals/100293068j.pdf#page=500)?
-I don't understand.  See [@prodrigestivill's
-comment](https://github.com/virtio-win/kvm-guest-drivers-windows/issues/666#issuecomment-994997355=)).
-Rather than adding `<qemu:arg>`, it may be possible to set these values using
-`<disk>` `<target rotation_rate="1">` (as in [BZ
-1498955](https://bugzilla.redhat.com/show_bug.cgi?id=1498955#c18)) and
-`<disk>` `<blockio discard_granularity="0">` (as in [the libvirt patch which
-added
-it](https://listman.redhat.com/archives/libvir-list/2020-June/203863.html)). I
-have not tested this workaround, preferring instead to disable scheduled
-defrag.
+(or "SSD", if configured with `rotation_rate=1`).  It may be useful to
+configure a disk optimization schedule to trim/discard unused space in the
+disk image.
 
 
 ## Additional Resources
@@ -740,6 +769,13 @@ defrag.
 
 
 ## ChangeLog
+
+### 2022-10-22
+
+* Expand discussion of defrag issue and add new `discard_granularity=32M`
+  workaround based on updates in
+  [virtio-win/kvm-guest-drivers-windows#666](https://github.com/virtio-win/kvm-guest-drivers-windows/issues/666).
+  Move it to a new subsection of [Discard](#discard).
 
 ### 2022-06-12
 

@@ -1,4 +1,4 @@
-<domain type="kvm">
+<domain xmlns:qemu="http://libvirt.org/schemas/domain/qemu/1.0" type="kvm">
   <name>win11</name>
   <metadata>
     <libosinfo:libosinfo xmlns:libosinfo="http://libosinfo.org/xmlns/libvirt/domain/1.0">
@@ -58,6 +58,7 @@
       <target dev="vda" bus="virtio"/>
       <boot order="1"/>
       <address type="pci" domain="0x0000" bus="0x04" slot="0x00" function="0x0"/>
+      <alias name="ua-win11disk"/>
     </disk>
     <disk type="file" device="cdrom">
       <driver name="qemu" type="raw"/>
@@ -188,4 +189,11 @@
       <address type="pci" domain="0x0000" bus="0x05" slot="0x00" function="0x0"/>
     </memballoon>
   </devices>
+  <qemu:override>
+    <qemu:device alias="ua-win11disk">
+      <qemu:frontend>
+        <qemu:property name="discard_granularity" type="unsigned" value="33554432"/>
+      </qemu:frontend>
+    </qemu:device>
+  </qemu:override>
 </domain>
