@@ -166,7 +166,7 @@ hotplug.  See [Linux KVM – How to add /Remove vCPU to Guest on fly ? Part
 ### Hyper-V Enlightenments
 
 [QEMU supports several Hyper-V
-Enlightenments](https://github.com/qemu/qemu/blob/master/docs/hyperv.txt) for
+Enlightenments](https://github.com/qemu/qemu/blob/305f6f62d9d250a32cdf090ddcb7e3a5b26a342e/docs/system/i386/hyperv.rst) for
 Windows guests.  virt-manager/virt-install enables some Hyper-V Enlightenments
 by default, but is missing several useful recent additions
 ([virt-manager/virt-manager#154](https://github.com/virt-manager/virt-manager/issues/154)).
